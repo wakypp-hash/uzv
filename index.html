@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>УЗВ · Сервис фермы</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="УЗВ">
+<meta name="theme-color" content="#F2F2F5">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<style>
+:root{
+  --bg:#F2F2F5; --surf:#FFFFFF; --surf2:#F7F7F9; --line:#E6E6EA; --line2:#D8D8DE;
+  --tx:#0B0B0F; --tx2:#76767E; --tx3:#A3A3AB;
+  --blue:#0A84FF; --blue-s:#EAF3FF;
+  --green:#1FAD55; --green-s:#E8F7EE;
+  --amber:#E8890C; --amber-s:#FDF2E3;
+  --red:#E5342B; --red-s:#FDECEB;
+  --r:22px; --r2:16px; --r3:12px;
+  --f:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Inter,sans-serif;
+  --serif:"New York","Iowan Old Style",Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#E9E9EE;overscroll-behavior-y:none;font-family:var(--f);color:var(--tx);letter-spacing:-.015em;-webkit-font-smoothing:antialiased;line-height:1.45}
+button,input,select{font-family:inherit;color:inherit}
+
+/* phone shell */
+.shell{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;
+  box-shadow:0 0 0 1px rgba(0,0,0,.05),0 30px 80px rgba(0,0,0,.12);overflow:hidden}
+@media(min-width:900px){.shell{margin:28px auto;min-height:calc(100vh - 56px);border-radius:38px}}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:rgba(242,242,245,.86);backdrop-filter:saturate(180%) blur(20px);
+  padding:calc(14px + env(safe-area-inset-top)) 20px 10px;border-bottom:.5px solid var(--line)}
+.topin{display:flex;align-items:center;gap:12px}
+.logo{height:19px;width:auto;color:var(--tx);display:block;flex-shrink:0}
+.roleswap{margin-left:auto;display:flex;background:var(--surf2);border:.5px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.roleswap button{border:0;background:none;font-size:12.5px;font-weight:500;color:var(--tx2);padding:5px 12px;border-radius:999px;cursor:pointer;transition:.15s}
+.roleswap button.on{background:var(--tx);color:#fff}
+
+/* page */
+.page{padding:20px 20px 108px;animation:fade .32s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.h1{font-size:30px;font-weight:640;letter-spacing:-.035em;line-height:1.08}
+.h1 .serif{font-family:var(--serif);font-style:italic;font-weight:500}
+.sub{color:var(--tx2);font-size:14px;margin-top:5px}
+.sect{font-size:12px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:26px 0 10px}
+
+.card{background:var(--surf);border-radius:var(--r);padding:18px;border:.5px solid var(--line)}
+.card+.card{margin-top:12px}
+.row{display:flex;align-items:center;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+
+/* stat */
+.stat{background:var(--surf);border:.5px solid var(--line);border-radius:var(--r2);padding:15px}
+.stat .l{font-size:12px;color:var(--tx2)}
+.stat .v{font-size:26px;font-weight:640;letter-spacing:-.04em;margin-top:5px;line-height:1}
+.stat .v small{font-size:13px;color:var(--tx2);font-weight:500;letter-spacing:0}
+.stat .d{font-size:11.5px;color:var(--tx3);margin-top:5px}
+.v.blue{color:var(--blue)}.v.green{color:var(--green)}.v.amber{color:var(--amber)}.v.red{color:var(--red)}
+
+/* hero shift card */
+.shift{border-radius:var(--r);padding:22px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(155deg,#1B1B22,#33343E 55%,#4A4B57)}
+.shift.on{background:linear-gradient(155deg,#0A84FF,#2E9BFF 55%,#63B4FF)}
+.shift .lbl{font-size:12.5px;opacity:.75}
+.shift .big{font-size:42px;font-weight:650;letter-spacing:-.045em;line-height:1;margin:8px 0 3px;font-variant-numeric:tabular-nums}
+.shift .meta{font-size:13px;opacity:.8}
+.shift button{margin-top:16px;width:100%;border:0;border-radius:14px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;
+  background:rgba(255,255,255,.95);color:#111}
+.shift .glow{position:absolute;width:220px;height:220px;border-radius:50%;right:-70px;top:-90px;background:rgba(255,255,255,.14);filter:blur(6px)}
+
+/* progress ring dots */
+.dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line2);display:block}
+.dots i.f{background:var(--green)}
+
+/* option chips */
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:.5px solid var(--line2);background:var(--surf);border-radius:999px;padding:9px 15px;font-size:13.5px;font-weight:500;cursor:pointer;transition:.14s;color:var(--tx2)}
+.opt:active{transform:scale(.96)}
+.opt.on{background:var(--tx);border-color:var(--tx);color:#fff}
+.opt.on.good{background:var(--green);border-color:var(--green)}
+.opt.on.warn{background:var(--amber);border-color:var(--amber)}
+.opt.on.bad{background:var(--red);border-color:var(--red)}
+
+/* field */
+.field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:.5px solid var(--line)}
+.field:last-child{border-bottom:0}
+.field .fl{font-size:14.5px}
+.field .fh{font-size:11.5px;color:var(--tx3);margin-top:2px}
+.field input{width:104px;text-align:right;border:.5px solid var(--line2);background:var(--surf2);border-radius:11px;padding:9px 11px;font-size:15px;font-weight:600;
+  outline:none;transition:.15s;font-variant-numeric:tabular-nums}
+.field input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(10,132,255,.12)}
+.field input.warn{border-color:var(--amber);background:var(--amber-s);color:var(--amber)}
+.field input.bad{border-color:var(--red);background:var(--red-s);color:var(--red)}
+.unit{font-size:12px;color:var(--tx3);min-width:34px}
+
+/* stepper */
+.step{display:flex;align-items:center;gap:0;border:.5px solid var(--line2);border-radius:12px;overflow:hidden;background:var(--surf2)}
+.step button{width:38px;height:38px;border:0;background:none;font-size:19px;color:var(--blue);cursor:pointer;font-weight:500}
+.step button:active{background:var(--line)}
+.step .n{min-width:44px;text-align:center;font-size:16px;font-weight:650;font-variant-numeric:tabular-nums}
+
+/* checklist */
+.chk{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:.5px solid var(--line);cursor:pointer}
+.chk:last-child{border-bottom:0}
+.chk .box{width:25px;height:25px;border-radius:8px;border:1.6px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.16s;background:var(--surf)}
+.chk.on .box{background:var(--green);border-color:var(--green)}
+.chk .box svg{opacity:0;transform:scale(.5);transition:.16s}
+.chk.on .box svg{opacity:1;transform:none}
+.chk .t{font-size:14.5px;transition:.16s}
+.chk.on .t{color:var(--tx3);text-decoration:line-through}
+.chk .tag{margin-left:auto;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--surf2);color:var(--tx3)}
+.chk .tag.d{background:var(--blue-s);color:var(--blue)}
+
+/* pool tabs */
+.ptabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin:0 -20px;padding-left:20px;padding-right:20px;scrollbar-width:none}
+.ptabs::-webkit-scrollbar{display:none}
+.ptab{flex-shrink:0;border:.5px solid var(--line2);background:var(--surf);border-radius:14px;padding:9px 13px;cursor:pointer;text-align:left;transition:.15s}
+.ptab .pn{font-size:13.5px;font-weight:600}
+.ptab .pv{font-size:11px;color:var(--tx3);margin-top:1px}
+.ptab.on{background:var(--tx);border-color:var(--tx);color:#fff}
+.ptab.on .pv{color:rgba(255,255,255,.6)}
+.ptab .warndot{width:6px;height:6px;background:var(--amber);border-radius:50%;display:inline-block;margin-left:4px;vertical-align:middle}
+
+/* submit */
+.submit{position:sticky;bottom:88px;margin-top:20px}
+.btn{width:100%;border:0;border-radius:16px;padding:15px;font-size:15.5px;font-weight:640;background:var(--blue);color:#fff;cursor:pointer;transition:.15s;
+  box-shadow:0 8px 22px rgba(10,132,255,.28)}
+.btn:active{transform:scale(.985)}
+.btn.ghost{background:var(--surf);color:var(--tx);border:.5px solid var(--line2);box-shadow:none}
+.btn.done{background:var(--green);box-shadow:0 8px 22px rgba(31,173,85,.26)}
+.btn:disabled{opacity:.45;box-shadow:none}
+
+/* alerts */
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:var(--r2);margin-bottom:9px;align-items:flex-start}
+.alert .ai{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.alert .at{font-size:14px;font-weight:600}
+.alert .ad{font-size:12.5px;color:var(--tx2);margin-top:2px;line-height:1.45}
+.alert.red{background:var(--red-s)}.alert.red .ai{background:#fff;color:var(--red)}
+.alert.amber{background:var(--amber-s)}.alert.amber .ai{background:#fff;color:var(--amber)}
+.alert.green{background:var(--green-s)}.alert.green .ai{background:#fff;color:var(--green)}
+.alert.blue{background:var(--blue-s)}.alert.blue .ai{background:#fff;color:var(--blue)}
+
+/* ai */
+.ai-card{background:linear-gradient(165deg,#101014,#22232B);border-radius:var(--r);padding:20px;color:#fff;position:relative;overflow:hidden}
+.ai-card .mesh{position:absolute;inset:0;opacity:.5;
+  background:radial-gradient(120px 90px at 78% 18%,rgba(10,132,255,.6),transparent 65%),radial-gradient(150px 110px at 22% 92%,rgba(255,138,60,.35),transparent 62%)}
+.ai-card .in{position:relative}
+.ai-head{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.ai-dot{width:22px;height:22px;border-radius:50%;background:linear-gradient(140deg,#fff,#9CCBFF);display:flex;align-items:center;justify-content:center}
+.ai-head .t{font-size:13.5px;font-weight:600}
+.ai-head .b{margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.05em;background:rgba(255,255,255,.16);padding:3px 8px;border-radius:6px}
+.ai-body{font-size:14px;line-height:1.6;color:rgba(255,255,255,.9)}
+.ai-body b{color:#fff;font-weight:600}
+.ai-body .li{display:flex;gap:9px;margin-top:9px}
+.ai-body .li span:first-child{opacity:.6}
+.ai-btn{margin-top:15px;width:100%;border:0;border-radius:13px;padding:12px;background:rgba(255,255,255,.14);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer}
+.typing{display:inline-block;width:7px;height:14px;background:#fff;vertical-align:-2px;animation:blink .9s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+/* bars */
+.bar{margin-bottom:13px}
+.bar .bt{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.bar .bt b{font-weight:600}.bar .bt span{color:var(--tx2);font-variant-numeric:tabular-nums}
+.tr{height:8px;background:var(--surf2);border-radius:5px;overflow:hidden;border:.5px solid var(--line)}
+.fl{height:100%;border-radius:5px;transition:width .4s cubic-bezier(.3,.8,.3,1)}
+
+/* slider */
+.sl{margin-bottom:20px}
+.sl .sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+.sl .sn{font-size:14px;font-weight:500}
+.sl .sv{font-size:16px;font-weight:650;color:var(--blue);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--line2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;cursor:pointer;
+  border:.5px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border:.5px solid var(--line);border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+
+/* list rows */
+.lr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:.5px solid var(--line);font-size:14px}
+.lr:last-child{border-bottom:0}
+.lr .nm{flex:1;color:var(--tx2)}
+.lr .val{font-weight:600;font-variant-numeric:tabular-nums}
+.lr .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* sensor tile */
+.sens{background:var(--surf);border:.5px solid var(--line);border-radius:var(--r2);padding:14px;position:relative}
+.sens .sl2{font-size:11.5px;color:var(--tx2)}
+.sens .sv2{font-size:21px;font-weight:650;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
+.sens .ss{font-size:11px;margin-top:3px;color:var(--tx3)}
+.sens.off{background:repeating-linear-gradient(135deg,#FAFAFC,#FAFAFC 8px,#F4F4F7 8px,#F4F4F7 16px)}
+.sens.off .sv2{color:var(--tx3);font-size:15px;font-weight:600}
+.pulse{position:absolute;right:13px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--green)}
+.pulse.gray{background:var(--line2)}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);opacity:.5;animation:pw 2s infinite}
+.pulse.gray::after{display:none}
+@keyframes pw{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+
+/* tabbar */
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(22px);
+  border-top:.5px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));max-width:480px;margin:0 auto;display:flex}
+@media(min-width:900px){.tabbar{bottom:28px;border-radius:0 0 38px 38px}}
+.tab{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 2px;cursor:pointer;color:var(--tx3);transition:.15s}
+.tab.on{color:var(--blue)}
+.tab .tl{font-size:10px;font-weight:550;letter-spacing:-.01em}
+.tab svg{width:23px;height:23px}
+.tab .badge{position:absolute;transform:translate(13px,-4px);min-width:15px;height:15px;background:var(--red);color:#fff;border-radius:99px;font-size:9.5px;
+  font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:110px;transform:translate(-50%,20px);background:rgba(20,20,24,.95);color:#fff;padding:12px 20px;
+  border-radius:14px;font-size:14px;font-weight:500;z-index:90;opacity:0;pointer-events:none;transition:.28s;max-width:340px;text-align:center;
+  backdrop-filter:blur(10px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.empty{text-align:center;padding:34px 20px;color:var(--tx3)}
+.empty .ei{font-size:30px;margin-bottom:9px;opacity:.35}
+.empty .et{font-size:14px}
+.hint{font-size:12.5px;color:var(--tx3);margin-top:9px;line-height:1.5}
+.demo-note{background:var(--blue-s);border-radius:var(--r3);padding:11px 13px;font-size:12px;color:#0A5FBF;line-height:1.5;margin-top:12px}
+.dv{display:none}.dv.on{display:block}
+/* sheet */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:60;animation:fadein .2s both;backdrop-filter:blur(2px)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:480px;margin:0 auto;background:var(--bg);
+  border-radius:26px 26px 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));animation:up .3s cubic-bezier(.2,.8,.2,1) both;
+  box-shadow:0 -12px 40px rgba(0,0,0,.18);max-height:88vh;overflow-y:auto}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet-grip{width:38px;height:5px;border-radius:3px;background:var(--line2);margin:0 auto 14px}
+.sheet-t{font-size:21px;font-weight:640;letter-spacing:-.03em}
+.sheet-s{font-size:13px;color:var(--tx2);margin-top:2px}
+.sheet input[type=time]{border:.5px solid var(--line2);background:var(--surf2);border-radius:11px;padding:9px 12px;
+  font-size:16px;font-weight:600;outline:none;font-variant-numeric:tabular-nums}
+.sheet .row .btn{flex:1}
+/* pin */
+.lockicon{width:56px;height:56px;border-radius:17px;background:linear-gradient(160deg,#1B1B22,#3A3B45);
+  display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 10px 26px rgba(0,0,0,.18)}
+.pindots{display:flex;gap:14px;justify-content:center;margin:26px 0 30px}
+.pindots i{width:13px;height:13px;border-radius:50%;background:var(--line2);transition:.18s}
+.pindots i.f{background:var(--blue);transform:scale(1.12)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:290px;margin:0 auto}
+.keypad button{height:66px;border:0;border-radius:50%;background:var(--surf);border:.5px solid var(--line);
+  font-size:25px;font-weight:500;cursor:pointer;transition:.12s;color:var(--tx)}
+.keypad button:active{background:var(--line);transform:scale(.94)}
+.keypad button.ghostk{background:none;border:0;font-size:14.5px;color:var(--tx2);font-weight:500}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="top"><div class="topin">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.09 64.3" fill="currentColor" role="img" aria-label="Логотип">
+  
+  <g id="_Слой_1-2" data-name="Слой 1">
+    <g>
+      <path d="M78.72,31.78c-.13,2.09-.27,3.87-.41,5.34-.22,1.73-.44,3.23-.66,4.51-.18,1.54-.4,2.73-.66,3.58-.26.84-.61,1.45-1.05,1.82-.44.37-1,.57-1.68.6-.68.04-1.53.02-2.56-.05v4.73c.48.07.93.13,1.35.17.42.04.83.05,1.24.05.95,0,1.82-.13,2.61-.39.79-.26,1.5-.72,2.15-1.38.64-.66,1.2-1.56,1.68-2.7.48-1.14.88-2.59,1.21-4.35.22-1.17.53-2.96.94-5.37.4-2.4.68-5.53.83-9.38h9.03v23.23h4.73v-27.52h-18.55c0,2.64-.06,5.01-.19,7.1Z"/>
+      <path d="M122,29.74h-.55c-.55-1.06-1.25-2-2.09-2.81-.73-.73-1.66-1.38-2.78-1.95-1.12-.57-2.45-.85-3.99-.85-1.98,0-3.77.36-5.37,1.07s-2.94,1.7-4.05,2.95c-1.1,1.25-1.95,2.73-2.53,4.46-.59,1.72-.88,3.58-.88,5.56s.29,3.86.88,5.64c.59,1.78,1.43,3.33,2.53,4.65,1.1,1.32,2.45,2.37,4.05,3.14s3.38,1.16,5.37,1.16c1.54,0,2.87-.32,3.99-.96s2.05-1.35,2.78-2.12c.84-.92,1.54-1.94,2.09-3.08h.55v5.61h4.84v-27.52h-4.84v5.06ZM119.66,45.43c-1.52,1.8-3.7,2.7-6.52,2.7-1.39,0-2.62-.25-3.69-.74-1.06-.49-1.96-1.17-2.7-2.04-.73-.86-1.29-1.88-1.65-3.05-.37-1.17-.55-2.46-.55-3.85s.18-2.68.55-3.85c.37-1.17.92-2.19,1.65-3.05.73-.86,1.63-1.54,2.7-2.04,1.06-.5,2.29-.74,3.69-.74,2.83,0,5,.9,6.52,2.7,1.52,1.8,2.28,4.13,2.28,6.99s-.76,5.19-2.28,6.99Z"/>
+      <path d="M154.24,28.14c-1.1-1.25-2.45-2.23-4.05-2.95s-3.39-1.07-5.37-1.07c-1.54,0-2.85.29-3.94.85-1.08.57-1.97,1.22-2.67,1.95-.81.81-1.47,1.74-1.98,2.81h-.55v-5.06h-4.84v39.63h4.84v-17.72h.55c.51,1.14,1.17,2.17,1.98,3.08.7.77,1.59,1.48,2.67,2.12s2.39.96,3.94.96c1.98,0,3.77-.39,5.37-1.16s2.94-1.82,4.05-3.14c1.1-1.32,1.94-2.87,2.53-4.65.59-1.78.88-3.66.88-5.64s-.29-3.83-.88-5.56c-.59-1.72-1.43-3.21-2.53-4.46ZM152.32,42.29c-.37,1.17-.92,2.19-1.65,3.05-.73.86-1.63,1.54-2.7,2.04-1.06.5-2.29.74-3.69.74-2.83,0-4.95-.9-6.38-2.7-1.43-1.8-2.15-4.13-2.15-6.99s.72-5.19,2.15-6.99c1.43-1.8,3.56-2.7,6.38-2.7,1.39,0,2.62.25,3.69.74,1.06.49,1.96,1.17,2.7,2.04.73.86,1.28,1.88,1.65,3.05.37,1.17.55,2.46.55,3.85s-.18,2.68-.55,3.85Z"/>
+      <polygon points="165.35 43 164.8 43 164.8 24.67 159.95 24.73 159.95 52.25 163.04 52.2 179 33.87 179.55 33.87 179.55 52.2 184.39 52.2 184.39 24.67 181.31 24.67 165.35 43"/>
+      <path d="M208.96,29.74h-.55c-.55-1.06-1.25-2-2.09-2.81-.73-.73-1.66-1.38-2.78-1.95-1.12-.57-2.45-.85-3.99-.85-1.98,0-3.77.36-5.37,1.07s-2.94,1.7-4.05,2.95c-1.1,1.25-1.95,2.73-2.53,4.46-.59,1.72-.88,3.58-.88,5.56s.29,3.86.88,5.64c.59,1.78,1.43,3.33,2.53,4.65,1.1,1.32,2.45,2.37,4.05,3.14s3.38,1.16,5.37,1.16c1.54,0,2.87-.32,3.99-.96s2.05-1.35,2.78-2.12c.84-.92,1.54-1.94,2.09-3.08h.55v5.61h4.84v-27.52h-4.84v5.06ZM206.62,45.43c-1.52,1.8-3.7,2.7-6.52,2.7-1.39,0-2.62-.25-3.69-.74-1.06-.49-1.96-1.17-2.7-2.04-.73-.86-1.29-1.88-1.65-3.05-.37-1.17-.55-2.46-.55-3.85s.18-2.68.55-3.85c.37-1.17.92-2.19,1.65-3.05.73-.86,1.63-1.54,2.7-2.04,1.06-.5,2.29-.74,3.69-.74,2.83,0,5,.9,6.52,2.7,1.52,1.8,2.28,4.13,2.28,6.99s-.76,5.19-2.28,6.99Z"/>
+      <path d="M234.2,46.88c-1.3.83-2.89,1.24-4.76,1.24-1.4,0-2.63-.24-3.72-.72-1.08-.48-1.99-1.14-2.72-1.98-.73-.84-1.29-1.85-1.65-3.03-.37-1.17-.55-2.46-.55-3.85s.18-2.69.55-3.88c.37-1.19.92-2.23,1.65-3.11.73-.88,1.64-1.57,2.72-2.06,1.08-.5,2.32-.74,3.72-.74,1.8,0,3.34.4,4.62,1.18,1.28.79,2.26,1.86,2.92,3.22h5.12c-.84-2.71-2.38-4.9-4.6-6.55-2.22-1.65-4.91-2.48-8.06-2.48-2.02,0-3.85.37-5.5,1.1-1.65.73-3.06,1.73-4.24,3-1.17,1.27-2.08,2.76-2.72,4.49-.64,1.73-.96,3.58-.96,5.56s.32,3.85.96,5.61c.64,1.76,1.55,3.3,2.72,4.62,1.17,1.32,2.59,2.36,4.24,3.11s3.49,1.13,5.5,1.13c1.54,0,2.97-.23,4.29-.69,1.32-.46,2.52-1.1,3.61-1.93s2.02-1.8,2.81-2.92c.79-1.12,1.4-2.36,1.84-3.72h-4.9c-.62,1.43-1.59,2.56-2.89,3.39Z"/>
+      <path d="M67.12,48.38c-.11,0-.3,0-4.47.75-2.3.38-3.89.51-4.7.41-1.61-.21-1.82-.74-1.83-1.04.32-.5.83-1.59,1.91-3.88.14-.19.53-.77,1.8-2.7.75-1.12,1-2.25.75-3.32-.6-3-2.39-4.59-5.19-4.59-1.84,0-3.87.55-6.03,1.63-2.47,1.2-3.53,2.21-3.46,3.24,0,1.08.56,1.42.87,1.53.42.16,1.18.19,3.28-.94,1.9-1.02,2.61-1.17,2.82-1.17,1.49.13,2.39.49,2.45.97,0,.14-.14.84-1.91,3.95-1.99,3.45-2.22,4.55-2.22,5.08,0,3.4,1.91,5.2,5.53,5.2,1.89,0,4.28-.23,7.11-.67h.01c4.31-.76,5.18-1.41,5.18-2.17.08-.85-.08-1.46-.49-1.86-.35-.34-.85-.48-1.41-.42Z"/>
+      <path d="M73.77,23.11c.89-.07,1.64-.8,2.29-2.22.64-1.28.99-2.71,1.04-4.26.18-2.63-1.18-3.17-2.01-3.25-.84-.06-3.22.49-13.87,6.34l-12.18,6.64c.47-.54,1.02-1.13,1.64-1.78,1.97-2.02,3.28-3.5,4.01-4.51,9.08-11.85,9.93-15.19,9.77-16.68-.32-2.81-1.79-3.4-2.96-3.4-1.05,0-5.38,1.38-30.79,13.26-13.5,6.2-22.58,10.66-26.96,13.23C1.36,27.88.13,29.26,0,30.77c-.03.73.18,1.34.62,1.8.61.64,1.62.95,3.12.95h.01c.95-.07,1.68-.75,2.14-2.01.61-1.57.99-1.96,1.1-2.04,3.59-2.34,12.24-6.66,25.69-12.84,19.53-8.96,24.4-10.94,25.02-11.01.26,0,.53.1.81.28-2.47,6.66-8.59,14.16-18.19,22.33-2.56,2.23-8.12,6.22-16.54,11.85-9.03,6.12-9.68,7.5-9.57,8.32.2,1.3,1,2.09,2.3,2.29.03,0,.06,0,.1,0,.4,0,1.6-.48,10.86-6.37,4.76-3.07,10.7-6.67,17.65-10.72,14.15-8.16,22.84-13.05,25.91-14.56l-.19,1.35v.08c.36,2.48,2,2.72,2.94,2.64Z"/>
+    </g>
+  </g>
+</svg>
+    <div class="roleswap">
+      <button id="rEmp" class="on" onclick="setRole('emp')">Рыбовод</button>
+      <button id="rAdm" onclick="setRole('adm')">Админ</button>
+    </div>
+  </div></div>
+
+  <div id="view"></div>
+
+  <div class="tabbar" id="tabbar"></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ---------------- STATE ---------------- */
+const POOLS=[
+ {id:1,nm:"Бассейн 1",d:"Ø1,5 м · малёк",v:1.15},
+ {id:2,nm:"Бассейн 2",d:"Ø2,2 м · ювенил",v:3.23},
+ {id:3,nm:"Бассейн 3",d:"Ø2,6 м · рост",v:4.51},
+ {id:4,nm:"Бассейн 4",d:"Ø3,3 м · нагул",v:7.27},
+ {id:5,nm:"Бассейн 5",d:"Ø4,0 м · товар",v:11.0},
+];
+const S={
+  role:"emp", tab:"home", pool:5, aiText:null, aiLoading:false,
+  shifts:{}, edit:null, auth:false, pin:"",
+  fish:{}, // poolId -> {state,appetite,dead}
+  water:{nh3:"",no2:"",no3:"",ph:"",o2:"",temp:"",meter:""},
+  feed:{made:"",fed:"",mix:{fish:true,corn:true,bran:true,veg:false}},
+  weigh:{pool:5,avg:""},
+  chk:{}, // key -> bool
+  sent:{fish:false,water:false,feed:false,chk:false},
+  photos:0,
+  econ:{prod:3000,feed:13.5,water:40,price:250,sal:90000},
+};
+POOLS.forEach(p=>S.fish[p.id]={state:null,appetite:null,dead:0});
+
+const CHECKS=[
+ {k:"salt",t:"Засыпана соль",tag:"каждый день",d:1},
+ {k:"drum",t:"Проверен барабанный фильтр",tag:"каждый день",d:1},
+ {k:"pumps",t:"Осмотр насосов и потока",tag:"каждый день",d:1},
+ {k:"feeders",t:"Кормушки заправлены и чисты",tag:"каждый день",d:1},
+ {k:"dead",t:"Убрана погибшая рыба",tag:"каждый день",d:1},
+ {k:"bio",t:"Осмотр биофильтра и аэрации",tag:"каждый день",d:1},
+ {k:"clean",t:"Полная уборка цеха УЗВ",tag:"неделя",d:0},
+ {k:"mill",t:"Обслуживание кормоцеха",tag:"неделя",d:0},
+ {k:"ozone",t:"Проверка озонатора",tag:"неделя",d:0},
+];
+
+/* demo history for admin */
+const HIST=[
+ {d:"Пн",dead:4,feed:118,nh3:.4},{d:"Вт",dead:6,feed:120,nh3:.5},
+ {d:"Ср",dead:5,feed:121,nh3:.6},{d:"Чт",dead:9,feed:119,nh3:.9},
+ {d:"Пт",dead:7,feed:122,nh3:.7},{d:"Сб",dead:5,feed:120,nh3:.5},
+ {d:"Вс",dead:0,feed:0,nh3:0},
+];
+const STAFF=[
+ {d:"Понедельник",h:8.2,rep:4},{d:"Вторник",h:8.0,rep:4},{d:"Среда",h:7.5,rep:3},
+ {d:"Четверг",h:8.4,rep:4},{d:"Пятница",h:8.1,rep:4},{d:"Суббота",h:4.0,rep:2},
+];
+
+/* ---------------- HELPERS ---------------- */
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString("ru-RU");
+const num=v=>{const n=parseFloat(String(v).replace(",","."));return isNaN(n)?null:n};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2100)}
+function h(s){return s}
+const ico={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1z"/></svg>',
+ fish:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 12s3.2-5.1 7.7-5.1S18 12 18 12s-3.2 5.1-7.7 5.1S2.6 12 2.6 12z"/><path d="M18 12l3.4-2.7v5.4z"/><circle cx="7.4" cy="11" r=".95" fill="currentColor" stroke="none"/></svg>',
+ water:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.4 4.4 6 7.4 6 10.4A6 6 0 0 1 6 13.4C6 10.4 8.6 7.4 12 3z"/></svg>',
+ feed:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg>',
+ chk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M4 12h10M4 17h7"/><path d="m17 8 2 2 3-3.5"/></svg>',
+ dash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="8.5" rx="2"/><rect x="13" y="3.5" width="7.5" height="5" rx="2"/><rect x="3.5" y="14" width="7.5" height="6.5" rx="2"/><rect x="13" y="10.5" width="7.5" height="10" rx="2"/></svg>',
+ sys:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>',
+ econ:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18V9M10 18V5M16 18v-6M22 18H2"/></svg>',
+ staff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>',
+ ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M18 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>',
+ check:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.5 5.5L20 6.5"/></svg>',
+};
+
+/* ---------------- WATER LIMITS ---------------- */
+const LIM={nh3:{w:.6,b:1.2,u:"мг/л",n:"Аммиак NH₃/NH₄"},no2:{w:.5,b:1,u:"мг/л",n:"Нитрит NO₂"},
+ no3:{w:200,b:400,u:"мг/л",n:"Нитрат NO₃"},ph:{lo:6.5,hi:8.2,u:"",n:"pH"},
+ o2:{lo:4,w2:5,u:"мг/л",n:"Кислород O₂"},temp:{lo:26.5,hi:29.5,u:"°C",n:"Температура"}};
+function wState(k,v){
+  if(v===null)return "";
+  const L=LIM[k];
+  if(k==="ph")return (v<L.lo-.4||v>L.hi+.4)?"bad":(v<L.lo||v>L.hi)?"warn":"";
+  if(k==="temp")return (v<L.lo-1||v>L.hi+1)?"bad":(v<L.lo||v>L.hi)?"warn":"";
+  if(k==="o2")return v<L.lo?"bad":v<L.w2?"warn":"";
+  return v>=L.b?"bad":v>=L.w?"warn":"";
+}
+
+/* ---------------- SHIFTS / TABEL ---------------- */
+const LUNCH=[13*60,14*60];   // обед 13:00–14:00 вычитается всегда
+function dkey(off){const d=new Date();d.setDate(d.getDate()-off);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dlabel(off){const d=new Date();d.setDate(d.getDate()-off);
+  if(off===0)return "Сегодня"; if(off===1)return "Вчера";
+  return d.toLocaleDateString("ru-RU",{weekday:"short",day:"numeric",month:"short"})}
+function toMin(t){if(!t)return null;const p=String(t).split(":");return +p[0]*60+ +p[1]}
+function mToT(m){return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")}
+function nowT(){const d=new Date();return mToT(d.getHours()*60+d.getMinutes())}
+function shiftHours(sh){
+  if(!sh||sh.absent||!sh.s||!sh.e)return 0;
+  const a=toMin(sh.s),b=toMin(sh.e); if(b<=a)return 0;
+  const ov=Math.max(0,Math.min(b,LUNCH[1])-Math.max(a,LUNCH[0]));
+  return Math.max(0,b-a-ov)/60;
+}
+function hLabel(h){const H=Math.floor(h),M=Math.round((h-H)*60);return H+" ч"+(M?" "+M+" мин":"")}
+function todayShift(){return S.shifts[dkey(0)]}
+function shiftOpen(){const t=todayShift();return !!(t&&t.s&&!t.e&&!t.absent)}
+function shiftDoneToday(){const t=todayShift();return !!(t&&(t.e||t.absent))}
+function weekHours(){let s=0;for(let i=0;i<7;i++)s+=shiftHours(S.shifts[dkey(i)]);return s}
+function startShift(){S.shifts[dkey(0)]={s:nowT(),e:null,absent:false};toast("Смена начата в "+nowT());render()}
+function endShift(){const t=todayShift();if(!t)return;t.e=nowT();
+  toast("Смена закрыта · "+hLabel(shiftHours(t)));render()}
+/* editor */
+function openEdit(k){const cur=S.shifts[k]||{};
+  S.edit={k,s:cur.s||"08:00",e:cur.e||"17:00",absent:!!cur.absent};render()}
+function closeEdit(){S.edit=null;render()}
+function saveEdit(){
+  const E=S.edit;
+  if(E.absent){S.shifts[E.k]={absent:true};toast("Отмечен выходной")}
+  else{
+    if(toMin(E.e)<=toMin(E.s)){toast("Конец смены должен быть позже начала");return}
+    S.shifts[E.k]={s:E.s,e:E.e,absent:false};
+    toast("Часы сохранены · "+hLabel(shiftHours(S.shifts[E.k])));
+  }
+  S.edit=null;render();
+}
+function clearEdit(){delete S.shifts[S.edit.k];S.edit=null;toast("Запись удалена");render()}
+function liveClock(){
+  const el=$("shiftClock"); if(!el)return;
+  const t=todayShift(); if(!t||!t.s||t.e)return;
+  const now=toMin(nowT()), a=toMin(t.s);
+  if(now<=a){el.textContent="00:00";return}
+  const ov=Math.max(0,Math.min(now,LUNCH[1])-Math.max(a,LUNCH[0]));
+  const m=Math.max(0,now-a-ov);
+  el.textContent=mToT(m);
+}
+setInterval(liveClock,20000);
+/* seed demo history */
+(function(){
+  const seed=[[1,"08:05","17:10"],[2,"07:58","17:02"],[3,"08:12","12:00"],[4,"08:00","17:00"],[5,null,null],[6,"08:03","16:55"]];
+  seed.forEach(function(x){
+    const k=dkey(x[0]);
+    S.shifts[k]= x[1]? {s:x[1],e:x[2],absent:false} : {absent:true};
+  });
+})();
+
+/* ---------------- COMPUTED ---------------- */
+function deadTotal(){return POOLS.reduce((a,p)=>a+(S.fish[p.id].dead||0),0)}
+function fishFilled(){return POOLS.filter(p=>S.fish[p.id].state&&S.fish[p.id].appetite).length}
+function chkDone(){return Object.values(S.chk).filter(Boolean).length}
+function waterFilled(){return Object.values(S.water).filter(v=>v!=="").length}
+function tasksDone(){
+  let n=0; if(S.sent.fish)n++; if(S.sent.water)n++; if(S.sent.feed)n++;
+  if(chkDone()>=6)n++; if(shiftOpen()||shiftDoneToday())n++; return n;
+}
+function alerts(){
+  const A=[];
+  const nh3=num(S.water.nh3), no2=num(S.water.no2), o2=num(S.water.o2), t=num(S.water.temp);
+  if(nh3!==null&&nh3>=LIM.nh3.b)A.push({lv:"red",i:"⚠",t:"Аммиак критический — "+nh3+" мг/л",d:"Немедленно: подмена воды, прекратить кормление, проверить биофильтр."});
+  else if(nh3!==null&&nh3>=LIM.nh3.w)A.push({lv:"amber",i:"!",t:"Аммиак повышен — "+nh3+" мг/л",d:"Снизить кормление, увеличить подмену. Перепроверить через 6 часов."});
+  if(no2!==null&&no2>=LIM.no2.b)A.push({lv:"red",i:"⚠",t:"Нитрит критический — "+no2+" мг/л",d:"Добавить соль, увеличить подмену. Биофильтр не справляется."});
+  else if(no2!==null&&no2>=LIM.no2.w)A.push({lv:"amber",i:"!",t:"Нитрит повышен — "+no2+" мг/л",d:"Проверить, засыпана ли соль. Контроль через 6 часов."});
+  if(o2!==null&&o2<LIM.o2.lo)A.push({lv:"red",i:"⚠",t:"Кислород низкий — "+o2+" мг/л",d:"Проверить воздуходувку и аэраторы. Это самая быстрая причина гибели."});
+  if(t!==null&&(t<25.5||t>30.5))A.push({lv:"amber",i:"🌡",t:"Температура вне нормы — "+t+" °C",d:"Цель 28 °C. Проверить клапаны змеевика и котёл."});
+  const dead=deadTotal();
+  if(dead>=25)A.push({lv:"red",i:"⚠",t:"Падёж "+dead+" шт. за день",d:"Резкий рост. Проверить параметры воды и осмотреть рыбу."});
+  else if(dead>=12)A.push({lv:"amber",i:"!",t:"Падёж повышен — "+dead+" шт.",d:"Выше обычного (норма 4–8). Наблюдать."});
+  POOLS.forEach(p=>{const f=S.fish[p.id];
+    if(f.appetite==="Нет аппетита")A.push({lv:"amber",i:"🍽",t:p.nm+" — рыба не ест",d:"Отказ от корма — ранний признак проблемы с водой или болезни."});
+    if(f.state==="Болезнь")A.push({lv:"red",i:"⚠",t:p.nm+" — признаки болезни",d:"Осмотреть, при необходимости изолировать. Сообщить руководителю."});
+  });
+  if(!S.chk.salt&&(shiftOpen()||shiftDoneToday()))A.push({lv:"blue",i:"🧂",t:"Соль ещё не засыпана",d:"Ежедневная обязательная процедура — защита от нитрита."});
+  return A;
+}
+
+/* ---------------- AI (демо) ---------------- */
+function buildAI(){
+  const A=alerts(), dead=deadTotal(), nh3=num(S.water.nh3), no2=num(S.water.no2);
+  const fed=num(S.feed.fed), made=num(S.feed.made);
+  let L=[];
+  const crit=A.filter(a=>a.lv==="red"), warn=A.filter(a=>a.lv==="amber");
+  let head;
+  if(crit.length)head="Есть <b>критические отклонения</b> — требуется вмешательство сегодня.";
+  else if(warn.length)head="Система работает, но есть <b>"+warn.length+" предупреждения</b> — стоит понаблюдать.";
+  else if(waterFilled()===0&&!S.sent.fish)head="Данных за сегодня пока нет. Заполните отчёт, чтобы я мог оценить состояние.";
+  else head="Система в <b>норме</b>. Отклонений по внесённым данным не вижу.";
+
+  if(nh3!==null&&no2!==null){
+    if(nh3<.3&&no2<.3)L.push("Биофильтр справляется: аммиак и нитрит низкие. Можно осторожно снижать подмену воды и экономить на водоотведении.");
+    else if(nh3>=.6||no2>=.5)L.push("Азотистые растут — вероятная причина: перекорм или недозревший биофильтр. Первым делом снизьте суточную норму корма на 20–30%.");
+  }
+  if(dead>0&&dead<=8)L.push("Падёж "+dead+" шт. — в пределах нормы для текущей плотности.");
+  if(dead>8)L.push("Падёж "+dead+" шт. выше обычного. Сопоставьте с параметрами воды за последние 2 дня.");
+  if(fed!==null&&fed>0){
+    const est=(fed/1.2).toFixed(0);
+    L.push("Скормлено "+fed+" кг → ожидаемый прирост около <b>"+est+" кг</b> при FCR 1,2.");
+  }
+  if(made!==null&&made>0)L.push("Произведено "+made+" кг корма — себестоимость примерно <b>"+fmt(made*13.5)+" ₽</b> по текущей рецептуре.");
+  if(!S.chk.salt)L.push("Соль сегодня не отмечена — при высокой плотности это защита от нитритного отравления.");
+  const wm=num(S.water.meter);
+  if(wm!==null&&wm>0){
+    L.push("Слив "+wm+" м³ — это <b>"+fmt(wm*55.36)+" ₽</b> за сутки. Каждые −5 м³/сут дают около 8 300 ₽ экономии в месяц.");
+  }
+  if(!L.length)L.push("Заполните тесты воды и отчёт по рыбе — тогда смогу дать конкретные рекомендации.");
+  return {head,list:L.slice(0,4)};
+}
+function runAI(){
+  S.aiLoading=true;render();
+  setTimeout(()=>{S.aiText=buildAI();S.aiLoading=false;render()},1100);
+}
+
+/* ---------------- RENDER: EMPLOYEE ---------------- */
+function shiftCard(){
+  const t=todayShift(), open=shiftOpen();
+  if(open){
+    const now=toMin(nowT()),a=toMin(t.s);
+    const ov=Math.max(0,Math.min(now,LUNCH[1])-Math.max(a,LUNCH[0]));
+    const cur=mToT(Math.max(0,now-a-ov));
+    const inLunch=now>=LUNCH[0]&&now<LUNCH[1];
+    return `<div class="shift on" style="margin-top:18px"><div class="glow"></div>
+      <div class="lbl">${inLunch?"Обед · время не идёт":"Смена идёт с "+t.s}</div>
+      <div class="big" id="shiftClock">${cur}</div>
+      <div class="meta">Обед 13:00–14:00 вычитается автоматически</div>
+      <button onclick="endShift()">Завершить смену</button>
+      <button onclick="openEdit('${dkey(0)}')" style="margin-top:8px;background:rgba(255,255,255,.2);color:#fff">Выставить часы вручную</button>
+    </div>`;
+  }
+  if(t&&t.absent){
+    return `<div class="shift" style="margin-top:18px"><div class="glow"></div>
+      <div class="lbl">Сегодня</div><div class="big" style="font-size:30px">Выходной</div>
+      <div class="meta">День отмечен как нерабочий</div>
+      <button onclick="openEdit('${dkey(0)}')">Изменить</button></div>`;
+  }
+  if(t&&t.e){
+    return `<div class="shift" style="margin-top:18px"><div class="glow"></div>
+      <div class="lbl">Смена завершена</div>
+      <div class="big" style="font-size:34px">${t.s} → ${t.e}</div>
+      <div class="meta">Отработано ${hLabel(shiftHours(t))} · обед вычтен</div>
+      <button onclick="openEdit('${dkey(0)}')">Изменить часы</button></div>`;
+  }
+  return `<div class="shift" style="margin-top:18px"><div class="glow"></div>
+    <div class="lbl">Смена не начата</div><div class="big">--:--</div>
+    <div class="meta">Нажмите, когда придёте на работу</div>
+    <button onclick="startShift()">Начать смену</button>
+    <button onclick="openEdit('${dkey(0)}')" style="margin-top:8px;background:rgba(255,255,255,.16);color:#fff">Выставить часы вручную</button>
+  </div>`;
+}
+function weekTabel(){
+  let rows="";
+  for(let i=0;i<7;i++){
+    const k=dkey(i), sh=S.shifts[k], h=shiftHours(sh);
+    let right,color="var(--tx)";
+    if(!sh){right=i===0?"не начата":"нет данных";color="var(--tx3)"}
+    else if(sh.absent){right="выходной";color="var(--tx3)"}
+    else if(sh.s&&!sh.e){right="идёт с "+sh.s;color="var(--blue)"}
+    else right=sh.s+" – "+sh.e;
+    rows+=`<div class="lr" style="cursor:pointer" onclick="openEdit('${k}')">
+      <span class="nm" style="color:var(--tx)">${dlabel(i)}</span>
+      <span style="font-size:12.5px;color:${color};margin-right:10px">${right}</span>
+      <span class="val">${h?h.toFixed(1)+" ч":"—"}</span>
+      <span style="color:var(--tx3);font-size:15px;margin-left:6px">›</span></div>`;
+  }
+  return `<div class="sect">Табель · нажмите день, чтобы изменить</div>
+  <div class="card">
+    <div class="row" style="padding-bottom:12px;border-bottom:.5px solid var(--line);margin-bottom:4px">
+      <div style="flex:1"><div style="font-size:15px;font-weight:600">За 7 дней</div>
+      <div style="font-size:12.5px;color:var(--tx2)">обед 13:00–14:00 не оплачивается</div></div>
+      <div style="font-size:26px;font-weight:650;letter-spacing:-.04em">${weekHours().toFixed(1)}<span style="font-size:14px;color:var(--tx2)"> ч</span></div>
+    </div>
+    ${rows}
+  </div>`;
+}
+function editSheet(){
+  if(!S.edit)return "";
+  const E=S.edit, k=E.k;
+  let off=0; for(let i=0;i<14;i++){if(dkey(i)===k){off=i;break}}
+  const hrs=E.absent?0:shiftHours({s:E.s,e:E.e});
+  return `<div class="sheet-bg" onclick="closeEdit()"></div>
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-t">${dlabel(off)}</div>
+    <div class="sheet-s">Часы смены${E.absent?"":" · обед 13:00–14:00 вычитается"}</div>
+    <div class="card" style="margin-top:14px">
+      <div class="chk ${E.absent?"on":""}" onclick="S.edit.absent=!S.edit.absent;render()">
+        <div class="box">${ico.check}</div><div class="t">Не работал (выходной / отсутствие)</div></div>
+    </div>
+    ${E.absent?"":`
+    <div class="card" style="margin-top:12px">
+      <div class="field"><div class="fl">Начало смены</div>
+        <input type="time" value="${E.s}" onchange="S.edit.s=this.value;render()"></div>
+      <div class="field"><div class="fl">Конец смены</div>
+        <input type="time" value="${E.e}" onchange="S.edit.e=this.value;render()"></div>
+      <div class="row" style="padding-top:12px">
+        <div style="flex:1;font-size:13px;color:var(--tx2)">К оплате</div>
+        <div style="font-size:20px;font-weight:650">${hLabel(hrs)}</div></div>
+      <div class="opts" style="margin-top:12px">
+        ${[["08:00","17:00","Полный день"],["08:00","12:00","До обеда"],["14:00","17:00","После обеда"]]
+        .map(x=>`<button class="opt" onclick="S.edit.s='${x[0]}';S.edit.e='${x[1]}';render()">${x[2]}</button>`).join("")}
+      </div>
+    </div>`}
+    <button class="btn" style="margin-top:14px" onclick="saveEdit()">Сохранить</button>
+    <div class="row" style="gap:10px;margin-top:9px">
+      <button class="btn ghost" onclick="closeEdit()">Отмена</button>
+      <button class="btn ghost" style="color:var(--red)" onclick="clearEdit()">Очистить</button>
+    </div>
+  </div>`;
+}
+
+function vHome(){
+  const done=tasksDone(), tot=5;
+  const A=alerts().slice(0,2);
+  return `
+  <div class="page">
+    <div class="h1">Салям, <span class="serif">Талгат</span>!</div>
+    <div class="sub">${new Date().toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</div>
+
+    ${shiftCard()}
+    ${weekTabel()}
+
+    <div class="sect">Задачи на сегодня · ${done} из ${tot}</div>
+    <div class="card">
+      <div class="row"><div style="flex:1">
+        <div style="font-size:15px;font-weight:600">${done===tot?"Всё выполнено":"Осталось "+(tot-done)}</div>
+        <div style="font-size:12.5px;color:var(--tx2);margin-top:2px">${done===tot?"Отличная работа за смену":"Отчёты помогают ловить проблемы заранее"}</div>
+      </div>
+      <div style="font-size:26px;font-weight:650;letter-spacing:-.04em;color:${done===tot?"var(--green)":"var(--tx)"}">${Math.round(done/tot*100)}%</div></div>
+      <div class="tr" style="margin-top:12px"><div class="fl" style="width:${done/tot*100}%;background:${done===tot?"var(--green)":"var(--blue)"}"></div></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        ${[["Рыба",S.sent.fish],["Вода",S.sent.water],["Корм",S.sent.feed],["Чек-лист",chkDone()>=6],["Смена",shiftOpen()||shiftDoneToday()]]
+          .map(([n,v])=>`<span class="opt ${v?"on good":""}" style="pointer-events:none;font-size:12px;padding:6px 11px">${v?"✓ ":""}${n}</span>`).join("")}
+      </div>
+    </div>
+
+    ${A.length?`<div class="sect">Внимание</div>${A.map(a=>`
+      <div class="alert ${a.lv}"><div class="ai">${a.i}</div><div><div class="at">${a.t}</div><div class="ad">${a.d}</div></div></div>`).join("")}`:""}
+
+    <div class="sect">Быстрый переход</div>
+    <div class="grid2">
+      <div class="stat" onclick="go('fish')" style="cursor:pointer"><div class="l">Отчёт по рыбе</div><div class="v ${S.sent.fish?"green":""}">${fishFilled()}<small>/5 бассейнов</small></div><div class="d">состояние · аппетит · падёж</div></div>
+      <div class="stat" onclick="go('water')" style="cursor:pointer"><div class="l">Тесты воды</div><div class="v ${S.sent.water?"green":""}">${waterFilled()}<small>/6 замеров</small></div><div class="d">NH₃ · NO₂ · NO₃ · pH · O₂</div></div>
+      <div class="stat" onclick="go('feed')" style="cursor:pointer"><div class="l">Корм</div><div class="v ${S.sent.feed?"green":""}">${S.feed.fed||0}<small> кг</small></div><div class="d">скормлено сегодня</div></div>
+      <div class="stat" onclick="go('chk')" style="cursor:pointer"><div class="l">Обслуживание</div><div class="v ${chkDone()>=6?"green":""}">${chkDone()}<small>/${CHECKS.length}</small></div><div class="d">чек-лист смены</div></div>
+    </div>
+  </div>`;
+}
+
+function vFish(){
+  const p=POOLS.find(x=>x.id===S.pool), f=S.fish[p.id];
+  const states=[["Хорошо","good"],["Стресс","warn"],["Плохо","warn"],["Болезнь","bad"]];
+  const apps=[["Сильный","good"],["Нормальный","good"],["Плохой","warn"],["Нет аппетита","bad"]];
+  return `
+  <div class="page">
+    <div class="h1">Состояние <span class="serif">рыбы</span></div>
+    <div class="sub">Заполните по каждому бассейну</div>
+
+    <div class="ptabs" style="margin-top:16px">
+      ${POOLS.map(x=>{const ff=S.fish[x.id],ok=ff.state&&ff.appetite;
+        return `<button class="ptab ${x.id===S.pool?"on":""}" onclick="S.pool=${x.id};render()">
+        <div class="pn">${x.nm.replace("Бассейн ","Б")}${ok?" ✓":""}${ff.state==="Болезнь"||ff.appetite==="Нет аппетита"?'<span class="warndot"></span>':""}</div>
+        <div class="pv">${x.d.split(" · ")[1]}</div></button>`}).join("")}
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div style="font-size:15px;font-weight:600">${p.nm}</div>
+      <div style="font-size:12.5px;color:var(--tx2);margin-bottom:15px">${p.d} · ${p.v} м³</div>
+
+      <div style="font-size:13px;font-weight:600;margin-bottom:9px">Общее состояние</div>
+      <div class="opts">${states.map(([s,c])=>`<button class="opt ${f.state===s?"on "+c:""}" onclick="S.fish[${p.id}].state='${s}';render()">${s}</button>`).join("")}</div>
+
+      <div style="font-size:13px;font-weight:600;margin:18px 0 9px">Аппетит</div>
+      <div class="opts">${apps.map(([s,c])=>`<button class="opt ${f.appetite===s?"on "+c:""}" onclick="S.fish[${p.id}].appetite='${s}';render()">${s}</button>`).join("")}</div>
+
+      <div style="font-size:13px;font-weight:600;margin:18px 0 9px">Падёж за сутки</div>
+      <div class="row">
+        <div class="step">
+          <button onclick="S.fish[${p.id}].dead=Math.max(0,S.fish[${p.id}].dead-1);render()">−</button>
+          <div class="n">${f.dead}</div>
+          <button onclick="S.fish[${p.id}].dead++;render()">+</button>
+        </div>
+        <div style="font-size:12.5px;color:var(--tx2);flex:1">шт. погибшей рыбы<br><span style="color:var(--tx3)">норма 1–2 на бассейн</span></div>
+      </div>
+
+      <button class="btn ghost" style="margin-top:16px;padding:12px" onclick="S.photos++;toast('Фото прикреплено (демо)')">
+        📷 Прикрепить фото ${S.photos?"· "+S.photos:""}</button>
+    </div>
+
+    <div class="card">
+      <div class="row"><div style="flex:1"><div style="font-size:14px;font-weight:600">Падёж всего за день</div>
+      <div style="font-size:12px;color:var(--tx2)">по всем бассейнам</div></div>
+      <div style="font-size:28px;font-weight:650;color:${deadTotal()>=12?"var(--red)":"var(--tx)"}">${deadTotal()}</div></div>
+    </div>
+
+    <div class="submit"><button class="btn ${S.sent.fish?"done":""}" onclick="sendFish()">
+      ${S.sent.fish?"✓ Отчёт отправлен":"Отправить отчёт ("+fishFilled()+"/5)"}</button></div>
+  </div>`;
+}
+function sendFish(){
+  if(fishFilled()<5){toast("Заполните все 5 бассейнов");return}
+  S.sent.fish=true;S.aiText=null;toast("Отчёт по рыбе отправлен");render();
+}
+
+function vWater(){
+  const F=[["nh3","Аммиак NH₃/NH₄","мг/л","норма < 0,6"],["no2","Нитрит NO₂","мг/л","норма < 0,5"],
+   ["no3","Нитрат NO₃","мг/л","до 200"],["ph","pH","","6,5 – 8,2"],
+   ["o2","Кислород O₂","мг/л","не ниже 5"],["temp","Температура","°C","цель 28"]];
+  return `
+  <div class="page">
+    <div class="h1">Параметры <span class="serif">воды</span></div>
+    <div class="sub">Быстрые тесты · вносите по мере замера</div>
+
+    <div class="card" style="margin-top:16px">
+      ${F.map(([k,n,u,hint])=>{const st=wState(k,num(S.water[k]));
+        return `<div class="field">
+        <div><div class="fl">${n}</div><div class="fh">${hint}</div></div>
+        <div class="row"><input inputmode="decimal" class="${st}" value="${S.water[k]}" placeholder="—"
+          oninput="S.water.${k}=this.value;S.aiText=null;liveWater()"><span class="unit">${u}</span></div></div>`}).join("")}
+    </div>
+
+    <div class="sect">Счётчик водоотведения</div>
+    <div class="card">
+      <div class="field"><div><div class="fl">Слив за сутки</div><div class="fh">показание счётчика</div></div>
+      <div class="row"><input inputmode="decimal" value="${S.water.meter}" placeholder="—"
+        oninput="S.water.meter=this.value;S.aiText=null;liveWater()"><span class="unit">м³</span></div></div>
+      <div class="hint">Записывайте показание один раз в сутки, в одно и то же время.</div>
+    </div>
+
+    <div id="waterAlerts">${renderWaterAlerts()}</div>
+
+    <div class="submit"><button class="btn ${S.sent.water?"done":""}" onclick="sendWater()">
+      ${S.sent.water?"✓ Замеры отправлены":"Отправить замеры ("+waterFilled()+"/6)"}</button></div>
+  </div>`;
+}
+function renderWaterAlerts(){
+  const A=alerts().filter(a=>/Аммиак|Нитрит|Кислород|Температура/.test(a.t));
+  if(!A.length)return "";
+  return `<div class="sect">Проверьте</div>`+A.map(a=>`<div class="alert ${a.lv}"><div class="ai">${a.i}</div><div><div class="at">${a.t}</div><div class="ad">${a.d}</div></div></div>`).join("");
+}
+function liveWater(){
+  const wa=$("waterAlerts"); if(wa)wa.innerHTML=renderWaterAlerts();
+  document.querySelectorAll(".field input").forEach(i=>{});
+}
+function sendWater(){
+  if(waterFilled()<3){toast("Внесите хотя бы аммиак, нитрит и кислород");return}
+  S.sent.water=true;S.aiText=null;toast("Замеры отправлены");render();
+}
+
+function vFeed(){
+  const mixes=[["fish","Рыбные отходы","30–40%"],["corn","Кукуруза","40%"],["bran","Отруби","20%"],["veg","Овощные отходы","10%"]];
+  const made=num(S.feed.made)||0;
+  return `
+  <div class="page">
+    <div class="h1">Корм и <span class="serif">кормление</span></div>
+    <div class="sub">Производство в цеху и раздача рыбе</div>
+
+    <div class="sect">Произведено сегодня</div>
+    <div class="card">
+      <div class="field"><div><div class="fl">Выработка корма</div><div class="fh">экструдер</div></div>
+      <div class="row"><input inputmode="decimal" value="${S.feed.made}" placeholder="—" oninput="S.feed.made=this.value;S.aiText=null;liveFeed()"><span class="unit">кг</span></div></div>
+      <div style="font-size:13px;font-weight:600;margin:15px 0 9px">Состав замеса</div>
+      <div class="opts">${mixes.map(([k,n,pc])=>`<button class="opt ${S.feed.mix[k]?"on":""}" onclick="S.feed.mix.${k}=!S.feed.mix.${k};render()">${n} · ${pc}</button>`).join("")}</div>
+      <div class="hint" id="feedCost">${made?"Записано в производство: <b>"+fmt(made)+" кг</b>":"Укажите выработку и отметьте состав замеса"}</div>
+    </div>
+
+    <div class="sect">Скормлено рыбе</div>
+    <div class="card">
+      <div class="field"><div><div class="fl">Засыпано в кормушки</div><div class="fh">суммарно за сутки</div></div>
+      <div class="row"><input inputmode="decimal" value="${S.feed.fed}" placeholder="—" oninput="S.feed.fed=this.value;S.aiText=null;liveFeed()"><span class="unit">кг</span></div></div>
+      <div class="hint" id="feedGain">${S.feed.fed?"Ожидаемый прирост ≈ <b>"+fmt(num(S.feed.fed)/1.2)+" кг</b> при FCR 1,2":"Ожидаемый прирост считается по FCR 1,2"}</div>
+    </div>
+
+    <div class="sect">Контрольное взвешивание</div>
+    <div class="card">
+      <div style="font-size:12.5px;color:var(--tx2);margin-bottom:12px">Раз в 1–2 недели: выловить 10–20 рыб, взвесить, внести средний вес</div>
+      <div class="ptabs" style="margin:0 0 12px">
+        ${POOLS.map(x=>`<button class="ptab ${x.id===S.weigh.pool?"on":""}" onclick="S.weigh.pool=${x.id};render()">
+        <div class="pn">${x.nm.replace("Бассейн ","Б")}</div><div class="pv">${x.d.split(" · ")[1]}</div></button>`).join("")}
+      </div>
+      <div class="field"><div><div class="fl">Средний вес особи</div><div class="fh">${POOLS.find(x=>x.id===S.weigh.pool).nm}</div></div>
+      <div class="row"><input inputmode="decimal" value="${S.weigh.avg}" placeholder="—" oninput="S.weigh.avg=this.value"><span class="unit">г</span></div></div>
+    </div>
+
+    <div class="submit"><button class="btn ${S.sent.feed?"done":""}" onclick="sendFeed()">
+      ${S.sent.feed?"✓ Отчёт отправлен":"Отправить отчёт по корму"}</button></div>
+  </div>`;
+}
+function liveFeed(){
+  const made=num(S.feed.made)||0,fed=num(S.feed.fed);
+  const fc=$("feedCost"); if(fc)fc.innerHTML=made?"Записано в производство: <b>"+fmt(made)+" кг</b>":"Укажите выработку и отметьте состав замеса";
+  const fg=$("feedGain"); if(fg)fg.innerHTML=fed?"Ожидаемый прирост ≈ <b>"+fmt(fed/1.2)+" кг</b> при FCR 1,2":"Ожидаемый прирост считается по FCR 1,2";
+}
+function sendFeed(){
+  if(!num(S.feed.fed)){toast("Укажите, сколько корма скормлено");return}
+  S.sent.feed=true;S.aiText=null;toast("Отчёт по корму отправлен");render();
+}
+
+function vChk(){
+  const daily=CHECKS.filter(c=>c.d), weekly=CHECKS.filter(c=>!c.d);
+  const item=c=>`<div class="chk ${S.chk[c.k]?"on":""}" onclick="S.chk['${c.k}']=!S.chk['${c.k}'];S.aiText=null;render()">
+    <div class="box">${ico.check}</div><div class="t">${c.t}</div><div class="tag ${c.d?"d":""}">${c.tag}</div></div>`;
+  return `
+  <div class="page">
+    <div class="h1">Уборка и <span class="serif">обслуживание</span></div>
+    <div class="sub">Отмечайте по мере выполнения</div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="row"><div style="flex:1"><div style="font-size:15px;font-weight:600">Выполнено ${chkDone()} из ${CHECKS.length}</div>
+      <div style="font-size:12.5px;color:var(--tx2)">${S.chk.salt?"Соль засыпана ✓":"Соль ещё не засыпана"}</div></div>
+      <div style="font-size:26px;font-weight:650;color:${chkDone()===CHECKS.length?"var(--green)":"var(--tx)"}">${Math.round(chkDone()/CHECKS.length*100)}%</div></div>
+      <div class="tr" style="margin-top:12px"><div class="fl" style="width:${chkDone()/CHECKS.length*100}%;background:${chkDone()===CHECKS.length?"var(--green)":"var(--blue)"}"></div></div>
+    </div>
+
+    <div class="sect">Ежедневно</div>
+    <div class="card">${daily.map(item).join("")}</div>
+
+    <div class="sect">Раз в неделю</div>
+    <div class="card">${weekly.map(item).join("")}</div>
+
+    <div class="submit"><button class="btn ${chkDone()>=6?"done":""}" onclick="S.sent.chk=true;toast('Чек-лист сохранён');render()">
+      ${chkDone()>=6?"✓ Чек-лист выполнен":"Сохранить чек-лист"}</button></div>
+  </div>`;
+}
+
+/* ---------------- RENDER: ADMIN ---------------- */
+function vDash(){
+  const A=alerts(), dead=deadTotal();
+  const ai=S.aiText;
+  return `
+  <div class="page">
+    <div class="h1">Сводка <span class="serif">дня</span></div>
+    <div class="sub">${new Date().toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</div>
+
+    <div class="ai-card" style="margin-top:18px">
+      <div class="mesh"></div>
+      <div class="in">
+        <div class="ai-head"><div class="ai-dot">${'<svg width="12" height="12" viewBox="0 0 24 24" fill="#0A84FF"><path d="M12 2l2.2 5.6L20 10l-5.8 2.4L12 18l-2.2-5.6L4 10l5.8-2.4z"/></svg>'}</div>
+        <div class="t">Ассистент фермы</div><div class="b">ДЕМО</div></div>
+        ${S.aiLoading?`<div class="ai-body">Анализирую данные<span class="typing"></span></div>`:
+          ai?`<div class="ai-body">${ai.head}${ai.list.map(x=>`<div class="li"><span>—</span><span>${x}</span></div>`).join("")}</div>`
+          :`<div class="ai-body" style="opacity:.75">Соберу сводку по данным смены: параметры воды, падёж, корм и чек-лист.</div>`}
+        <button class="ai-btn" onclick="runAI()">${ai?"Обновить сводку":"Собрать сводку"}</button>
+      </div>
+    </div>
+
+    ${A.length?`<div class="sect">Тревоги · ${A.length}</div>
+      ${A.map(a=>`<div class="alert ${a.lv}"><div class="ai">${a.i}</div><div><div class="at">${a.t}</div><div class="ad">${a.d}</div></div></div>`).join("")}`
+     :`<div class="sect">Тревоги</div><div class="alert green"><div class="ai">✓</div><div><div class="at">Отклонений нет</div><div class="ad">Все внесённые параметры в пределах нормы.</div></div></div>`}
+
+    <div class="sect">Ключевое за сегодня</div>
+    <div class="grid2">
+      <div class="stat"><div class="l">Падёж</div><div class="v ${dead>=12?"red":dead>0?"":"green"}">${dead}<small> шт.</small></div><div class="d">норма 4–8</div></div>
+      <div class="stat"><div class="l">Скормлено</div><div class="v">${S.feed.fed||"—"}<small> кг</small></div><div class="d">прирост ≈ ${S.feed.fed?fmt(num(S.feed.fed)/1.2):"—"} кг</div></div>
+      <div class="stat"><div class="l">Аммиак</div><div class="v ${wState("nh3",num(S.water.nh3))==="bad"?"red":wState("nh3",num(S.water.nh3))==="warn"?"amber":"green"}">${S.water.nh3||"—"}<small> мг/л</small></div><div class="d">норма < 0,6</div></div>
+      <div class="stat"><div class="l">Слив воды</div><div class="v">${S.water.meter||"—"}<small> м³</small></div><div class="d">${S.water.meter?fmt(num(S.water.meter)*55.36)+" ₽/сут":"тариф 55,36 ₽"}</div></div>
+    </div>
+
+    <div class="sect">Отчётность смены</div>
+    <div class="card">
+      ${[["Рыба · состояние и падёж",S.sent.fish],["Тесты воды",S.sent.water],["Корм",S.sent.feed],["Чек-лист",chkDone()>=6]]
+      .map(([n,v])=>`<div class="lr"><span class="dot" style="background:${v?"var(--green)":"var(--line2)"}"></span>
+      <span class="nm">${n}</span><span class="val" style="color:${v?"var(--green)":"var(--tx3)"}">${v?"получен":"нет"}</span></div>`).join("")}
+    </div>
+
+    <div class="sect">Падёж за неделю</div>
+    <div class="card">
+      <div style="display:flex;align-items:flex-end;gap:7px;height:96px;padding-top:6px">
+        ${HIST.map(d=>{const hh=Math.max(4,d.dead/10*88);
+        return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div style="width:100%;height:${hh}px;border-radius:6px;background:${d.dead>=9?"var(--amber)":"var(--blue)"};opacity:${d.dead?1:.25}"></div>
+          <div style="font-size:10.5px;color:var(--tx3)">${d.d}</div></div>`}).join("")}
+      </div>
+      <div class="hint">Средний падёж 5–6 шт/сут. Четверг — всплеск 9 шт., совпал с ростом аммиака до 0,9 мг/л.</div>
+    </div>
+  </div>`;
+}
+
+function vSys(){
+  const t=(28+(Math.random()*.3-.15)).toFixed(1);
+  return `
+  <div class="page">
+    <div class="h1">Система <span class="serif">УЗВ</span></div>
+    <div class="sub">Данные контроллеров и краткая справка</div>
+
+    <div class="demo-note">Контроллеры D1 mini пока не подключены к сервису. Ниже — как это будет выглядеть: платы сами отправляют показания на сервер каждые 1–5 минут.</div>
+
+    <div class="sect">Платформа B · среда</div>
+    <div class="grid2">
+      <div class="sens"><div class="pulse"></div><div class="sl2">Вода в системе</div><div class="sv2">${t} °C</div><div class="ss">цель 28,0 · норма</div></div>
+      <div class="sens"><div class="pulse"></div><div class="sl2">Змеевик</div><div class="sv2">41,2 °C</div><div class="ss">нагрев активен</div></div>
+      <div class="sens off"><div class="pulse gray"></div><div class="sl2">Клапаны змеевика</div><div class="sv2">нет данных</div><div class="ss">ожидает подключения</div></div>
+      <div class="sens off"><div class="pulse gray"></div><div class="sl2">Датчик перелива</div><div class="sv2">нет данных</div><div class="ss">ожидает подключения</div></div>
+    </div>
+
+    <div class="sect">Платформа A · насосы</div>
+    <div class="grid3">
+      <div class="sens"><div class="pulse"></div><div class="sl2">Насос 1</div><div class="sv2" style="font-size:16px;color:var(--green)">в работе</div><div class="ss">поток есть</div></div>
+      <div class="sens"><div class="pulse"></div><div class="sl2">Насос 2</div><div class="sv2" style="font-size:16px;color:var(--green)">в работе</div><div class="ss">поток есть</div></div>
+      <div class="sens"><div class="pulse gray"></div><div class="sl2">Насос 3</div><div class="sv2" style="font-size:16px;color:var(--tx2)">резерв</div><div class="ss">ожидание</div></div>
+    </div>
+
+    <div class="sect">Автономные узлы</div>
+    <div class="card">
+      ${[["Воздуходувка 4,5 кВт","постоянно","var(--green)"],["Барабанный фильтр","своя автоматика","var(--tx3)"],
+         ["Озонатор","по промывке барабана","var(--tx3)"],["Концентратор O₂","постоянно","var(--green)"]]
+      .map(([n,v,c])=>`<div class="lr"><span class="dot" style="background:${c}"></span><span class="nm">${n}</span><span class="val" style="font-size:12.5px;color:var(--tx2)">${v}</span></div>`).join("")}
+    </div>
+
+    <div class="sect">Кратко о системе</div>
+    <div class="card">
+      ${[["Объём системы","~50 м³"],["Бассейны","5 шт · 27,15 м³"],["Биофильтр","22,78 м³ · S800"],
+         ["Оборот воды","2,2 ×/час"],["Плотность на пике","350 кг/м³"],["Цикл","180 дней · 20 г → 1,9 кг"]]
+      .map(([n,v])=>`<div class="lr"><span class="nm">${n}</span><span class="val">${v}</span></div>`).join("")}
+    </div>
+  </div>`;
+}
+
+function vEcon(){
+  const E=S.econ;
+  const cElec=10*720*7.01, cGas=E.water*30*9.08, cWater=E.water*30*55.36;
+  const fixed=cElec+cGas+cWater+E.sal;
+  const vKg=1.2*E.feed+18.6;
+  const total=fixed+vKg*E.prod, costKg=total/E.prod, rev=E.prod*E.price;
+  const profit=rev-total, be=fixed/(E.price-vKg);
+  const rows=[["Вода / слив",cWater,"var(--blue)"],["Зарплата",E.sal,"var(--tx3)"],["Электричество",cElec,"#5AC8FA"],
+    ["Корм",1.2*E.feed*E.prod,"var(--amber)"],["Малёк",18.6*E.prod,"var(--green)"],["Газ",cGas,"var(--line2)"]].sort((a,b)=>b[1]-a[1]);
+  return `
+  <div class="page">
+    <div class="h1">Экономика <span class="serif">месяца</span></div>
+    <div class="sub">Двигайте ползунки — пересчёт мгновенный</div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="stat"><div class="l">Себестоимость</div><div class="v">${fmt(costKg)}<small> ₽/кг</small></div><div class="d">цена ${E.price} ₽/кг</div></div>
+      <div class="stat"><div class="l">Прибыль</div><div class="v ${profit>0?"green":"red"}">${fmt(profit/1000)}<small> т₽</small></div><div class="d">маржа ${Math.round(profit/rev*100)}%</div></div>
+      <div class="stat"><div class="l">Выручка</div><div class="v">${fmt(rev/1000)}<small> т₽</small></div><div class="d">до налогов</div></div>
+      <div class="stat"><div class="l">Безубыточность</div><div class="v">${fmt(be)}<small> кг</small></div><div class="d">ниже — убыток</div></div>
+    </div>
+
+    <div class="sect">Параметры</div>
+    <div class="card">
+      <div class="sl"><div class="sh"><span class="sn">Производство</span><span class="sv">${fmt(E.prod)} кг</span></div>
+        <input type="range" min="1000" max="3500" step="100" value="${E.prod}" oninput="S.econ.prod=+this.value;render()"></div>
+      <div class="sl"><div class="sh"><span class="sn">Подмена воды</span><span class="sv">${E.water} м³/сут</span></div>
+        <input type="range" min="5" max="40" step="1" value="${E.water}" oninput="S.econ.water=+this.value;render()"></div>
+      <div class="sl"><div class="sh"><span class="sn">Себестоимость корма</span><span class="sv">${E.feed.toFixed(1)} ₽/кг</span></div>
+        <input type="range" min="10" max="30" step="0.5" value="${E.feed}" oninput="S.econ.feed=+this.value;render()"></div>
+      <div class="sl"><div class="sh"><span class="sn">Цена реализации</span><span class="sv">${E.price} ₽/кг</span></div>
+        <input type="range" min="200" max="300" step="5" value="${E.price}" oninput="S.econ.price=+this.value;render()"></div>
+      <div class="sl" style="margin-bottom:0"><div class="sh"><span class="sn">Зарплата</span><span class="sv">${fmt(E.sal/1000)} т₽</span></div>
+        <input type="range" min="50000" max="180000" step="5000" value="${E.sal}" oninput="S.econ.sal=+this.value;render()"></div>
+    </div>
+
+    <div class="sect">Куда уходит цена 1 кг</div>
+    <div class="card">
+      <div style="display:flex;height:34px;border-radius:11px;overflow:hidden;border:.5px solid var(--line)">
+        <div style="width:${vKg/E.price*100}%;background:var(--blue)"></div>
+        <div style="width:${fixed/E.prod/E.price*100}%;background:var(--amber)"></div>
+        <div style="width:${Math.max(0,(E.price-costKg)/E.price*100)}%;background:var(--green)"></div>
+      </div>
+      <div style="display:flex;gap:14px;margin-top:11px;flex-wrap:wrap;font-size:12.5px;color:var(--tx2)">
+        <span><b style="color:var(--blue)">■</b> Переменные ${fmt(vKg)} ₽</span>
+        <span><b style="color:var(--amber)">■</b> Постоянные ${fmt(fixed/E.prod)} ₽</span>
+        <span><b style="color:var(--green)">■</b> Прибыль ${fmt(E.price-costKg)} ₽</span>
+      </div>
+    </div>
+
+    <div class="sect">Затраты за месяц</div>
+    <div class="card">
+      ${rows.map(r=>`<div class="lr"><span class="dot" style="background:${r[2]}"></span><span class="nm">${r[0]}</span><span class="val">${fmt(r[1])} ₽</span></div>`).join("")}
+      <div class="lr" style="border-top:1px solid var(--line);margin-top:4px;padding-top:12px"><span class="nm" style="color:var(--tx);font-weight:600">Итого</span><span class="val">${fmt(total)} ₽</span></div>
+    </div>
+
+    ${E.water>25?`<div class="alert amber" style="margin-top:14px"><div class="ai">💧</div><div><div class="at">Вода — главный резерв</div>
+      <div class="ad">Снижение подмены до 10 м³/сут даст экономию около ${fmt((E.water-10)*30*(55.36+9.08))} ₽ в месяц.</div></div></div>`:""}
+  </div>`;
+}
+
+function vStaff(){
+  const totalH=STAFF.reduce((a,b)=>a+b.h,0), totalRep=STAFF.reduce((a,b)=>a+b.rep,0);
+  return `
+  <div class="page">
+    <div class="h1">Работа <span class="serif">сотрудника</span></div>
+    <div class="sub">Талгат · рыбовод · текущая неделя</div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="stat"><div class="l">Часов за неделю</div><div class="v">${totalH.toFixed(1)}<small> ч</small></div><div class="d">6 смен</div></div>
+      <div class="stat"><div class="l">Отчётов сдано</div><div class="v green">${totalRep}<small>/24</small></div><div class="d">${Math.round(totalRep/24*100)}% заполнение</div></div>
+    </div>
+
+    <div class="sect">По дням</div>
+    <div class="card">
+      ${STAFF.map(s=>`<div class="lr">
+        <span class="nm" style="color:var(--tx)">${s.d}</span>
+        <span style="font-size:12.5px;color:var(--tx2);margin-right:10px">${s.rep}/4 отчёта</span>
+        <span class="val">${s.h.toFixed(1)} ч</span></div>`).join("")}
+    </div>
+
+    <div class="sect">Дисциплина отчётности</div>
+    <div class="card">
+      ${[["Отчёт по рыбе",96,"var(--green)"],["Тесты воды",88,"var(--green)"],["Корм",92,"var(--green)"],["Чек-лист уборки",71,"var(--amber)"]]
+      .map(([n,v,c])=>`<div class="bar"><div class="bt"><b>${n}</b><span>${v}%</span></div>
+      <div class="tr"><div class="fl" style="width:${v}%;background:${c}"></div></div></div>`).join("")}
+      <div class="hint">Чек-лист заполняется реже остальных — стоит обсудить или упростить пункты.</div>
+    </div>
+
+    <div class="demo-note">Время фиксируется по кнопке «Начать/Завершить смену». Правки часов задним числом сохраняются с пометкой, кто их внёс. Обед 13:00–14:00 вычитается автоматически.</div>
+    <button class="btn ghost" style="margin-top:14px" onclick="lockAdmin()">Заблокировать админ-панель</button>
+  </div>`;
+}
+
+/* ---------------- SHELL ---------------- */
+const TABS={
+ emp:[["home","Сегодня",ico.home],["fish","Рыба",ico.fish],["water","Вода",ico.water],["feed","Корм",ico.feed],["chk","Уборка",ico.chk]],
+ adm:[["dash","Сводка",ico.dash],["sys","Система",ico.sys],["econ","Экономика",ico.econ],["staff","Персонал",ico.staff]],
+};
+function go(t){S.tab=t;render();window.scrollTo({top:0,behavior:"smooth"})}
+function setRole(r){
+  S.role=r;
+  if(r==="adm"&&!S.auth){S.pin="";render();window.scrollTo(0,0);return}
+  S.tab=r==="emp"?"home":"dash";render();window.scrollTo(0,0);
+}
+function pinPress(d){
+  if(S.pin.length>=4)return;
+  S.pin+=d;
+  if(S.pin.length===4){
+    if(S.pin==="2163"){S.auth=true;S.pin="";S.tab="dash";toast("Доступ открыт")}
+    else{S.pin="";toast("Неверный код")}
+  }
+  render();
+}
+function pinDel(){S.pin=S.pin.slice(0,-1);render()}
+function lockAdmin(){S.auth=false;S.pin="";S.role="emp";S.tab="home";toast("Админ-панель заблокирована");render()}
+function vLock(){
+  return `<div class="page" style="padding-top:60px">
+    <div style="text-align:center">
+      <div class="lockicon">${'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>'}</div>
+      <div class="h1" style="font-size:25px;margin-top:16px">Админ-панель</div>
+      <div class="sub">Введите код доступа</div>
+      <div class="pindots">${[0,1,2,3].map(i=>`<i class="${S.pin.length>i?"f":""}"></i>`).join("")}</div>
+      <div class="keypad">
+        ${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="pinPress('${n}')">${n}</button>`).join("")}
+        <button class="ghostk" onclick="setRole('emp')">Назад</button>
+        <button onclick="pinPress('0')">0</button>
+        <button class="ghostk" onclick="pinDel()">⌫</button>
+      </div>
+    </div>
+  </div>`;
+}
+function render(){
+  $("rEmp").className=S.role==="emp"?"on":"";
+  $("rAdm").className=S.role==="adm"?"on":"";
+  if(S.role==="adm"&&!S.auth){
+    $("view").innerHTML=vLock();
+    $("tabbar").style.display="none";
+    return;
+  }
+  $("tabbar").style.display="flex";
+  const V={home:vHome,fish:vFish,water:vWater,feed:vFeed,chk:vChk,dash:vDash,sys:vSys,econ:vEcon,staff:vStaff};
+  $("view").innerHTML=(V[S.tab]||vHome)()+(S.role==="emp"?editSheet():"");
+  const al=alerts().filter(a=>a.lv==="red").length;
+  $("tabbar").innerHTML=TABS[S.role].map(([k,n,i])=>{
+    const badge=(S.role==="adm"&&k==="dash"&&al)?`<span class="badge">${al}</span>`:"";
+    return `<button class="tab ${S.tab===k?"on":""}" onclick="go('${k}')">${i}${badge}<span class="tl">${n}</span></button>`}).join("");
+}
+render();
+</script>
+</body>
+</html>
