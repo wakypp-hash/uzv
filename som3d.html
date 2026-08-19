@@ -215,7 +215,7 @@ const texSteel=tex((g,w,h)=>{
 
 const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.85,metalness:.04},o));
 const MAT={
-  concrete:M(0xffffff,{map:texConcrete,roughness:.96}),
+  concrete:M(0xffffff,{map:texConcrete,roughness:.96,side:THREE.DoubleSide}),
   wall :M(0xD8D2B6,{roughness:.9,side:THREE.DoubleSide}),
   wallT:M(0xC9CDD1,{roughness:.88,side:THREE.DoubleSide}),
   ceil :M(0xE4E4DE,{roughness:.9,side:THREE.DoubleSide}),
@@ -250,11 +250,11 @@ const cyl=(r,h,x,y,z,mat,g,meta,seg)=>{const m=new THREE.Mesh(new THREE.Cylinder
   const shp=new THREE.Shape([[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]]
     .map(p=>new THREE.Vector2(p[0],p[1])));
   const g=new THREE.ExtrudeGeometry(shp,{depth:0.14,bevelEnabled:false});
-  g.rotateX(-Math.PI/2);
+  g.rotateX(-Math.PI/2); g.scale(1,1,-1);           // экструзия зеркалит Z — возвращаем
   /* уклон: приподнимаем вершины пропорционально расстоянию от трапа (до +0.16) */
   const pos=g.attributes.position;
   for(let i=0;i<pos.count;i++){
-    const x=pos.getX(i),z=-pos.getZ(i),y=pos.getY(i);
+    const x=pos.getX(i),z=pos.getZ(i),y=pos.getY(i);
     if(y>-0.01){
       const dist=Math.hypot(x-TRAP.x,z-TRAP.z);
       pos.setY(i,y+Math.min(dist/10.5,1)*0.16);
@@ -281,10 +281,9 @@ function corr(len,hgt,mat,pitch=0.115,amp=0.02){
   let m;
   m=corr(B.w,B.h,MAT.wall); m.position.set(0,0,-0.02); add(m,G.walls);                      // север
   m=corr(NW,B.h,MAT.wall); m.rotation.y=Math.PI; m.position.set(NW,0,B.d+0.02); add(m,G.walls); // юг (узкий)
-  m=corr(B.d,B.h,MAT.wall); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,B.d); add(m,G.walls); // запад... с проёмом:
-  G.walls.remove(m);
-  m=corr(DOOR.z0,B.h,MAT.wall); m.rotation.y=Math.PI/2; m.position.set(0.02,0,0); add(m,G.walls);
-  const m2=corr(B.d-DOOR.z1,B.h,MAT.wall); m2.rotation.y=Math.PI/2; m2.position.set(0.02,0,DOOR.z1); add(m2,G.walls);
+  // запад — два куска, между ними открытый проём входа
+  m=corr(DOOR.z0,B.h,MAT.wall); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,DOOR.z0); add(m,G.walls);
+  const m2=corr(B.d-DOOR.z1,B.h,MAT.wall); m2.rotation.y=-Math.PI/2; m2.position.set(-0.02,0,B.d); add(m2,G.walls);
   box(0.06,B.h-2.1,DOOR.z1-DOOR.z0,0.03,2.1+(B.h-2.1)/2,(DOOR.z0+DOOR.z1)/2,MAT.wall,G.walls,
     {t:'Вход',d:'Открытый проём ~1,0 × 2,1 м, без двери. Подающая ⌀160 переваливает над ним и спускается под 45°.'});
   // восток: полная часть до ZSTEP, дальше стена узкой части (x=NW) впритык к ⌀3,3
@@ -295,7 +294,8 @@ function corr(len,hgt,mat,pitch=0.115,amp=0.02){
   // кровля Г-формы
   const shp=new THREE.Shape([[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]]
     .map(p=>new THREE.Vector2(p[0],p[1])));
-  const rg=new THREE.ExtrudeGeometry(shp,{depth:0.05,bevelEnabled:false}); rg.rotateX(-Math.PI/2);
+  const rg=new THREE.ExtrudeGeometry(shp,{depth:0.05,bevelEnabled:false});
+  rg.rotateX(-Math.PI/2); rg.scale(1,1,-1); rg.computeVertexNormals();
   const roof=new THREE.Mesh(rg,MAT.ceil); roof.position.y=B.h+0.05; add(roof,G.walls);
 }
 
@@ -303,12 +303,14 @@ function corr(len,hgt,mat,pitch=0.115,amp=0.02){
 let slabs=[],osbTops=[],legs=[];
 function platform(poly){
   const sh=new THREE.Shape(poly.map(p=>new THREE.Vector2(p[0],p[1])));
-  const g=new THREE.ExtrudeGeometry(sh,{depth:1,bevelEnabled:false}); g.rotateX(-Math.PI/2);
+  const g=new THREE.ExtrudeGeometry(sh,{depth:1,bevelEnabled:false});
+  g.rotateX(-Math.PI/2); g.scale(1,1,-1); g.computeVertexNormals();
   const s=new THREE.Mesh(g,MAT.platS);
   add(s,G.deck,{t:'Платформа, металлокаркас',
     d:'Сварной каркас из профтрубы, не окрашен. Фактическая высота ~1,0 м (LiDAR), пляшет вместе с уклоном пола.<br>Сверху настил из листов ОСБ.'});
   slabs.push(s);
-  const tg=new THREE.ExtrudeGeometry(sh,{depth:0.04,bevelEnabled:false}); tg.rotateX(-Math.PI/2);
+  const tg=new THREE.ExtrudeGeometry(sh,{depth:0.04,bevelEnabled:false});
+  tg.rotateX(-Math.PI/2); tg.scale(1,1,-1); tg.computeVertexNormals();
   const t=new THREE.Mesh(tg,MAT.osb); add(t,G.deck); osbTops.push(t);
   // ножки по контуру
   poly.forEach(([x,z],i)=>{ if(i%2) return;
@@ -387,8 +389,8 @@ POOLS.forEach(pool);
 {
   const T=TECH,d=T.z1-T.z0,cz=T.z0+d/2;
   // западная стенка техпома с дверным проёмом (от z=7.4 до 8.2)
-  let m=corr(0.8,2.35,MAT.wallT); m.rotation.y=Math.PI/2; m.position.set(T.x0+0.02,0,T.z0+0.8); add(m,G.walls);
-  box(0.05,2.35-2.0,0.85,T.x0+0.02,2.0+(0.35)/2,T.z0+1.22,MAT.wallT,G.walls);
+  let m=corr(T.z1-7.40,2.35,MAT.wallT); m.rotation.y=-Math.PI/2; m.position.set(T.x0-0.02,0,T.z1); add(m,G.walls);
+  box(0.05,0.35,0.80,T.x0,2.17,7.00,MAT.wallT,G.walls);   // перемычка над проходом (z 6,6–7,4)
   // южная стенка техпома
   m=corr(T.x1-T.x0,2.35,MAT.wallT); m.rotation.y=Math.PI; m.position.set(T.x1,0,T.z1+0.01); add(m,G.walls,
     {t:'Техническое помещение',d:'Перегородки — светло-серый профлист. Проём для прохода со стороны цеха.'});
