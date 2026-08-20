@@ -5,78 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>УЗВ «Сомовник» — Сызрань</title>
 <style>
-  :root{
-    --bg:#10161B; --panel:rgba(22,30,37,.95); --line:#2A3742;
-    --ink:#E8EFF4; --dim:#8494A0; --acc:#F26522;
-    --ok:#3FB27F; --warn:#DFA32E; --bad:#E05A4A;
-  }
-  [data-theme="light"]{
-    --bg:#E9ECEF; --panel:rgba(255,255,255,.95); --line:#D3DAE0;
-    --ink:#1C262E; --dim:#5D6C77;
-  }
+  :root{--bg:#10161B;--panel:rgba(22,30,37,.95);--line:#2A3742;--ink:#E8EFF4;--dim:#8494A0;
+        --acc:#F26522;--ok:#3FB27F;--warn:#DFA32E;--bad:#E05A4A}
+  [data-theme="light"]{--bg:#E9ECEF;--panel:rgba(255,255,255,.95);--line:#D3DAE0;--ink:#1C262E;--dim:#5D6C77}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
-    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;
-    transition:background .3s}
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;transition:background .3s}
   canvas{display:block}
-  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-
   #hud{position:fixed;top:0;left:0;padding:14px 16px;pointer-events:none;z-index:5}
   #hud h1{margin:0;font-size:14px;font-weight:600}
-  #hud .sub{margin-top:2px;font-size:10px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
-
+  #hud .sub{margin-top:2px;font-size:10px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;
+    font-family:ui-monospace,Menlo,monospace}
   #topbtns{position:fixed;top:12px;right:12px;z-index:8;display:flex;gap:8px}
   .fab{width:40px;height:40px;border-radius:10px;background:var(--panel);border:1px solid var(--line);
-    color:var(--ink);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;
-    backdrop-filter:blur(12px)}
+    color:var(--ink);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
   .fab:active{transform:scale(.94)}
-
-  #panel{position:fixed;top:60px;right:12px;width:262px;background:var(--panel);
-    backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:12px;
-    padding:14px;z-index:7;max-height:calc(100vh - 76px);overflow:auto;
-    transition:transform .25s,opacity .25s}
+  #panel{position:fixed;top:60px;right:12px;width:268px;background:var(--panel);backdrop-filter:blur(14px);
+    border:1px solid var(--line);border-radius:12px;padding:14px;z-index:7;
+    max-height:calc(100vh - 76px);overflow:auto;transition:transform .25s,opacity .25s}
   #panel.hid{transform:translateX(115%);opacity:0;pointer-events:none}
   #panel h2{margin:0 0 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:600}
   .sec+.sec{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
   label.row{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:4px 0;cursor:pointer;user-select:none}
   label.row input{accent-color:var(--acc);width:15px;height:15px;flex:none;cursor:pointer}
   input[type=range]{width:100%;accent-color:var(--acc);margin:6px 0 2px}
-  .val{float:right;color:var(--dim);font-weight:400}
+  .val{float:right;color:var(--dim);font-weight:400;font-family:ui-monospace,monospace}
   .btn{display:block;width:100%;margin-top:6px;padding:8px;background:transparent;border:1px solid var(--line);
     color:var(--ink);border-radius:7px;font-size:11.5px;cursor:pointer;font-family:inherit}
   .btn:hover{border-color:var(--acc)}
   table.calc{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
   table.calc td{padding:2.5px 0}
   table.calc td:last-child{text-align:right;font-family:ui-monospace,monospace}
-  #verdict{margin-top:9px;padding:8px 10px;border-radius:7px;font-size:11px;line-height:1.5;
-    border-left:3px solid var(--warn)}
+  #verdict{margin-top:9px;padding:8px 10px;border-radius:7px;font-size:11px;line-height:1.5;border-left:3px solid var(--warn)}
   #verdict b{display:block;margin-bottom:2px;font-size:11.5px}
-  #eng{display:none}
-  #eng.open{display:block}
-
-  #info{position:fixed;left:12px;bottom:12px;z-index:6;background:var(--panel);
-    backdrop-filter:blur(14px);border:1px solid var(--line);border-left:3px solid var(--acc);
-    border-radius:9px;padding:11px 13px;max-width:min(330px,calc(100vw - 24px));display:none}
+  #eng{display:none}#eng.open{display:block}
+  #info{position:fixed;left:12px;bottom:12px;z-index:6;background:var(--panel);backdrop-filter:blur(14px);
+    border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:9px;padding:11px 13px;
+    max-width:min(330px,calc(100vw - 24px));display:none}
   #info .t{font-size:12.5px;font-weight:600;margin-bottom:4px}
   #info .d{font-size:11.5px;color:var(--dim);line-height:1.55}
   #info .x{position:absolute;top:6px;right:9px;cursor:pointer;color:var(--dim);font-size:15px}
-
   @media(max-width:760px){
-    #panel{top:auto;bottom:0;left:0;right:0;width:100%;max-height:56vh;border-radius:16px 16px 0 0;
+    #panel{top:auto;bottom:0;left:0;right:0;width:100%;max-height:58vh;border-radius:16px 16px 0 0;
       padding-bottom:calc(14px + env(safe-area-inset-bottom))}
     #panel.hid{transform:translateY(110%)}
-    #topbtns{top:10px;right:10px}
-    #hud{padding:10px 12px}
-    #info{bottom:auto;top:60px;left:10px}
+    #hud{padding:10px 12px}#info{bottom:auto;top:60px;left:10px}
   }
 </style>
 </head>
 <body>
-<div id="hud">
-  <h1>УЗВ «Сомовник»</h1>
-  <div class="sub mono">Сызрань · 7,9 × 11,7 × 3,15 м</div>
-</div>
-
+<div id="hud"><h1>УЗВ «Сомовник»</h1><div class="sub">Сызрань · 7,9 × 11,7 × 3,15 м</div></div>
 <div id="topbtns">
   <button class="fab" id="bTheme" title="Тема">◐</button>
   <button class="fab" id="bMenu" title="Меню">☰</button>
@@ -84,20 +62,29 @@
 
 <div id="panel">
   <div class="sec">
-    <h2>Показать</h2>
-    <label class="row"><input type="checkbox" id="cWalls" checked> Стены и кровля</label>
-    <label class="row"><input type="checkbox" id="cWater" checked> Вода</label>
-    <label class="row"><input type="checkbox" id="cDrain" checked> Сливные трубы</label>
-    <label class="row"><input type="checkbox" id="cFeed" checked> Подающие ⌀160</label>
-    <label class="row"><input type="checkbox" id="cFlow" checked> Движение потока</label>
+    <h2>Объекты</h2>
+    <label class="row"><input type="checkbox" id="cWalls" checked> Стены</label>
+    <label class="row"><input type="checkbox" id="cPlat" checked> Платформа</label>
     <label class="row"><input type="checkbox" id="cDeck" checked> Настил ОСБ</label>
+    <label class="row"><input type="checkbox" id="cPools" checked> Бассейны</label>
+    <label class="row"><input type="checkbox" id="cBio" checked> Биофильтр</label>
+    <label class="row"><input type="checkbox" id="cWater" checked> Вода</label>
+    <label class="row"><input type="checkbox" id="cDrain" checked> Слив</label>
+    <label class="row"><input type="checkbox" id="cFeed" checked> Подача ⌀160</label>
+    <label class="row"><input type="checkbox" id="cFlow" checked> Движение потока</label>
+    <label class="row"><input type="checkbox" id="cDims"> Размеры</label>
     <label class="row"><input type="checkbox" id="cLabels"> Подписи</label>
+  </div>
+
+  <div class="sec">
+    <h2>Разрез по высоте <span class="val" id="secv">3,15 м</span></h2>
+    <input type="range" id="sec" min="0.3" max="3.15" step="0.05" value="3.15">
   </div>
 
   <div class="sec">
     <button class="btn" id="bEng">Инженерный режим: платформа и гидравлика</button>
     <div id="eng">
-      <h2 style="margin-top:11px">Высота платформы <span class="val mono" id="phv">1,00 м</span></h2>
+      <h2 style="margin-top:11px">Высота платформы <span class="val" id="phv">1,00 м</span></h2>
       <input type="range" id="ph" min="0" max="1.2" step="0.05" value="1.0">
       <table class="calc">
         <tr><td>Зеркало воды</td><td id="r1">—</td></tr>
@@ -117,31 +104,35 @@
 
 <script src="three.min.js"></script>
 <script>
-/* =========================================================================
-   УЗВ «Сомовник». Геометрия: чертёж uzv.svg + LiDAR 19.08.2026.
-   Скан подтвердил: платформа ~1,0 м; чаши: ⌀4 = 1,2 м, прочие ~1,05 м,
-   ⌀1,5 = 0,8 м на подставке +0,2 м; кромки всех в одной плоскости ~2,0-2,2 м.
+/* ============================================================================
+   УЗВ «Сомовник» — Сызрань.  Геометрия: чертёж uzv_2.svg (283,465 ед/м),
+   высоты: LiDAR 19.08.2026.  X 0..7,9 · Z 0..11,7 · Y вверх 0..3,15
    Здание Г-образное: ширина 7,9 до z=8,33, дальше 5,9.
-   ========================================================================= */
+   ============================================================================ */
 const B={w:7.9,d:11.7,h:3.15}, NW=5.9, ZSTEP=8.33;
 const CX=B.w/2, CZ=B.d/2;
 
+const PLAT_A=[[0.00,0.00],[4.15,0.00],[4.15,5.71],[2.71,5.71],[2.71,6.03],[1.90,6.85],[0.81,6.85],[0.00,6.11]];
+const PLAT_B=[[0.00,9.50],[2.00,9.50],[2.80,8.30],[5.90,8.30],[5.90,11.65],[0.00,11.65]];
+const PAD_26=[[0.00,4.21],[2.70,4.21],[2.71,6.03],[1.90,6.85],[0.81,6.85],[0.00,6.11]];
+const PAD_15=[[2.71,4.21],[4.15,4.21],[4.15,5.71],[2.71,5.71]];
+const PAD_22=[[0.00,9.50],[2.37,9.50],[2.37,11.65],[0.00,11.65]];
+
 const POOLS=[
- {x:2.07,z:2.00, d:4.0, hp:1.20, w:0.88, v:11.0,  ped:0,    fp:[0.90,2.00]},
+ {x:2.07,z:2.00, d:4.0, hp:1.20, w:0.88, v:11.0,  ped:0.00, fp:[0.90,2.00]},
  {x:1.35,z:5.51, d:2.6, hp:1.05, w:0.85, v:4.511, ped:0.15, fp:[1.35,6.10]},
  {x:3.38,z:4.97, d:1.5, hp:0.80, w:0.65, v:1.148, ped:0.40, fp:[3.38,5.60]},
- {x:4.34,z:10.04,d:3.3, hp:1.05, w:0.85, v:7.266, ped:0.15, fp:[4.34,11.25]},
+ {x:4.34,z:10.04,d:3.3, hp:1.20, w:0.85, v:7.266, ped:0.00, fp:[4.34,11.25]},
  {x:1.17,z:10.61,d:2.2, hp:1.05, w:0.85, v:3.229, ped:0.15, fp:[1.17,11.25]}
 ];
-/* платформы: угловатые, срезы 45°, с выступом за бассейны */
-const PLAT_A=[[0.25,0.05],[4.40,0.05],[4.40,3.30],[4.15,3.55],[4.15,5.60],[3.45,6.30],[2.30,6.30],[1.60,7.00],[0.85,7.00],[0.25,6.40]];
-const PLAT_B=[[0.25,9.20],[1.55,9.20],[2.45,8.30],[5.85,8.30],[5.85,11.65],[0.25,11.65]];
 const BIO={x0:5.90,z0:0.00,x1:7.90,z1:6.60,wallH:2.0};
 const DRUM={x:5.10,z:0.95,w:1.00,dz:1.40,legs:1.30,bodyH:1.15};
 const OXY={x:5.45,z:8.20,d:0.80,legs:0.45,body:1.25};
 const TECH={x0:5.90,z0:6.60,x1:7.90,z1:8.33};
-const DOOR={z0:8.45,z1:9.45};
-const TRAP={x:0.55,z:6.15};
+const DOOR={z0:8.00,z1:9.50};
+const TDOOR={z0:6.67,z1:7.67};
+const TRAP={x:0.45,z:5.87};
+const OVER={z:6.70,y:0.50};
 let PLAT=1.00;
 
 /* ---------- сцена ---------- */
@@ -152,7 +143,9 @@ const renderer=new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.localClippingEnabled=true;
 document.body.appendChild(renderer.domElement);
+const clip=new THREE.Plane(new THREE.Vector3(0,-1,0),3.15);
 
 scene.add(new THREE.HemisphereLight(0xC8DEEE,0x232B31,0.85));
 const key=new THREE.DirectionalLight(0xFFF4E4,1.0);
@@ -161,244 +154,231 @@ Object.assign(key.shadow.camera,{left:-12,right:12,top:13,bottom:-13,near:1,far:
 scene.add(key);
 const fill=new THREE.DirectionalLight(0x9CBEDD,0.3); fill.position.set(-7,5,-7); scene.add(fill);
 [[2,2],[2,6.5],[2,10.2],[6.4,3],[6.4,7.4]].forEach(([x,z])=>{
-  const l=new THREE.PointLight(0xD6EAFF,0.28,7); l.position.set(x,2.95,z); scene.add(l);});
+  const l=new THREE.PointLight(0xD6EAFF,0.26,7); l.position.set(x,2.95,z); scene.add(l);});
 
 function setTheme(dark){
-  DARK=dark;
-  document.documentElement.dataset.theme=dark?'':'light';
+  DARK=dark; document.documentElement.dataset.theme=dark?'':'light';
   scene.background=new THREE.Color(dark?0x10161B:0xCBD4DB);
-  scene.fog=new THREE.Fog(dark?0x10161B:0xCBD4DB,30,72);
+  scene.fog=new THREE.Fog(dark?0x10161B:0xCBD4DB,32,78);
+  if(grid) grid.material.opacity=dark?0.16:0.26;
 }
-setTheme(true);
 
-/* ---------- процедурные текстуры ---------- */
-function tex(draw,w=256,h=256,rx=1,ry=1){
-  const c=document.createElement('canvas');c.width=w;c.height=h;
-  draw(c.getContext('2d'),w,h);
-  const t=new THREE.CanvasTexture(c);
-  t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);
-  return t;
+/* ---------- текстуры ---------- */
+function tex(draw,w,h,rx,ry){
+  const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);return t;
 }
 const texConcrete=tex((g,w,h)=>{
-  g.fillStyle='#909088';g.fillRect(0,0,w,h);
-  for(let i=0;i<2600;i++){const a=Math.random()*.14;
-    g.fillStyle=`rgba(${Math.random()<.5?40:230},${Math.random()<.5?40:230},${Math.random()<.5?35:225},${a})`;
+  g.fillStyle='#918F88';g.fillRect(0,0,w,h);
+  for(let i=0;i<2600;i++){const a=Math.random()*.13;
+    g.fillStyle=`rgba(${Math.random()<.5?45:230},${Math.random()<.5?45:230},${Math.random()<.5?40:225},${a})`;
     g.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*2,1+Math.random()*2);}
-  g.strokeStyle='rgba(60,60,55,.25)';g.lineWidth=1;
+  g.strokeStyle='rgba(62,60,55,.22)';g.lineWidth=1;
   for(let i=0;i<7;i++){g.beginPath();let x=Math.random()*w,y=Math.random()*h;g.moveTo(x,y);
     for(let j=0;j<5;j++){x+=(Math.random()-.5)*70;y+=(Math.random()-.5)*70;g.lineTo(x,y);}g.stroke();}
 },256,256,5,7);
 const texOSB=tex((g,w,h)=>{
   g.fillStyle='#DCC9A6';g.fillRect(0,0,w,h);
-  for(let i=0;i<900;i++){
-    const l=56+Math.random()*24;
+  for(let i=0;i<900;i++){const l=56+Math.random()*24;
     g.fillStyle=`hsla(${22+Math.random()*13},${24+Math.random()*16}%,${l}%,.62)`;
     g.save();g.translate(Math.random()*w,Math.random()*h);g.rotate(Math.random()*Math.PI);
     g.fillRect(0,0,10+Math.random()*26,2.5+Math.random()*5);g.restore();}
 },256,256,3,4);
 const texSteel=tex((g,w,h)=>{
   const gr=g.createLinearGradient(0,0,w,0);
-  gr.addColorStop(0,'#B7C2CB');gr.addColorStop(.22,'#E9F0F5');gr.addColorStop(.42,'#9AA6B0');
-  gr.addColorStop(.6,'#DFE7EC');gr.addColorStop(.8,'#A6B2BC');gr.addColorStop(1,'#CBD5DD');
-  g.fillStyle=gr;g.fillRect(0,0,w,h);
-  g.globalAlpha=.12;
-  for(let i=0;i<60;i++){g.fillStyle=Math.random()<.5?'#fff':'#7B8791';
-    g.fillRect(Math.random()*w,0,1,h);}
+  gr.addColorStop(0,'#B9C4CD');gr.addColorStop(.22,'#EDF3F7');gr.addColorStop(.42,'#9CA8B2');
+  gr.addColorStop(.6,'#E2EAEF');gr.addColorStop(.8,'#A8B4BE');gr.addColorStop(1,'#CDD7DF');
+  g.fillStyle=gr;g.fillRect(0,0,w,h);g.globalAlpha=.12;
+  for(let i=0;i<60;i++){g.fillStyle=Math.random()<.5?'#fff':'#7D8993';g.fillRect(Math.random()*w,0,1,h);}
 },256,64,2,1);
 
-const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.85,metalness:.04},o));
+const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign(
+  {color:c,roughness:.85,metalness:.04,clippingPlanes:[clip],clipShadows:true},o));
 const MAT={
   concrete:M(0xffffff,{map:texConcrete,roughness:.96,side:THREE.DoubleSide}),
   wall :M(0xD8D2B6,{roughness:.9,side:THREE.DoubleSide}),
   wallT:M(0xC9CDD1,{roughness:.88,side:THREE.DoubleSide}),
-  ceil :M(0xE4E4DE,{roughness:.9,side:THREE.DoubleSide}),
   pool :M(0xCFC9BC,{roughness:.5,side:THREE.DoubleSide}),
-  platS:M(0x3A3F45,{roughness:.55,metalness:.6}),
-  osb  :M(0xffffff,{map:texOSB,roughness:.92}),
+  osb  :M(0xffffff,{map:texOSB,roughness:.92,side:THREE.DoubleSide}),
   bio  :M(0x1B7FD4,{roughness:.5,metalness:.1,side:THREE.DoubleSide}),
   drum :M(0x1565C0,{roughness:.42,metalness:.22}),
   steel:M(0xDDE3E8,{map:texSteel,roughness:.22,metalness:.35}),
   frame:M(0x353C43,{roughness:.6,metalness:.5}),
   equip:M(0x8C97A0,{roughness:.5,metalness:.35}),
-  panel:M(0x2C363E,{roughness:.7}),
+  white:M(0xF2F4F6,{roughness:.55}),
+  purple:M(0x7B4FBF,{roughness:.45,metalness:.2}),
+  mesh :M(0x59636C,{roughness:.7,metalness:.4,transparent:true,opacity:.45,side:THREE.DoubleSide}),
+  black:M(0x14181B,{roughness:.9}),
   drain:M(0xC85A2E,{roughness:.55}),
   feed :M(0xE8763A,{roughness:.5}),
-  media:M(0x14508F,{roughness:.98}),
-  water:new THREE.MeshPhysicalMaterial({color:0x2FA9C4,roughness:.13,transparent:true,opacity:.55,transmission:.35})
+  water:new THREE.MeshPhysicalMaterial({color:0x2FA9C4,roughness:.13,transparent:true,
+         opacity:.55,transmission:.35,clippingPlanes:[clip]})
 };
 
 const G={};
-['shell','walls','deck','deckTop','pools','water','drain','feed','flow','labels','equip','extra','conn']
+['shell','walls','plat','deckTop','pools','water','bio','drain','feed','flow','labels','dims','equip','extra','conn']
  .forEach(k=>{G[k]=new THREE.Group();scene.add(G[k]);});
 const picks=[];
 const add=(m,g,meta)=>{m.castShadow=true;m.receiveShadow=true;(g||G.shell).add(m);
   if(meta){m.userData=meta;picks.push(m);}return m;};
 const box=(w,h,d,x,y,z,mat,g,meta)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
   m.position.set(x,y,z);return add(m,g,meta);};
-const cyl=(r,h,x,y,z,mat,g,meta,seg)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg||28),mat);
+const cyl=(r,h,x,y,z,mat,g,meta,seg)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg||26),mat);
   m.position.set(x,y,z);return add(m,g,meta);};
+const shape2geo=(poly,depth)=>{
+  const sh=new THREE.Shape(poly.map(p=>new THREE.Vector2(p[0],p[1])));
+  const g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false});
+  g.rotateX(-Math.PI/2);g.scale(1,1,-1);g.computeVertexNormals();return g;
+};
 
-/* ---------- Г-образный пол с уклоном к трапу ---------- */
+/* ---------- пол с уклоном к трапу + сетка ---------- */
+const FLOORPOLY=[[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]];
+let grid=null;
 {
-  const shp=new THREE.Shape([[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]]
-    .map(p=>new THREE.Vector2(p[0],p[1])));
-  const g=new THREE.ExtrudeGeometry(shp,{depth:0.14,bevelEnabled:false});
-  g.rotateX(-Math.PI/2); g.scale(1,1,-1);           // экструзия зеркалит Z — возвращаем
-  /* уклон: приподнимаем вершины пропорционально расстоянию от трапа (до +0.16) */
+  const g=shape2geo(FLOORPOLY,0.14);
   const pos=g.attributes.position;
   for(let i=0;i<pos.count;i++){
     const x=pos.getX(i),z=pos.getZ(i),y=pos.getY(i);
-    if(y>-0.01){
-      const dist=Math.hypot(x-TRAP.x,z-TRAP.z);
-      pos.setY(i,y+Math.min(dist/10.5,1)*0.16);
-    }
+    if(y>-0.01) pos.setY(i,y+Math.min(Math.hypot(x-TRAP.x,z-TRAP.z)/10.5,1)*0.16);
   }
   g.computeVertexNormals();
   const m=new THREE.Mesh(g,MAT.concrete); m.position.y=-0.14;
-  add(m,G.shell,{t:'Пол цеха',d:'Бетон, выведен с уклоном к сливному трапу под платформой. Перепад 10–20 см по скану.'});
-  cyl(0.12,0.02,TRAP.x,0.015,TRAP.z,MAT.frame,G.shell,
-    {t:'Сливной трап',d:'Нижняя точка пола. Сюда сведён уклон всей плиты.'} ,16);
+  add(m,G.shell,{t:'Пол цеха',d:'Бетон, плавно понижается к трапу. Перепад около 16 см по скану.'});
+  grid=new THREE.GridHelper(24,48,0x6FA6C8,0x4E6B7D);
+  grid.material.transparent=true;grid.material.opacity=0.16;grid.position.set(CX,0.006,CZ);
+  scene.add(grid);
+  cyl(0.08,0.02,TRAP.x,0.02,TRAP.z,MAT.black,G.shell,
+    {t:'Трап мытья полов ⌀160',d:'Уходит в выгребную яму. Только для мытья полов и мелких нужд, к системе не относится.'},22);
 }
+setTheme(true);
 
-/* ---------- профлист ---------- */
-function corr(len,hgt,mat,pitch=0.115,amp=0.02){
+/* ---------- профлист: рифление внутрь ---------- */
+function corr(len,hgt,mat,inward,pitch,amp){
+  pitch=pitch||0.115; amp=(amp||0.022)*(inward?-1:1);
   const s=new THREE.Shape(); s.moveTo(0,0);
   for(let x=0;x<len;x+=pitch){
     s.lineTo(Math.min(x+pitch*.3,len),amp); s.lineTo(Math.min(x+pitch*.55,len),amp);
-    s.lineTo(Math.min(x+pitch*.85,len),0); s.lineTo(Math.min(x+pitch,len),0);}
-  s.lineTo(len,-0.012); s.lineTo(0,-0.012);
+    s.lineTo(Math.min(x+pitch*.85,len),0);  s.lineTo(Math.min(x+pitch,len),0);}
+  s.lineTo(len,inward?0.012:-0.012); s.lineTo(0,inward?0.012:-0.012);
   const g=new THREE.ExtrudeGeometry(s,{depth:hgt,bevelEnabled:false}); g.rotateX(-Math.PI/2);
   return new THREE.Mesh(g,mat);
 }
 {
   let m;
-  m=corr(B.w,B.h,MAT.wall); m.position.set(0,0,-0.02); add(m,G.walls);                      // север
-  m=corr(NW,B.h,MAT.wall); m.rotation.y=Math.PI; m.position.set(NW,0,B.d+0.02); add(m,G.walls); // юг (узкий)
-  // запад — два куска, между ними открытый проём входа (нумеруем от z=0)
-  m=corr(DOOR.z0,B.h,MAT.wall); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,0); add(m,G.walls);
-  const m2=corr(B.d-DOOR.z1,B.h,MAT.wall); m2.rotation.y=-Math.PI/2; m2.position.set(-0.02,0,DOOR.z1); add(m2,G.walls);
+  m=corr(B.w,B.h,MAT.wall,true);  m.position.set(0,0,-0.02); add(m,G.walls);
+  m=corr(NW,B.h,MAT.wall,true);   m.rotation.y=Math.PI;  m.position.set(NW,0,B.d+0.02); add(m,G.walls);
+  m=corr(DOOR.z0,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,0); add(m,G.walls);
+  m=corr(B.d-DOOR.z1,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,DOOR.z1); add(m,G.walls);
   box(0.06,B.h-2.1,DOOR.z1-DOOR.z0,0.03,2.1+(B.h-2.1)/2,(DOOR.z0+DOOR.z1)/2,MAT.wall,G.walls,
-    {t:'Вход',d:'Открытый проём ~1,0 × 2,1 м, без двери. Подающая ⌀160 переваливает над ним и спускается под 45°.'});
-  // восток: широкая часть до уступа, дальше стена узкой части впритык к ⌀3,3
-  m=corr(ZSTEP,B.h,MAT.wall); m.rotation.y=-Math.PI/2; m.position.set(B.w+0.02,0,0); add(m,G.walls);
-  m=corr(B.d-ZSTEP,B.h,MAT.wall); m.rotation.y=-Math.PI/2; m.position.set(NW+0.02,0,ZSTEP); add(m,G.walls);
-  // торец уступа
-  m=corr(B.w-NW,B.h,MAT.wall); m.rotation.y=Math.PI; m.position.set(B.w,0,ZSTEP+0.02); add(m,G.walls);
+    {t:'Главный вход 1,5 м',d:'Открытый проём от торца малой платформы. Подающая ⌀160 переваливает точно над ним на отметке 3,05 м.'});
+  m=corr(ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(B.w+0.02,0,0); add(m,G.walls);
+  m=corr(B.d-ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(NW+0.02,0,ZSTEP); add(m,G.walls);
+  m=corr(B.w-NW,B.h,MAT.wall,true); m.rotation.y=Math.PI; m.position.set(B.w,0,ZSTEP+0.02); add(m,G.walls);
+  box(0.16,0.62,0.46,0.10,1.72,7.10,MAT.white,G.equip,
+    {t:'Щит управления автоматикой',d:'Слева от главного входа. Температуры воды и цеха, поток в насосах, уровень воды.'});
+  box(0.16,0.56,0.42,0.10,1.72,7.62,MAT.white,G.equip,
+    {t:'Щиток питания 20 кВт',d:'Постоянная нагрузка: воздуходувка 4,3 кВт, насосы 1,2 кВт, озонатор 300 Вт.'});
 }
 
-/* ---------- платформа 1,0 м: тёмный металл + ОСБ, ножки ---------- */
-let frames=[],deckTops=[],legs=[];
-function platform(poly){
-  const BEAM=0.11, T=0.05, STEP=0.40;
-  // окантовка по периметру — толстые балки как ножки
+/* ---------- платформа ---------- */
+let frames=[],deckTops=[],legs=[],pads=[];
+function frameOf(poly,tag){
+  const BEAM=0.11,T=0.05,STEP=0.40;
   for(let i=0;i<poly.length;i++){
     const a=poly[i],b=poly[(i+1)%poly.length];
     const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);
     const m=new THREE.Mesh(new THREE.BoxGeometry(len,BEAM,BEAM),MAT.frame);
-    m.position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);
-    m.rotation.y=-Math.atan2(dz,dx);
-    add(m,G.deck,i?null:{t:'Каркас платформы',
-      d:'Окантовка по периметру и решётка из профтрубы с ячейкой 40 см.<br>Сверху — листы ОСБ (снимаются галочкой «Настил ОСБ»).'});
+    m.position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2); m.rotation.y=-Math.atan2(dz,dx);
+    add(m,G.plat,(i||tag!=='A')?null:{t:'Платформа',
+      d:'Сварной каркас из профтрубы, ячейка 40 см, окантовка по периметру. Сверху листы ОСБ.<br>Розовые зоны чертежа — это та же платформа, только выше.'});
     frames.push({m,off:-BEAM/2});
   }
-  // решётка 40 см внутри контура
   const xs=poly.map(p=>p[0]),zs=poly.map(p=>p[1]);
-  const cut=(fixed,axis)=>{
-    const r=[];
-    for(let i=0;i<poly.length;i++){
-      const a=poly[i],b=poly[(i+1)%poly.length];
-      const p0=axis?a[1]:a[0], p1=axis?b[1]:b[0];
-      if((p0-fixed)*(p1-fixed)<0){
-        const t=(fixed-p0)/(p1-p0);
-        r.push(axis? a[0]+t*(b[0]-a[0]) : a[1]+t*(b[1]-a[1]));
-      }
-    }
-    return r.sort((u,v)=>u-v);
-  };
-  for(let x=Math.min(...xs)+STEP;x<Math.max(...xs);x+=STEP){
-    const c=cut(x,0);
-    for(let i=0;i+1<c.length;i+=2){
-      const L=c[i+1]-c[i]; if(L<0.15)continue;
+  const cut=(f,ax)=>{const r=[];
+    for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length];
+      const p0=ax?a[1]:a[0],p1=ax?b[1]:b[0];
+      if((p0-f)*(p1-f)<0){const t=(f-p0)/(p1-p0);r.push(ax?a[0]+t*(b[0]-a[0]):a[1]+t*(b[1]-a[1]));}}
+    return r.sort((u,v)=>u-v);};
+  for(let x=Math.min(...xs)+STEP;x<Math.max(...xs);x+=STEP){const c=cut(x,0);
+    for(let i=0;i+1<c.length;i+=2){const L=c[i+1]-c[i];if(L<0.15)continue;
       const m=new THREE.Mesh(new THREE.BoxGeometry(T,T,L),MAT.frame);
-      m.position.set(x,0,(c[i]+c[i+1])/2); add(m,G.deck); frames.push({m,off:-0.13});
-    }
-  }
-  for(let z=Math.min(...zs)+STEP;z<Math.max(...zs);z+=STEP){
-    const c=cut(z,1);
-    for(let i=0;i+1<c.length;i+=2){
-      const L=c[i+1]-c[i]; if(L<0.15)continue;
+      m.position.set(x,0,(c[i]+c[i+1])/2);add(m,G.plat);frames.push({m,off:-0.13});}}
+  for(let z=Math.min(...zs)+STEP;z<Math.max(...zs);z+=STEP){const c=cut(z,1);
+    for(let i=0;i+1<c.length;i+=2){const L=c[i+1]-c[i];if(L<0.15)continue;
       const m=new THREE.Mesh(new THREE.BoxGeometry(L,T,T),MAT.frame);
-      m.position.set((c[i]+c[i+1])/2,0,z); add(m,G.deck); frames.push({m,off:-0.13});
-    }
-  }
-  // настил ОСБ
-  const sh=new THREE.Shape(poly.map(p=>new THREE.Vector2(p[0],p[1])));
-  const tg=new THREE.ExtrudeGeometry(sh,{depth:0.04,bevelEnabled:false});
-  tg.rotateX(-Math.PI/2); tg.scale(1,1,-1); tg.computeVertexNormals();
-  const t=new THREE.Mesh(tg,MAT.osb); add(t,G.deckTop); deckTops.push(t);
-  // ножки
-  poly.forEach(([x,z],i)=>{
-    const l=new THREE.Mesh(new THREE.BoxGeometry(0.10,1,0.10),MAT.frame);
-    l.position.set(x,0,z); add(l,G.deck); legs.push(l);});
+      m.position.set((c[i]+c[i+1])/2,0,z);add(m,G.plat);frames.push({m,off:-0.13});}}
+  const t=new THREE.Mesh(shape2geo(poly,0.04),MAT.osb); add(t,G.deckTop); deckTops.push({m:t,up:0});
+  poly.forEach(([x,z])=>{const l=new THREE.Mesh(new THREE.BoxGeometry(0.10,1,0.10),MAT.frame);
+    l.position.set(x,0,z);add(l,G.plat);legs.push(l);});
 }
-platform(PLAT_A); platform(PLAT_B);
+frameOf(PLAT_A,'A'); frameOf(PLAT_B,'B');
+function padOf(poly,up){
+  for(let i=0;i<poly.length;i++){
+    const a=poly[i],b=poly[(i+1)%poly.length];
+    const len=Math.hypot(b[0]-a[0],b[1]-a[1]);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(len,0.09,0.09),MAT.frame);
+    m.position.set((a[0]+b[0])/2,0,(a[1]+b[1])/2);
+    m.rotation.y=-Math.atan2(b[1]-a[1],b[0]-a[0]);
+    add(m,G.plat); pads.push({m,up:up,off:-0.045});
+    const l=new THREE.Mesh(new THREE.BoxGeometry(0.07,1,0.07),MAT.frame);
+    l.position.set(a[0],0,a[1]); add(l,G.plat); pads.push({m:l,up:up,leg:true});
+  }
+  const t=new THREE.Mesh(shape2geo(poly,0.04),MAT.osb); add(t,G.deckTop); deckTops.push({m:t,up:up});
+}
+padOf(PAD_26,0.15); padOf(PAD_15,0.40); padOf(PAD_22,0.15);
 
 /* ---------- бассейны ---------- */
-function pool(p){
+POOLS.forEach(p=>{
   const r=p.d/2,h=p.hp;
   const prof=[[0,0.012],[0.2,0.02],[r*0.55,0.06],[r-0.25,0.11],[r-0.09,0.24],
-              [r-0.03,0.45],[r-0.03,h],[r,h],[r,0.05],[r-0.03,0]]
-    .map(a=>new THREE.Vector2(a[0],a[1]));
+              [r-0.03,0.45],[r-0.03,h],[r,h],[r,0.05],[r-0.03,0]].map(a=>new THREE.Vector2(a[0],a[1]));
+  const grp=new THREE.Group(); grp.position.set(p.x,0,p.z); G.pools.add(grp);
   const m=new THREE.Mesh(new THREE.LatheGeometry(prof,64),MAT.pool);
-  m.position.set(p.x,0,p.z);
-  add(m,G.pools,{t:`Бассейн ⌀${p.d} м`,
-    d:`Стеклопластик, борт ${p.hp.toFixed(2)} м${p.ped?`, подставка +${(p.ped*100)|0} см`:''}.<br>
-       Объём ${p.v} м³ · вода ${p.w.toFixed(2)} м.<br>Кромки всех бассейнов сведены в одну плоскость.`});
-  p.mesh=m;
-  if(p.ped>0){
-    const sz=p.d+0.24;
-    const pd=new THREE.Mesh(new THREE.BoxGeometry(sz,1,sz),MAT.frame);
-    add(pd,G.pools,{t:'Подставка под бассейн',
-      d:`Квадратный подиум +${(p.ped*100)|0} см — выводит кромку в общую плоскость с остальными.`});
-    p.pedM=pd;
-    const pt=new THREE.Mesh(new THREE.BoxGeometry(sz,0.04,sz),MAT.osb);
-    add(pt,G.pools); p.pedTop=pt;
-  }
-  const w=new THREE.Mesh(new THREE.CylinderGeometry(r-0.05,r-0.05,p.w,48),MAT.water);
-  G.water.add(w); p.waterM=w;
-  const dr=new THREE.Mesh(new THREE.CylinderGeometry(0.075,0.075,0.30,18),MAT.drain);
-  add(dr,G.pools,{t:'Донный слив',d:'Стояк полностью под водой, вода уходит из центра дна под платформу.'});
-  p.drainM=dr;
+  m.castShadow=m.receiveShadow=true; grp.add(m);
+  m.userData={t:`Бассейн ⌀${p.d} м`,
+    d:`Стеклопластик, борт ${p.hp.toFixed(2)} м${p.ped?', на возвышении +'+((p.ped*100)|0)+' см':''}.<br>Объём ${p.v} м³ · вода ${p.w.toFixed(2)} м.<br>Кромки всех бассейнов в одной плоскости.`};
+  picks.push(m);
   const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.04,20),MAT.drain);
-  G.pools.add(fl); p.flangeM=fl;
-}
-POOLS.forEach(pool);
+  fl.position.y=0.03; grp.add(fl);
+  const st=new THREE.Mesh(new THREE.CylinderGeometry(0.075,0.075,0.30,18),MAT.drain);
+  st.position.y=0.17; st.castShadow=true; grp.add(st);
+  st.userData={t:'Донный слив',d:'Стояк под водой, единое целое с бассейном. Вода уходит из центра дна под платформу.'};
+  picks.push(st);
+  const w=new THREE.Mesh(new THREE.CylinderGeometry(r-0.05,r-0.05,p.w,48),MAT.water);
+  G.water.add(w); p.waterM=w; p.grp=grp;
+});
 
 /* ---------- биофильтр ---------- */
 {
   const w=BIO.x1-BIO.x0,d=BIO.z1-BIO.z0,cx=BIO.x0+w/2,cz=BIO.z0+d/2,t=0.05;
-  box(w,2,t,cx,1,BIO.z0+t/2,MAT.bio);
-  box(w,2,t,cx,1,BIO.z1-t/2,MAT.bio,null,{t:'Биофильтр 6,6 × 2 × 2 м',
-    d:'Berimax S800 · 10 м³ · 32 диффузора ⌀330.<br>Уровень воды диктуется гидравликой — см. инженерный режим.<br><b style="color:#E05A4A">Дегазатора CO₂ нет</b>.'});
-  box(t,2,d,BIO.x0+t/2,1,cz,MAT.bio); box(t,2,d,BIO.x1-t/2,1,cz,MAT.bio);
-  box(w-.1,0.04,d-.1,cx,0.02,cz,MAT.bio);
-  for(let i=0;i<8;i++)for(let j=0;j<2;j++)
-    cyl(0.165,0.04,BIO.x0+0.55+j*0.95,0.07,BIO.z0+0.42+i*0.78,MAT.frame,null,null,14);
-  [4.95,5.65].forEach((z,i)=>box(0.32,0.28,0.32,6.45,0.16,z,MAT.equip,null,i?null:
-    {t:'Насосы Jebao LP-55000',d:'2 рабочих + 1 резерв.<br>55 м³/ч · 560 Вт · напор 4 м.'}));
-  box(0.32,0.28,0.32,7.15,0.16,5.65,MAT.frame);
-  const bw=new THREE.Mesh(new THREE.BoxGeometry(w-.12,1,d-.12),MAT.water); bw.name='biow';
-  bw.position.set(cx,0,cz); G.water.add(bw);
-  const bm=new THREE.Mesh(new THREE.BoxGeometry(w-.22,1,d*.6),MAT.media); bm.name='biom';
-  bm.position.set(cx,0,cz-.35); G.shell.add(bm);
+  box(w,2,t,cx,1,BIO.z0+t/2,MAT.bio,G.bio);
+  box(w,2,t,cx,1,BIO.z1-t/2,MAT.bio,G.bio,{t:'Биофильтр 6,6 × 2 × 2 м',
+    d:'Berimax S800 10 м³ · 32 диффузора ⌀330 мм на дне.<br>Уровень воды задаётся гидравликой — см. инженерный режим.<br><b style="color:#E05A4A">Дегазатора CO₂ нет.</b>'});
+  box(t,2,d,BIO.x0+t/2,1,cz,MAT.bio,G.bio); box(t,2,d,BIO.x1-t/2,1,cz,MAT.bio,G.bio);
+  box(w-.1,0.04,d-.1,cx,0.02,cz,MAT.bio,G.bio);
+  for(let i=0;i<8;i++)for(let j=0;j<4;j++)
+    cyl(0.165,0.05,BIO.x0+0.42+j*0.40,0.075,BIO.z0+0.55+i*0.72,MAT.frame,G.bio,null,18);
+  const PX=6.35, PZ=[4.85,5.35,5.85];
+  PZ.forEach((z,i)=>{
+    box(0.30,0.30,0.30,PX,0.15,z,MAT.purple,G.bio,i?null:
+      {t:'Погружные насосы Jebao LP-55000',d:'Три штуки: два в работе, один в резерве.<br>55 м³/ч · 560 Вт · напор 4 м. Закрыты общей сеткой.'});
+    cyl(0.055,1.35,PX,0.85,z,MAT.drain,G.bio,null,14);
+    const el=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.42,14),MAT.drain);
+    el.rotation.x=Math.PI/2; el.position.set(PX,1.52,z+0.21); add(el,G.bio);
+  });
+  const col=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.082,1.35,18),MAT.feed);
+  col.rotation.x=Math.PI/2; col.position.set(PX,1.52,5.35); add(col,G.bio);
+  const cage=new THREE.Mesh(new THREE.BoxGeometry(0.72,0.72,1.55),MAT.mesh);
+  cage.position.set(PX,0.36,5.35); add(cage,G.bio);
+  const bw=new THREE.Mesh(new THREE.BoxGeometry(w-.12,1,d-.12),MAT.water);
+  bw.name='biow'; bw.position.set(cx,0,cz); G.water.add(bw);
 }
 
-/* ---------- барабанный фильтр: классический горизонтальный ---------- */
+/* ---------- барабанный фильтр ---------- */
 {
   const D=DRUM;
   box(D.w,D.bodyH,D.dz,D.x,D.legs+D.bodyH/2,D.z,MAT.drum,G.equip,
-    {t:'Барабанный фильтр 100 м³/ч',
-     d:'Классическая горизонтальная компоновка ~1,0 × 1,4 м, сетка 56 мкм.<br>Барабан вдоль корпуса, вход с торца, выход снизу в биофильтр.<br>Насос форсунок 1,5 кВт — только на промывку.'});
+    {t:'Барабанный фильтр 100 м³/ч',d:'Сетка 56 мкм, горизонтальный барабан вдоль корпуса.<br>Насос форсунок 1,5 кВт — только на промывку.'});
   const dr=new THREE.Mesh(new THREE.CylinderGeometry(0.36,0.36,D.dz-0.12,26),MAT.steel);
   dr.rotation.x=Math.PI/2; dr.position.set(D.x,D.legs+D.bodyH+0.10,D.z); add(dr,G.equip);
   box(D.w+0.06,0.05,D.dz+0.06,D.x,D.legs-0.02,D.z,MAT.frame,G.equip);
@@ -406,43 +386,46 @@ POOLS.forEach(pool);
     box(0.06,D.legs,0.06,D.x+sx*(D.w/2-0.08),D.legs/2,D.z+sz*(D.dz/2-0.08),MAT.frame,G.equip));
 }
 
-/* ---------- оксигенатор: полированная нержавейка ---------- */
+/* ---------- оксигенатор ---------- */
 {
   const o=OXY,r=o.d/2;
-  const body=cyl(r,o.body,o.x,o.legs+o.body/2,o.z,MAT.steel,G.equip,
-    {t:'Оксигенатор, нержавейка',d:'⌀800 · 1250 мм · ножки 450 мм.<br>110 м³/ч, кислород от концентратора 10 л/мин.'},48);
+  cyl(r,o.body,o.x,o.legs+o.body/2,o.z,MAT.steel,G.equip,
+    {t:'Оксигенатор, нержавейка',d:'Бочка ⌀800 · 1250 мм на ножках 450 мм. Стоит на полу, платформы не касается.<br>110 м³/ч, кислород от концентратора 10 л/мин.'},48);
   cyl(r*.9,0.05,o.x,o.legs+o.body+0.03,o.z,MAT.steel,G.equip,null,48);
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sz])=>
     cyl(0.025,o.legs,o.x+sx*r*.62,o.legs/2,o.z+sz*r*.62,MAT.steel,G.equip,null,10));
 }
 
-/* ---------- техпомещение: светло-серый профлист, проём ---------- */
+/* ---------- техпомещение ---------- */
 {
-  const T=TECH,d=T.z1-T.z0,cz=T.z0+d/2;
-  // западная стенка техпома с дверным проёмом (от z=7.4 до 8.2)
-  let m=corr(T.z1-7.40,2.35,MAT.wallT); m.rotation.y=-Math.PI/2; m.position.set(T.x0-0.02,0,T.z1); add(m,G.walls);
-  box(0.05,0.35,0.80,T.x0,2.17,7.00,MAT.wallT,G.walls);   // перемычка над проходом (z 6,6–7,4)
-  // южная стенка техпома
-  m=corr(T.x1-T.x0,2.35,MAT.wallT); m.rotation.y=Math.PI; m.position.set(T.x1,0,T.z1+0.01); add(m,G.walls,
-    {t:'Техническое помещение',d:'Перегородки — светло-серый профлист. Проём для прохода со стороны цеха.'});
-  const bh=2.05;
-  box(0.85,0.58,0.62,7.0,bh+0.29,7.35,MAT.equip,G.equip,
-    {t:'Воздуходувка URBAN VORTEX UV/320-380',d:'4,3 кВт · 320 м³/ч · 380 мбар.<br>На высокой раме в техпомещении, выше зеркала биофильтра.'});
+  const T=TECH;
+  let m=corr(T.z1-TDOOR.z1,2.35,MAT.wallT,false); m.rotation.y=-Math.PI/2;
+  m.position.set(T.x0-0.02,0,TDOOR.z1); add(m,G.walls,
+    {t:'Техническое помещение',d:'Перегородки — светло-серый профлист. Проход со стороны биофильтра, шириной 1 м.'});
+  box(0.05,0.35,TDOOR.z1-TDOOR.z0,T.x0,2.17,(TDOOR.z0+TDOOR.z1)/2,MAT.wallT,G.walls);
+  m=corr(T.x1-T.x0,2.35,MAT.wallT,true); m.rotation.y=Math.PI; m.position.set(T.x1,0,T.z1+0.01); add(m,G.walls);
+  const bh=1.95;
+  box(0.80,0.05,0.58,6.95,bh,6.95,MAT.frame,G.equip);
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sz])=>
-    box(0.05,bh,0.05,7.0+sx*.36,bh/2,7.35+sz*.25,MAT.frame,G.equip));
-  box(0.8,0.04,0.56,7.0,bh,7.35,MAT.frame,G.equip);
-  box(0.58,1.45,0.42,7.55,0.725,6.95,MAT.equip,G.equip,
-    {t:'Газовый котёл Baxi SLIM 1.490 iN',d:'Змеевик в биофильтре + отопление. Вода 28 °C.'});
-  box(0.4,0.92,0.38,6.3,0.46,8.05,MAT.equip,G.equip,{t:'Кислородный концентратор 10 л/мин',d:'Питает оксигенатор.'});
-  box(0.46,0.56,0.12,6.6,1.7,8.27,MAT.panel,G.equip,{t:'Щит автоматики',d:'Температуры, поток, уровень.'});
-  box(0.42,0.52,0.12,7.15,1.7,8.27,MAT.panel,G.equip,{t:'Щиток питания 20 кВт',d:'Воздуходувка, насосы, озонатор.'});
-  box(0.36,0.42,0.12,7.62,1.7,8.27,MAT.panel,G.equip,{t:'Щит озонатора 40 г/ч',d:'Дозирование по промывке, DPD-контроль.'});
+    box(0.05,bh,0.05,6.95+sx*.34,bh/2,6.95+sz*.24,MAT.frame,G.equip));
+  const blow=cyl(0.28,0.30,6.90,bh+0.20,6.95,MAT.equip,G.equip,
+    {t:'Воздуходувка URBAN VORTEX UV/320-380',d:'4,3 кВт · 320 м³/ч · 380 мбар · 380 В. Работает постоянно.<br>На раме вплотную к стенке биофильтра, выше зеркала воды.'},26);
+  blow.rotation.z=Math.PI/2;
+  box(0.26,0.34,0.30,7.22,bh+0.20,6.95,MAT.equip,G.equip);
+  cyl(0.07,0.30,6.90,bh+0.48,6.72,MAT.frame,G.equip,null,14);
+  box(0.42,0.98,0.40,6.35,0.49,8.02,MAT.white,G.equip,
+    {t:'Кислородный концентратор 10 л/мин',d:'Белый напольный аппарат, подаёт кислород в оксигенатор.'});
+  box(0.30,0.16,0.28,6.35,1.06,8.02,MAT.white,G.equip);
+  box(0.56,1.42,0.40,7.60,0.71,7.10,MAT.white,G.equip,
+    {t:'Газовый котёл Baxi SLIM 1.490 iN',d:'Змеевик в биофильтре и отопление цеха. Вода 28 °C.'});
+  box(0.36,0.42,0.13,7.10,1.70,8.26,MAT.white,G.equip,
+    {t:'Щит озонатора 40 г/ч',d:'Дозирование по промывке барабанника, блокировка по потоку, контроль DPD.'});
 }
 
-/* ---------- трубы: прямые сегменты, повороты 45° ---------- */
+/* ---------- трубы ---------- */
 function seg(a,b,r,mat,grp){
-  const av=new THREE.Vector3(...a),bv=new THREE.Vector3(...b);
-  const len=av.distanceTo(bv); if(len<0.01)return;
+  const av=new THREE.Vector3(...a),bv=new THREE.Vector3(...b),len=av.distanceTo(bv);
+  if(len<0.01)return;
   const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len+r*1.4,16),mat);
   m.position.copy(av).lerp(bv,0.5);
   m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),bv.clone().sub(av).normalize());
@@ -450,112 +433,108 @@ function seg(a,b,r,mat,grp){
 }
 function pipe(pts,r,mat,grp){
   for(let i=0;i<pts.length-1;i++)seg(pts[i],pts[i+1],r,mat,grp);
-  /* точки для частиц */
   const P=[];
   for(let i=0;i<pts.length-1;i++){
     const a=new THREE.Vector3(...pts[i]),b=new THREE.Vector3(...pts[i+1]);
     const n=Math.max(2,Math.round(a.distanceTo(b)*10));
-    for(let j=0;j<n;j++)P.push(a.clone().lerp(b,j/n));
-  }
+    for(let j=0;j<n;j++)P.push(a.clone().lerp(b,j/n));}
   P.push(new THREE.Vector3(...pts[pts.length-1]));
   return P;
 }
-const RD=0.058,RF=0.082,YD=0.10;
-const flows=[];
-/* слив: по полу, повороты 45° (диагональные вставки) */
-const MX=5.35;
+const RD=0.058,RF=0.082,YD=0.065;
+const flows=[]; const MX=5.35;
 flows.push({p:pipe([[2.07,YD,2.00],[3.6,YD,2.00],[4.2,YD,1.4],[4.62,YD,0.95]],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[1.35,YD,5.51],[2.6,YD,5.51],[4.0,YD,4.1],[4.0,YD,2.3],[4.62,YD,1.35]],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[3.38,YD,4.97],[3.8,YD,4.55],[4.0,YD,4.35]],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[1.17,YD,10.61],[2.2,YD,9.95],[4.6,YD,9.95],[MX,YD,9.55]],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[4.34,YD,10.04],[4.9,YD,9.85],[MX,YD,9.55]],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[MX,YD,9.55],[MX,YD,2.6],[4.75,YD,1.95],[4.62,YD,1.6]],RD*1.15,MAT.drain,G.drain),c:0xC85A2E});
-/* к трапу: тонкий сброс промывки */
-pipe([[TRAP.x+0.3,YD,6.15],[TRAP.x,0.03,TRAP.z]],0.035,MAT.drain,G.drain);
-/* барабанник -> биофильтр */
 flows.push({p:pipe([[DRUM.x,DRUM.legs+0.55,DRUM.z-DRUM.dz/2-0.05],[5.6,1.2,0.55],[6.3,1.0,0.55]],RD*1.2,MAT.drain,G.drain),c:0xC85A2E});
-/* подача: насосы -> оксигенатор -> над кромками (2.35) по красной трассе с горкой над входом */
-flows.push({p:pipe([[6.45,0.35,4.95],[6.45,1.6,5.35],[6.1,1.9,6.7],[OXY.x+0.25,1.9,OXY.z-0.5],
-  [OXY.x,OXY.legs+OXY.body,OXY.z]],RF,MAT.feed,G.feed),c:0xE8763A});
-const FY=2.35,FUP=2.75;
-/* магистраль: оксигенатор -> юг -> запад с горкой над входом -> север, конец на ⌀4 м */
+pipe([[6.20,1.85,6.45],[6.20,OVER.y,OVER.z],[7.88,OVER.y,OVER.z]],RF,MAT.drain,G.drain);
+box(0.10,0.34,0.34,7.88,OVER.y,OVER.z,MAT.black,G.drain,
+  {t:'Аварийный перелив биофильтра',d:'Труба идёт под воздуходувкой в стену на отметке ~0,5 м — в соседнем помещении пол выше на 40–50 см.<br>Сделан по верхнему уровню биофильтра, уходит в основную канализацию.'});
+
+const FY=2.35, FUP=3.05;
+flows.push({p:pipe([[6.35,1.52,5.35],[6.15,1.9,6.3],[6.0,1.95,7.4],
+  [OXY.x+0.25,1.9,OXY.z-0.5],[OXY.x,OXY.legs+OXY.body,OXY.z]],RF,MAT.feed,G.feed),c:0xE8763A});
 flows.push({p:pipe([
  [OXY.x,OXY.legs+OXY.body+0.05,OXY.z],[OXY.x,FY,OXY.z],
  [5.55,FY,8.55],[5.55,FY,11.25],[1.17,FY,11.25],[0.35,FY,10.55],
- [0.35,FY,9.85],[0.35,FUP,9.45],[0.35,FUP,8.45],[0.35,FY,8.05],
+ [0.35,FY,9.90],[0.35,FUP,9.50],[0.35,FUP,8.00],[0.35,FY,7.60],
  [0.35,FY,6.10],[0.35,FY,2.35],[0.90,FY,2.00]],RF,MAT.feed,G.feed),c:0xE8763A});
-/* ветка на ⌀2,6 и ⌀1,5 */
 flows.push({p:pipe([[0.35,FY,6.10],[2.00,FY,6.10],[3.38,FY,5.60]],RF*0.8,MAT.feed,G.feed),c:0xE8763A});
 
-/* приямок (только когда самотёк невозможен) */
-{
-  box(1.1,0.55,0.9,4.7,-0.28,2.6,MAT.frame,G.extra,
-    {t:'Приямок с насосом',d:'Появляется, когда высоты не хватает для самотёка: +1,2 кВт круглосуточно и лишняя точка отказа.'});
-  box(0.34,0.3,0.34,4.7,-0.12,2.6,MAT.equip,G.extra);
-}
+box(1.1,0.55,0.9,4.7,-0.28,2.6,MAT.frame,G.extra,
+  {t:'Приямок с насосом',d:'Нужен, если высоты платформы не хватает для самотёка: +1,2 кВт круглосуточно и лишняя точка отказа.'});
+box(0.34,0.3,0.34,4.7,-0.12,2.6,MAT.equip,G.extra);
 
-/* ---------- частицы: чуть крупнее труб, видимые ---------- */
+/* ---------- частицы ---------- */
 const dots=[];
-flows.forEach(f=>{
-  for(let i=0;i<4;i++){
-    const s=new THREE.Mesh(new THREE.SphereGeometry(0.10,10,10),
-      new THREE.MeshBasicMaterial({color:f.c,depthTest:true,transparent:true,opacity:0.95}));
-    s.position.copy(f.p[0]); G.flow.add(s);
-    dots.push({m:s,p:f.p,t:i/4});
-  }
-});
+flows.forEach(f=>{for(let i=0;i<4;i++){
+  const s=new THREE.Mesh(new THREE.SphereGeometry(0.095,10,10),
+    new THREE.MeshBasicMaterial({color:f.c,clippingPlanes:[clip]}));
+  s.position.copy(f.p[0]); G.flow.add(s); dots.push({m:s,p:f.p,t:i/4});}});
 
-/* ---------- подписи (по умолчанию выкл) ---------- */
-function label(txt,x,y,z,col){
-  const fs=40,pad=16,c=document.createElement('canvas'),g=c.getContext('2d');
+/* ---------- подписи и размеры ---------- */
+function sprite(txt,x,y,z,col,scale){
+  const fs=40,pad=15,c=document.createElement('canvas'),g=c.getContext('2d');
   g.font=`600 ${fs}px ui-monospace,Menlo,monospace`;
   c.width=g.measureText(txt).width+pad*2;c.height=fs+pad*1.3;
   g.font=`600 ${fs}px ui-monospace,Menlo,monospace`;
-  g.fillStyle='rgba(16,22,27,.88)';g.strokeStyle=col||'#F26522';g.lineWidth=3;
-  g.strokeRect(1.5,1.5,c.width-3,c.height-3);g.fillRect(1.5,1.5,c.width-3,c.height-3);
+  g.fillStyle='rgba(16,22,27,.9)';g.strokeStyle=col;g.lineWidth=3;
+  g.fillRect(1.5,1.5,c.width-3,c.height-3);g.strokeRect(1.5,1.5,c.width-3,c.height-3);
   g.fillStyle='#E8EFF4';g.textBaseline='middle';g.fillText(txt,pad,c.height/2+2);
   const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;
   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));
-  sp.scale.set(c.width*0.0052,c.height*0.0052,1);sp.position.set(x,y,z);
-  G.labels.add(sp);return sp;
+  const k=(scale||1)*0.0050; sp.scale.set(c.width*k,c.height*k,1); sp.position.set(x,y,z);
+  return sp;
 }
-const plabels=POOLS.map(p=>label(`⌀${p.d}`,p.x,0,p.z));
-label('БИОФИЛЬТР',6.9,2.4,3.3,'#1B7FD4');
-label('БАРАБАННИК',DRUM.x,2.85,DRUM.z,'#1565C0');
-label('ОКСИГЕНАТОР',OXY.x,2.1,OXY.z,'#9BA6AE');
-label('ТЕХПОМЕЩЕНИЕ',6.9,2.7,7.5,'#8C97A0');
-label('ВХОД',0.55,2.4,8.95,'#8494A0');
+const plabels=POOLS.map(p=>{const s=sprite(`⌀${p.d}`,p.x,0,p.z,'#F26522');G.labels.add(s);return s;});
+[['БИОФИЛЬТР',6.9,2.4,3.3,'#1B7FD4'],['БАРАБАННИК',DRUM.x,2.85,DRUM.z,'#1565C0'],
+ ['ОКСИГЕНАТОР',OXY.x,2.1,OXY.z,'#9BA6AE'],['ТЕХПОМЕЩЕНИЕ',6.9,2.7,7.5,'#8C97A0'],
+ ['ВХОД 1,5 м',0.5,2.4,8.75,'#DFA32E']].forEach(a=>G.labels.add(sprite(a[0],a[1],a[2],a[3],a[4])));
 G.labels.visible=false;
 
-/* ---------- пересчёт от платформы ---------- */
-const biow=G.water.getObjectByName('biow'), biom=scene.getObjectByName('biom');
+function dim(a,b,txt,off){
+  const av=new THREE.Vector3(...a),bv=new THREE.Vector3(...b);
+  const g=new THREE.BufferGeometry().setFromPoints([av,bv]);
+  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:0xF26522,transparent:true,opacity:.9}));
+  G.dims.add(l);
+  const mid=av.clone().lerp(bv,0.5); mid.y+=(off||0.12);
+  G.dims.add(sprite(txt,mid.x,mid.y,mid.z,'#F26522',0.82));
+}
+dim([0,0.02,-0.35],[B.w,0.02,-0.35],'7,9 м');
+dim([-0.35,0.02,0],[-0.35,0.02,B.d],'11,7 м');
+dim([B.w+0.35,0,0],[B.w+0.35,B.h,0],'3,15 м');
+dim([BIO.x0,2.12,BIO.z0],[BIO.x0,2.12,BIO.z1],'6,6 м');
+dim([BIO.x0,2.12,BIO.z1+0.3],[BIO.x1,2.12,BIO.z1+0.3],'2 м');
+dim([0,0.02,DOOR.z0],[0,0.02,DOOR.z1],'вход 1,5 м');
+POOLS.forEach(p=>dim([p.x-p.d/2,0.02,p.z],[p.x+p.d/2,0.02,p.z],p.d+' м'));
+G.dims.visible=false;
+
+/* ---------- пересчёт ---------- */
+const biow=G.water.getObjectByName('biow');
 function apply(h){
   PLAT=h;
   frames.forEach(f=>{f.m.position.y=h+f.off;f.m.visible=h>0.05;});
-  deckTops.forEach(t=>t.position.y=h);
+  pads.forEach(p=>{
+    if(p.leg){p.m.scale.y=Math.max(p.up,0.001);p.m.position.y=h+p.up/2;}
+    else p.m.position.y=h+p.up+p.off;
+    p.m.visible=h>0.05;});
+  deckTops.forEach(d=>d.m.position.y=h+d.up);
   legs.forEach(l=>{l.scale.y=Math.max(h,0.001);l.position.y=h/2;l.visible=h>0.2;});
   POOLS.forEach(p=>{
     const base=h+p.ped;
-    p.mesh.position.y=base;
-    if(p.pedM){p.pedM.scale.y=Math.max(p.ped,0.001);p.pedM.position.set(p.x,h+p.ped/2,p.z);
-               p.pedTop.position.set(p.x,h+p.ped,p.z);}
+    p.grp.position.y=base;
     p.waterM.position.set(p.x,base+p.w/2+0.03,p.z);
-    p.drainM.position.set(p.x,base+0.17,p.z);
-    p.flangeM.position.set(p.x,base+0.03,p.z);
   });
-  plabels.forEach((sp,i)=>sp.position.y=h+POOLS[i].ped+POOLS[i].hp+0.4);
-
-  const mirror=h+0.40+0.65;              // зеркало по ⌀1,5: подставка 0,4 + вода 0,65
-  const drumIn=mirror-0.10, bioMax=Math.max(0,Math.min(drumIn-0.30,1.9));
-  const vol=13.3*bioMax, rim4=h+1.20;
-  biow.scale.y=Math.max(bioMax,0.001);biow.position.y=bioMax/2;
-  const med=Math.min(bioMax*.85,1.0);biom.scale.y=Math.max(med,0.001);biom.position.y=med/2;
-
+  plabels.forEach((s,i)=>s.position.y=h+POOLS[i].ped+POOLS[i].hp+0.4);
+  const mirror=h+0.40+0.65, drumIn=mirror-0.10;
+  const bioMax=Math.max(0,Math.min(drumIn-0.30,1.9)), vol=13.3*bioMax, rim4=h+1.20;
+  biow.scale.y=Math.max(bioMax,0.001); biow.position.y=bioMax/2;
   const F=(v,u)=>v.toFixed(2).replace('.',',')+' '+u;
-  phv.textContent=F(h,'м');
-  r1.textContent=F(mirror,'м'); r2.textContent=F(drumIn,'м');
-  r3.textContent=F(bioMax,'м'); r4.textContent=vol.toFixed(1).replace('.',',')+' м³';
-  r5.textContent=F(rim4,'м');
+  phv.textContent=F(h,'м'); r1.textContent=F(mirror,'м'); r2.textContent=F(drumIn,'м');
+  r3.textContent=F(bioMax,'м'); r4.textContent=vol.toFixed(1).replace('.',',')+' м³'; r5.textContent=F(rim4,'м');
   const v=verdict,b=v.querySelector('b'),s=v.querySelector('span');
   let col,ttl,txt,pump=false;
   if(vol>=18){col='var(--ok)';ttl='Самотёк работает';txt='Биофильтр близок к проектному объёму.';}
@@ -563,11 +542,9 @@ function apply(h){
     txt=`Биофильтр наберёт ~${vol.toFixed(0)} м³ из проектных 22,8 — компенсировать загрузкой и аэрацией.`;}
   else if(vol>=6){col='var(--bad)';ttl='Биофильтра мало';pump=true;
     txt=`Лишь ~${vol.toFixed(0)} м³. Нужен приямок с насосом или заглубление биофильтра.`;}
-  else{col='var(--bad)';ttl='Самотёк невозможен';pump=true;
-    txt='Вода не дойдёт до барабанника — обязателен подающий насос.';}
+  else{col='var(--bad)';ttl='Самотёк невозможен';pump=true;txt='Вода не дойдёт до барабанника — нужен подающий насос.';}
   if(rim4>2.1) txt+=` Кромка ⌀4 на ${F(rim4,'м')} — работать сачком тяжело.`;
-  v.style.borderLeftColor=col;b.style.color=col;
-  b.textContent=ttl;s.textContent=txt;
+  v.style.borderLeftColor=col;b.style.color=col;b.textContent=ttl;s.textContent=txt;
   G.extra.visible=pump;
   rebuild(h);
 }
@@ -575,16 +552,15 @@ function rebuild(h){
   while(G.conn.children.length){const c=G.conn.children.pop();c.geometry.dispose();}
   POOLS.forEach(p=>{
     const base=h+p.ped;
-    const g1=new THREE.CylinderGeometry(RD,RD,Math.max(base,0.02),14);
-    const m1=new THREE.Mesh(g1,MAT.drain);m1.position.set(p.x,base/2,p.z);m1.castShadow=true;G.conn.add(m1);
-    const top=2.35,bot=base+p.hp+0.04,len=Math.max(top-bot,0.05);
-    const g2=new THREE.CylinderGeometry(RF*.75,RF*.75,len,14);
-    const m2=new THREE.Mesh(g2,MAT.feed);m2.position.set(p.fp[0],bot+len/2,p.fp[1]);
-    m2.castShadow=true;G.conn.add(m2);
+    const m1=new THREE.Mesh(new THREE.CylinderGeometry(RD,RD,Math.max(base,0.02),14),MAT.drain);
+    m1.position.set(p.x,base/2,p.z);m1.castShadow=true;G.conn.add(m1);
+    const bot=base+p.hp+0.04,len=Math.max(FY-bot,0.05);
+    const m2=new THREE.Mesh(new THREE.CylinderGeometry(RF*.75,RF*.75,len,14),MAT.feed);
+    m2.position.set(p.fp[0],bot+len/2,p.fp[1]);m2.castShadow=true;G.conn.add(m2);
   });
 }
 
-/* ---------- камера/управление ---------- */
+/* ---------- камера ---------- */
 const tgt=new THREE.Vector3(CX,1.2,CZ);
 let sph={r:17,th:Math.PI*.30,ph:Math.PI*.33};
 function place(){camera.position.set(tgt.x+sph.r*Math.sin(sph.ph)*Math.cos(sph.th),
@@ -605,11 +581,9 @@ el.addEventListener('pointermove',e=>{
   place();});
 el.addEventListener('wheel',e=>{e.preventDefault();
   sph.r=Math.max(3,Math.min(50,sph.r*(1+Math.sign(e.deltaY)*.09)));place();},{passive:false});
-el.addEventListener('touchmove',e=>{
-  if(e.touches.length===2){
-    const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-    if(pinch){sph.r=Math.max(3,Math.min(50,sph.r*pinch/d));place();}pinch=d;}
-},{passive:true});
+el.addEventListener('touchmove',e=>{if(e.touches.length===2){
+  const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  if(pinch){sph.r=Math.max(3,Math.min(50,sph.r*pinch/d));place();}pinch=d;}},{passive:true});
 el.addEventListener('touchend',()=>pinch=0);
 
 const ray=new THREE.Raycaster(),mo=new THREE.Vector2(),info=document.getElementById('info');
@@ -621,8 +595,7 @@ el.addEventListener('click',e=>{
   if(hit&&hit.object.userData.t){info.style.display='block';
     info.querySelector('.t').textContent=hit.object.userData.t;
     info.querySelector('.d').innerHTML=hit.object.userData.d;}
-  else info.style.display='none';
-});
+  else info.style.display='none';});
 
 /* ---------- UI ---------- */
 const $=id=>document.getElementById(id);
@@ -631,18 +604,19 @@ $('bTheme').onclick=()=>setTheme(!DARK);
 $('bEng').onclick=()=>$('eng').classList.toggle('open');
 $('bReset').onclick=()=>{$('ph').value=1.0;apply(1.0);};
 $('ph').addEventListener('input',e=>apply(parseFloat(e.target.value)));
+$('sec').addEventListener('input',e=>{const v=parseFloat(e.target.value);
+  clip.constant=v; $('secv').textContent=v.toFixed(2).replace('.',',')+' м';});
 const bind=(id,g)=>$(id).addEventListener('change',e=>g.visible=e.target.checked);
-bind('cWater',G.water);bind('cDrain',G.drain);bind('cFeed',G.feed);bind('cLabels',G.labels);bind('cDeck',G.deckTop);
-$('cWalls').addEventListener('change',e=>G.walls.visible=e.target.checked);
+bind('cWalls',G.walls);bind('cPlat',G.plat);bind('cDeck',G.deckTop);bind('cPools',G.pools);
+bind('cBio',G.bio);bind('cWater',G.water);bind('cDrain',G.drain);bind('cFeed',G.feed);
+bind('cDims',G.dims);bind('cLabels',G.labels);
 let flowOn=true;
 $('cFlow').addEventListener('change',e=>{flowOn=e.target.checked;G.flow.visible=flowOn;});
 if(innerWidth<760)$('panel').classList.add('hid');
-
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;
   camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-addEventListener('orientationchange',()=>setTimeout(()=>{
-  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);},250));
+addEventListener('orientationchange',()=>setTimeout(()=>{camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);},250));
 
 /* ---------- цикл ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -654,8 +628,7 @@ function loop(now){
       const d=dots[i],p=d.p;
       d.t+=dt*.09;if(d.t>=1)d.t-=1;
       const f=d.t*(p.length-1),k=f|0,u=f-k,a=p[k],b2=p[k+1]||p[k];
-      d.m.position.set(a.x+(b2.x-a.x)*u,a.y+(b2.y-a.y)*u,a.z+(b2.z-a.z)*u);
-    }
+      d.m.position.set(a.x+(b2.x-a.x)*u,a.y+(b2.y-a.y)*u,a.z+(b2.z-a.z)*u);}
   }
   renderer.render(scene,camera);
   requestAnimationFrame(loop);
