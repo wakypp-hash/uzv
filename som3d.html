@@ -263,21 +263,46 @@ function corr(len,hgt,mat,inward,pitch,amp){
   const g=new THREE.ExtrudeGeometry(s,{depth:hgt,bevelEnabled:false}); g.rotateX(-Math.PI/2);
   return new THREE.Mesh(g,mat);
 }
+/* стены по-симсовски: ближняя к камере сторона растворяется */
+const smart=[];
+function reg(m,nx,nz,cx,cz){
+  m.material=m.material.clone();
+  m.material.transparent=true; m.material.opacity=1; m.material.depthWrite=false;
+  smart.push({m,nx,nz,cx,cz});
+}
 {
   let m;
-  m=corr(B.w,B.h,MAT.wall,true);  m.position.set(0,0,-0.02); add(m,G.walls);
-  m=corr(NW,B.h,MAT.wall,true);   m.rotation.y=Math.PI;  m.position.set(NW,0,B.d+0.02); add(m,G.walls);
-  m=corr(DOOR.z0,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,0); add(m,G.walls);
-  m=corr(B.d-DOOR.z1,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,DOOR.z1); add(m,G.walls);
-  box(0.06,B.h-2.1,DOOR.z1-DOOR.z0,0.03,2.1+(B.h-2.1)/2,(DOOR.z0+DOOR.z1)/2,MAT.wall,G.walls,
+  m=corr(B.w,B.h,MAT.wall,true);  m.position.set(0,0,-0.02); add(m,G.walls); reg(m,0,-1,CX,0);
+  m=corr(NW,B.h,MAT.wall,true);   m.rotation.y=Math.PI;  m.position.set(NW,0,B.d+0.02); add(m,G.walls); reg(m,0,1,NW/2,B.d);
+  m=corr(DOOR.z0,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,0); add(m,G.walls); reg(m,-1,0,0,DOOR.z0/2);
+  m=corr(B.d-DOOR.z1,B.h,MAT.wall,false); m.rotation.y=-Math.PI/2; m.position.set(-0.02,0,DOOR.z1); add(m,G.walls); reg(m,-1,0,0,(DOOR.z1+B.d)/2);
+  const hdr=box(0.06,B.h-2.1,DOOR.z1-DOOR.z0,0.03,2.1+(B.h-2.1)/2,(DOOR.z0+DOOR.z1)/2,MAT.wall,G.walls,
     {t:'Главный вход 1,5 м',d:'Открытый проём от торца малой платформы. Подающая ⌀160 переваливает точно над ним на отметке 3,05 м.'});
-  m=corr(ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(B.w+0.02,0,0); add(m,G.walls);
-  m=corr(B.d-ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(NW+0.02,0,ZSTEP); add(m,G.walls);
-  m=corr(B.w-NW,B.h,MAT.wall,true); m.rotation.y=Math.PI; m.position.set(B.w,0,ZSTEP+0.02); add(m,G.walls);
+  reg(hdr,-1,0,0,(DOOR.z0+DOOR.z1)/2);
+  m=corr(ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(B.w+0.02,0,0); add(m,G.walls); reg(m,1,0,B.w,ZSTEP/2);
+  m=corr(B.d-ZSTEP,B.h,MAT.wall,true); m.rotation.y=-Math.PI/2; m.position.set(NW+0.02,0,ZSTEP); add(m,G.walls); reg(m,1,0,NW,(ZSTEP+B.d)/2);
+  m=corr(B.w-NW,B.h,MAT.wall,true); m.rotation.y=Math.PI; m.position.set(B.w,0,ZSTEP+0.02); add(m,G.walls); reg(m,0,1,(B.w+NW)/2,ZSTEP);
   box(0.16,0.62,0.46,0.10,1.72,7.10,MAT.white,G.equip,
     {t:'Щит управления автоматикой',d:'Слева от главного входа. Температуры воды и цеха, поток в насосах, уровень воды.'});
   box(0.16,0.56,0.42,0.10,1.72,7.62,MAT.white,G.equip,
     {t:'Щиток питания 20 кВт',d:'Постоянная нагрузка: воздуходувка 4,3 кВт, насосы 1,2 кВт, озонатор 300 Вт.'});
+}
+
+/* ---------- потолок: полупрозрачный, уровень читается ---------- */
+const ceilMat=M(0xE8E8E2,{transparent:true,opacity:0.16,roughness:.9,
+  side:THREE.DoubleSide,depthWrite:false});
+{
+  const c=new THREE.Mesh(shape2geo(FLOORPOLY,0.02),ceilMat);
+  c.position.y=B.h; c.castShadow=false; c.receiveShadow=false; G.walls.add(c);
+  const pts=FLOORPOLY.map(p=>new THREE.Vector3(p[0],B.h,p[1])); pts.push(pts[0].clone());
+  G.walls.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({color:0x8FA0AC,transparent:true,opacity:.85})));
+  const beamMat=M(0xB4BCC2,{transparent:true,opacity:0.42,depthWrite:false});
+  for(let z=1.4;z<B.d-0.4;z+=1.8){
+    const w=(z<ZSTEP?B.w:NW);
+    const bm=new THREE.Mesh(new THREE.BoxGeometry(w,0.06,0.06),beamMat);
+    bm.position.set(w/2,B.h-0.04,z); bm.castShadow=false; G.walls.add(bm);
+  }
 }
 
 /* ---------- платформа ---------- */
@@ -402,8 +427,11 @@ POOLS.forEach(p=>{
   let m=corr(T.z1-TDOOR.z1,2.35,MAT.wallT,false); m.rotation.y=-Math.PI/2;
   m.position.set(T.x0-0.02,0,TDOOR.z1); add(m,G.walls,
     {t:'Техническое помещение',d:'Перегородки — светло-серый профлист. Проход со стороны биофильтра, шириной 1 м.'});
-  box(0.05,0.35,TDOOR.z1-TDOOR.z0,T.x0,2.17,(TDOOR.z0+TDOOR.z1)/2,MAT.wallT,G.walls);
+  reg(m,-1,0,T.x0,(TDOOR.z1+T.z1)/2);
+  const th=box(0.05,0.35,TDOOR.z1-TDOOR.z0,T.x0,2.17,(TDOOR.z0+TDOOR.z1)/2,MAT.wallT,G.walls);
+  reg(th,-1,0,T.x0,(TDOOR.z0+TDOOR.z1)/2);
   m=corr(T.x1-T.x0,2.35,MAT.wallT,true); m.rotation.y=Math.PI; m.position.set(T.x1,0,T.z1+0.01); add(m,G.walls);
+  reg(m,0,1,(T.x0+T.x1)/2,T.z1);
   const bh=1.95;
   box(0.80,0.05,0.58,6.95,bh,6.95,MAT.frame,G.equip);
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sz])=>
@@ -630,6 +658,14 @@ function loop(now){
       const f=d.t*(p.length-1),k=f|0,u=f-k,a=p[k],b2=p[k+1]||p[k];
       d.m.position.set(a.x+(b2.x-a.x)*u,a.y+(b2.y-a.y)*u,a.z+(b2.z-a.z)*u);}
   }
+  /* стены по-симсовски + потолок */
+  for(let i=0;i<smart.length;i++){
+    const s=smart[i];
+    const d=s.nx*(camera.position.x-s.cx)+s.nz*(camera.position.z-s.cz);
+    const t=d>0.3?0.08:1.0;
+    s.m.material.opacity+=(t-s.m.material.opacity)*0.16;
+  }
+  ceilMat.opacity+=((camera.position.y>B.h?0.04:0.18)-ceilMat.opacity)*0.12;
   renderer.render(scene,camera);
   requestAnimationFrame(loop);
 }
