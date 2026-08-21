@@ -78,8 +78,11 @@
 
   <div class="sec">
     <button class="btn" id="bWalk">Прогулка по цеху</button>
+    <button class="btn" id="bFly">Свободный полёт</button>
     <div style="font-size:10.5px;color:var(--dim);margin-top:5px;line-height:1.5">
-      Камера идёт по проходу и оборачивается на 360°.<br>W A S D — взять управление, Q E — поворот.
+      Прогулка: камера идёт по проходу и оборачивается на 360°.<br>
+      W A S D — идти, мышь — крутить головой.<br>
+      Полёт: + пробел вверх, Shift вниз.
     </div>
   </div>
 
@@ -176,14 +179,39 @@ function tex(draw,w,h,rx,ry){
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);return t;
 }
 const texConcrete=tex((g,w,h)=>{
-  g.fillStyle='#918F88';g.fillRect(0,0,w,h);
-  for(let i=0;i<2600;i++){const a=Math.random()*.13;
-    g.fillStyle=`rgba(${Math.random()<.5?45:230},${Math.random()<.5?45:230},${Math.random()<.5?40:225},${a})`;
-    g.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*2,1+Math.random()*2);}
-  g.strokeStyle='rgba(62,60,55,.22)';g.lineWidth=1;
-  for(let i=0;i<7;i++){g.beginPath();let x=Math.random()*w,y=Math.random()*h;g.moveTo(x,y);
-    for(let j=0;j<5;j++){x+=(Math.random()-.5)*70;y+=(Math.random()-.5)*70;g.lineTo(x,y);}g.stroke();}
-},256,256,5,7);
+  /* базовый цементный тон с крупными пятнами заливки */
+  g.fillStyle='#8E8C85';g.fillRect(0,0,w,h);
+  for(let i=0;i<70;i++){
+    const r=30+Math.random()*90;
+    const gr=g.createRadialGradient(Math.random()*w,Math.random()*h,0,Math.random()*w,Math.random()*h,r);
+    gr.addColorStop(0,`rgba(${150+Math.random()*40},${148+Math.random()*40},${140+Math.random()*40},.14)`);
+    gr.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=gr;g.fillRect(0,0,w,h);
+  }
+  /* заполнитель: мелкий щебень и поры */
+  for(let i=0;i<9000;i++){
+    const v=Math.random();
+    g.fillStyle=v<.5?`rgba(60,58,54,${.05+Math.random()*.18})`
+                    :`rgba(232,230,222,${.04+Math.random()*.16})`;
+    const s=0.6+Math.random()*2.2;
+    g.fillRect(Math.random()*w,Math.random()*h,s,s);
+  }
+  /* следы затирки — дуги */
+  g.strokeStyle='rgba(120,118,110,.10)';
+  for(let i=0;i<26;i++){
+    g.lineWidth=2+Math.random()*7;g.beginPath();
+    g.arc(Math.random()*w,Math.random()*h,20+Math.random()*80,0,Math.PI*(0.5+Math.random()));
+    g.stroke();
+  }
+  /* усадочные трещины */
+  g.strokeStyle='rgba(48,46,42,.30)';
+  for(let i=0;i<9;i++){
+    g.lineWidth=0.7+Math.random();g.beginPath();
+    let x=Math.random()*w,y=Math.random()*h;g.moveTo(x,y);
+    for(let j=0;j<7;j++){x+=(Math.random()-.5)*60;y+=(Math.random()-.5)*60;g.lineTo(x,y);}
+    g.stroke();
+  }
+},512,512,4,6);
 const texOSB=tex((g,w,h)=>{
   g.fillStyle='#DCC9A6';g.fillRect(0,0,w,h);
   for(let i=0;i<900;i++){const l=56+Math.random()*24;
@@ -216,6 +244,8 @@ const MAT={
   purple:M(0x7B4FBF,{roughness:.45,metalness:.2}),
   mesh :M(0x59636C,{roughness:.7,metalness:.4,transparent:true,opacity:.45,side:THREE.DoubleSide}),
   black:M(0x14181B,{roughness:.9}),
+  aerBase:M(0xD9DEE2,{roughness:.5,metalness:.2}),
+  aerMemb:M(0x22262A,{roughness:.75}),
   drain:M(0xC85A2E,{roughness:.55}),
   feed :M(0xE8763A,{roughness:.5}),
   water:new THREE.MeshPhysicalMaterial({color:0x2FA9C4,roughness:.13,transparent:true,
@@ -322,6 +352,9 @@ const ceilMat=M(0xE8E8E2,{transparent:true,opacity:0.16,roughness:.9,
 /* ---------- платформа ---------- */
 let frames=[],deckTops=[],legs=[],pads=[];
 const PADS=[PAD_26,PAD_15,PAD_22];
+/* остаток настила основной платформы — там, где возвышений нет */
+const DECK_A=[[0.00,0.00],[4.15,0.00],[4.15,4.21],[0.00,4.21]];
+const DECK_B=[[2.00,9.50],[2.80,8.30],[5.90,8.30],[5.90,11.65],[2.37,11.65],[2.37,9.50]];
 const inPoly=(x,z,poly)=>{let c=false;
   for(let i=0,j=poly.length-1;i<poly.length;j=i++){
     const a=poly[i],b=poly[j];
@@ -365,9 +398,8 @@ function frameOf(poly,tag){
       if(underPad((c[i]+c[i+1])/2,z))continue;
       const m=new THREE.Mesh(new THREE.BoxGeometry(L,T,T),MAT.frame);
       m.position.set((c[i]+c[i+1])/2,0,z);add(m,G.plat);frames.push({m,off:-0.13});}}
-  const holes=PADS.filter(p=>inPoly(p[0][0]+0.05,p[0][1]+0.05,poly)||
-    inPoly((p[0][0]+p[2][0])/2,(p[0][1]+p[2][1])/2,poly));
-  const t=new THREE.Mesh(deckGeo(poly,holes,0.04),MAT.osb); add(t,G.deckTop); deckTops.push({m:t,up:0});
+  const t=new THREE.Mesh(shape2geo(tag==='A'?DECK_A:DECK_B,0.04),MAT.osb);
+  add(t,G.deckTop); deckTops.push({m:t,up:0});
   poly.forEach(([x,z])=>{const l=new THREE.Mesh(new THREE.BoxGeometry(0.10,1,0.10),MAT.frame);
     l.position.set(x,0,z);add(l,G.plat);legs.push(l);});
 }
@@ -416,9 +448,13 @@ POOLS.forEach(p=>{
     d:'Berimax S800 10 м³ · 32 диффузора ⌀330 мм на дне.<br>Уровень воды задаётся гидравликой — см. инженерный режим.<br><b style="color:#E05A4A">Дегазатора CO₂ нет.</b>'});
   box(t,2,d,BIO.x0+t/2,1,cz,MAT.bio,G.bio); box(t,2,d,BIO.x1-t/2,1,cz,MAT.bio,G.bio);
   box(w-.1,0.04,d-.1,cx,0.02,cz,MAT.bio,G.bio);
-  /* 32 аэратора ⌀330: 4 ряда по 8 */
-  for(let i=0;i<8;i++)for(let j=0;j<4;j++)
-    cyl(0.165,0.05,BIO.x0+0.35+j*0.44,0.075,BIO.z0+0.45+i*0.78,MAT.frame,G.bio,null,18);
+  /* 32 аэратора ⌀330: 4 ряда по 8, чёрная мембрана на светлом основании */
+  for(let i=0;i<8;i++)for(let j=0;j<4;j++){
+    const ax=BIO.x0+0.35+j*0.44, az=BIO.z0+0.45+i*0.78;
+    cyl(0.165,0.05,ax,0.065,az,MAT.aerBase,G.bio,(i||j)?null:
+      {t:'Диффузоры аэрации ⌀330 мм',d:'32 штуки по дну биофильтра, 4 ряда по 8.<br>Питание от воздуходувки 4,3 кВт, 320 м³/ч.'},20);
+    cyl(0.135,0.045,ax,0.105,az,MAT.aerMemb,G.bio,null,20);
+  }
   /* 3 погружных насоса в дальнем углу, закрыты сеткой */
   const PC={x:6.35,z:6.05};
   [[-0.24,-0.16],[0.02,0.10],[0.26,-0.14]].forEach(([ox,oz],i)=>{
@@ -430,13 +466,18 @@ POOLS.forEach(p=>{
   });
   const col=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.082,0.95,18),MAT.feed);
   col.rotation.x=Math.PI/2; col.position.set(PC.x,1.55,PC.z-0.10); add(col,G.bio);
-  const cage=new THREE.Mesh(new THREE.CylinderGeometry(0.62,0.62,0.95,28,1,true),MAT.mesh);
-  cage.position.set(PC.x,0.48,PC.z); add(cage,G.bio,
-    {t:'Сетка вокруг насосов',d:'Не даёт биозагрузке подойти к всасу насосов.'});
-  /* прилив от барабанника — тоже под сеткой, чтобы загрузка не забивала */
-  const cage2=new THREE.Mesh(new THREE.CylinderGeometry(0.58,0.58,1.10,28,1,true),MAT.mesh);
-  cage2.position.set(6.25,0.55,0.55); add(cage2,G.bio,
-    {t:'Сетка на приливе от барабанника',d:'Ограждает точку входа воды, чтобы биозагрузка не забивала сетку фильтра.'});
+  /* сетки: прямоугольные, от дна до кромки 2 м, вписаны в углы */
+  function cageBox(x0,z0,x1,z1,meta){
+    const t=0.03,H=2.0,cx=(x0+x1)/2,cz=(z0+z1)/2,w=x1-x0,d=z1-z0;
+    box(w,H,t,cx,H/2,z0,MAT.mesh,G.bio,meta);
+    box(w,H,t,cx,H/2,z1,MAT.mesh,G.bio);
+    box(t,H,d,x0,H/2,cz,MAT.mesh,G.bio);
+    box(t,H,d,x1,H/2,cz,MAT.mesh,G.bio);
+  }
+  cageBox(5.98,5.62,6.78,6.52,
+    {t:'Сетка вокруг насосов',d:'Ограждение от дна до кромки 2 м — биозагрузка не подходит к всасу насосов.'});
+  cageBox(5.98,0.08,6.78,0.98,
+    {t:'Сетка на приливе от барабанника',d:'Ограждает точку входа воды на всю высоту, чтобы биозагрузка не забивала сетку фильтра.'});
   const bw=new THREE.Mesh(new THREE.BoxGeometry(w-.12,1,d-.12),MAT.water);
   bw.name='biow'; bw.position.set(cx,0,cz); G.water.add(bw);
 }
@@ -482,12 +523,9 @@ POOLS.forEach(p=>{
     {t:'Воздуходувка URBAN VORTEX UV/320-380',d:'4,3 кВт · 320 м³/ч · 380 мбар · 380 В. Работает постоянно.<br>На раме вплотную к стенке биофильтра, выше зеркала воды.'},26);
   blow.rotation.z=Math.PI/2;
   box(0.26,0.34,0.30,7.22,bh+0.20,6.95,MAT.equip,G.equip);
-  cyl(0.07,0.30,6.90,bh+0.48,6.72,MAT.frame,G.equip,null,14);
   box(0.42,0.98,0.40,6.35,0.49,8.02,MAT.white,G.equip,
     {t:'Кислородный концентратор 10 л/мин',d:'Белый напольный аппарат, подаёт кислород в оксигенатор.'});
   box(0.30,0.16,0.28,6.35,1.06,8.02,MAT.white,G.equip);
-  box(0.56,1.42,0.40,7.60,0.71,7.10,MAT.white,G.equip,
-    {t:'Газовый котёл Baxi SLIM 1.490 iN',d:'Змеевик в биофильтре и отопление цеха. Вода 28 °C.'});
   box(0.36,0.42,0.13,7.10,1.70,8.26,MAT.white,G.equip,
     {t:'Щит озонатора 40 г/ч',d:'Дозирование по промывке барабанника, блокировка по потоку, контроль DPD.'});
 }
@@ -593,7 +631,8 @@ function apply(h){
     else p.m.position.y=h+p.up+p.off;
     p.m.visible=h>0.05;});
   deckTops.forEach(d=>d.m.position.y=h+d.up);
-  legs.forEach(l=>{l.scale.y=Math.max(h,0.001);l.position.y=h/2;l.visible=h>0.2;});
+  legs.forEach(l=>{const fy=floorY(l.position.x,l.position.z);
+    l.scale.y=Math.max(h-fy,0.001);l.position.y=fy+(h-fy)/2;l.visible=h>0.2;});
   POOLS.forEach(p=>{
     const base=h+p.ped;
     p.grp.position.y=base;
@@ -622,9 +661,9 @@ function apply(h){
 function rebuild(h){
   while(G.conn.children.length){const c=G.conn.children.pop();c.geometry.dispose();}
   POOLS.forEach(p=>{
-    const base=h+p.ped;
-    const m1=new THREE.Mesh(new THREE.CylinderGeometry(RD,RD,Math.max(base,0.02),14),MAT.drain);
-    m1.position.set(p.x,base/2,p.z);m1.castShadow=true;G.conn.add(m1);
+    const base=h+p.ped, fy=floorY(p.x,p.z), L=Math.max(base-fy,0.02);
+    const m1=new THREE.Mesh(new THREE.CylinderGeometry(RD,RD,L,14),MAT.drain);
+    m1.position.set(p.x,fy+L/2,p.z);m1.castShadow=true;G.conn.add(m1);
     const bot=base+p.hp+0.04,len=Math.max(FY-bot,0.05);
     const m2=new THREE.Mesh(new THREE.CylinderGeometry(RF*.75,RF*.75,len,14),MAT.feed);
     m2.position.set(p.fp[0],bot+len/2,p.fp[1]);m2.castShadow=true;G.conn.add(m2);
@@ -645,6 +684,11 @@ el.addEventListener('pointerup',()=>drag=null);
 el.addEventListener('pointermove',e=>{
   if(!drag)return;moved=true;
   const dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;
+  if(walk||fly){                       // мышь крутит голову
+    if(walk&&!fly)manual=true;
+    yaw-=dx*.004; pitch=Math.max(-1.2,Math.min(1.2,pitch-dy*.004));
+    return;
+  }
   if(drag==='rot'){sph.th+=dx*.005;sph.ph=Math.max(.06,Math.min(Math.PI*.495,sph.ph-dy*.005));}
   else{const s=sph.r*.0016;
     const rt=new THREE.Vector3().crossVectors(camera.up,camera.getWorldDirection(new THREE.Vector3())).normalize();
@@ -673,7 +717,8 @@ const $=id=>document.getElementById(id);
 $('bMenu').onclick=()=>$('panel').classList.toggle('hid');
 $('bTheme').onclick=()=>setTheme(!DARK);
 $('bEng').onclick=()=>$('eng').classList.toggle('open');
-$('bWalk').onclick=()=>setWalk(!walk);
+$('bWalk').onclick=()=>setMode(walk?'':'walk');
+$('bFly').onclick=()=>setMode(fly?'':'fly');
 $('bReset').onclick=()=>{$('ph').value=1.0;apply(1.0);};
 $('ph').addEventListener('input',e=>apply(parseFloat(e.target.value)));
 $('sec').addEventListener('input',e=>{const v=parseFloat(e.target.value);
@@ -694,49 +739,63 @@ addEventListener('orientationchange',()=>setTimeout(()=>{camera.aspect=innerWidt
 const TOUR=[[0.9,9.6],[1.6,8.9],[2.6,8.2],[3.4,7.4],[4.3,6.6],[4.75,5.2],
             [4.75,3.4],[4.75,2.0],[4.4,1.0],[3.2,1.6],[2.4,3.0],[1.6,5.2],
             [1.2,7.2],[0.9,8.6]];
-let walk=false, tpos=0, spin=0, spinAt=-1, freeYaw=0, manual=false;
+let walk=false, fly=false, tpos=0, spin=0, spinAt=-1, manual=false;
+let yaw=Math.PI, pitch=0;
 const kd={};
-addEventListener('keydown',e=>{kd[e.key.toLowerCase()]=true; if(walk)manual=true;});
-addEventListener('keyup',e=>{kd[e.key.toLowerCase()]=false;});
-const wpos=new THREE.Vector3(TOUR[0][0],0,TOUR[0][1]);
-function setWalk(on){
-  walk=on; manual=false; tpos=0; spin=0; spinAt=-1;
-  document.getElementById('bWalk').textContent=on?'Выйти из прогулки':'Прогулка по цеху';
-  if(on){wpos.set(TOUR[0][0],0,TOUR[0][1]); freeYaw=Math.PI;}
-  else place();
+addEventListener('keydown',e=>{kd[e.code]=true; if(walk&&!fly)manual=true;});
+addEventListener('keyup',e=>{kd[e.code]=false;});
+const wpos=new THREE.Vector3(TOUR[0][0],1.6,TOUR[0][1]);
+function setMode(m){          // '' | 'walk' | 'fly'
+  walk=(m==='walk'); fly=(m==='fly'); manual=false; tpos=0; spin=0; spinAt=-1;
+  document.getElementById('bWalk').textContent=walk?'Выйти из прогулки':'Прогулка по цеху';
+  document.getElementById('bFly').textContent=fly?'Выйти из полёта':'Свободный полёт';
+  if(walk){wpos.set(TOUR[0][0],0,TOUR[0][1]); yaw=Math.PI; pitch=0;}
+  if(fly){wpos.copy(camera.position); yaw=Math.atan2(tgt.x-camera.position.x,tgt.z-camera.position.z); pitch=-0.2;}
+  if(!walk&&!fly) place();
+}
+function aim(x,y,z){
+  camera.position.set(x,y,z);
+  camera.lookAt(x+Math.sin(yaw)*Math.cos(pitch), y+Math.sin(pitch), z+Math.cos(yaw)*Math.cos(pitch));
+}
+function move(dt,speed,vertical){
+  let mz=0,mx=0,my=0;
+  if(kd['KeyW']||kd['ArrowUp'])mz=1;
+  if(kd['KeyS']||kd['ArrowDown'])mz=-1;
+  if(kd['KeyA']||kd['ArrowLeft'])mx=1;
+  if(kd['KeyD']||kd['ArrowRight'])mx=-1;
+  if(vertical){ if(kd['Space'])my=1; if(kd['ShiftLeft']||kd['ControlLeft'])my=-1; }
+  const sp=speed*dt*((kd['ShiftLeft']&&vertical)?1:1);
+  wpos.x+=(Math.sin(yaw)*mz+Math.cos(yaw)*mx)*sp;
+  wpos.z+=(Math.cos(yaw)*mz-Math.sin(yaw)*mx)*sp;
+  wpos.y+=my*sp;
 }
 function stepWalk(dt){
-  const i=Math.floor(tpos)%TOUR.length, j=(i+1)%TOUR.length;
-  const a=TOUR[i],b=TOUR[j],f=tpos-Math.floor(tpos);
-  if(manual){
-    const sp=2.2*dt; let mx=0,mz=0;
-    if(kd['w']||kd['arrowup'])mz=1; if(kd['s']||kd['arrowdown'])mz=-1;
-    if(kd['a']||kd['arrowleft'])mx=-1; if(kd['d']||kd['arrowright'])mx=1;
-    if(kd['q'])freeYaw+=1.6*dt; if(kd['e'])freeYaw-=1.6*dt;
-    wpos.x+=(Math.sin(freeYaw)*mz+Math.cos(freeYaw)*mx)*sp;
-    wpos.z+=(Math.cos(freeYaw)*mz-Math.sin(freeYaw)*mx)*sp;
-    wpos.x=Math.max(0.4,Math.min(B.w-0.4,wpos.x));
-    wpos.z=Math.max(0.4,Math.min(B.d-0.4,wpos.z));
-    camera.position.set(wpos.x,floorY(wpos.x,wpos.z)+1.62,wpos.z);
-    camera.lookAt(wpos.x+Math.sin(freeYaw),floorY(wpos.x,wpos.z)+1.55,wpos.z+Math.cos(freeYaw));
+  if(fly){
+    move(dt,4.0,true);
+    aim(wpos.x,wpos.y,wpos.z);
     return;
   }
-  /* на каждом четвёртом узле — полный оборот вокруг себя */
+  if(manual){
+    move(dt,2.2,false);
+    wpos.x=Math.max(0.35,Math.min(B.w-0.35,wpos.x));
+    wpos.z=Math.max(0.35,Math.min(B.d-0.35,wpos.z));
+    aim(wpos.x,floorY(wpos.x,wpos.z)+1.62,wpos.z);
+    return;
+  }
+  const i=Math.floor(tpos)%TOUR.length, j=(i+1)%TOUR.length;
+  const a=TOUR[i],b=TOUR[j],f=tpos-Math.floor(tpos);
   if(spinAt===i){
-    spin+=dt*0.85;
-    const yaw=Math.atan2(b[0]-a[0],b[1]-a[1])+spin;
-    camera.position.set(a[0],floorY(a[0],a[1])+1.62,a[1]);
-    camera.lookAt(a[0]+Math.sin(yaw),floorY(a[0],a[1])+1.5,a[1]+Math.cos(yaw));
+    spin+=dt*0.85; yaw=Math.atan2(b[0]-a[0],b[1]-a[1])+spin;
+    aim(a[0],floorY(a[0],a[1])+1.62,a[1]);
     if(spin>Math.PI*2){spin=0;spinAt=-1;tpos+=0.001;}
     return;
   }
   const d=Math.hypot(b[0]-a[0],b[1]-a[1]);
   tpos+=dt*0.9/Math.max(d,0.4);
-  if(tpos>=Math.floor(tpos)+1 && (Math.floor(tpos)+1)%4===0){spinAt=(Math.floor(tpos)+1)%TOUR.length;}
+  if(tpos>=Math.floor(tpos)+1 && (Math.floor(tpos)+1)%4===0) spinAt=(Math.floor(tpos)+1)%TOUR.length;
   const x=a[0]+(b[0]-a[0])*f, z=a[1]+(b[1]-a[1])*f;
-  const yaw=Math.atan2(b[0]-a[0],b[1]-a[1]);
-  camera.position.set(x,floorY(x,z)+1.62,z);
-  camera.lookAt(x+Math.sin(yaw),floorY(x,z)+1.52,z+Math.cos(yaw));
+  yaw=Math.atan2(b[0]-a[0],b[1]-a[1]);
+  aim(x,floorY(x,z)+1.62,z);
 }
 
 /* ---------- цикл ---------- */
@@ -751,7 +810,7 @@ function loop(now){
       const f=d.t*(p.length-1),k=f|0,u=f-k,a=p[k],b2=p[k+1]||p[k];
       d.m.position.set(a.x+(b2.x-a.x)*u,a.y+(b2.y-a.y)*u,a.z+(b2.z-a.z)*u);}
   }
-  if(walk) stepWalk(dt);
+  if(walk||fly) stepWalk(dt);
   /* стены по-симсовски + потолок */
   for(let i=0;i<smart.length;i++){
     const s=smart[i];
