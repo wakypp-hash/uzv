@@ -77,6 +77,13 @@
   </div>
 
   <div class="sec">
+    <button class="btn" id="bWalk">Прогулка по цеху</button>
+    <div style="font-size:10.5px;color:var(--dim);margin-top:5px;line-height:1.5">
+      Камера идёт по проходу и оборачивается на 360°.<br>W A S D — взять управление, Q E — поворот.
+    </div>
+  </div>
+
+  <div class="sec">
     <h2>Разрез по высоте <span class="val" id="secv">3,15 м</span></h2>
     <input type="range" id="sec" min="0.3" max="3.15" step="0.05" value="3.15">
   </div>
@@ -233,22 +240,29 @@ const shape2geo=(poly,depth)=>{
 
 /* ---------- пол с уклоном к трапу + сетка ---------- */
 const FLOORPOLY=[[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]];
+const floorY=(x,z)=>Math.min(Math.hypot(x-TRAP.x,z-TRAP.z)/9.5,1)*0.18;
 let grid=null;
 {
-  const g=shape2geo(FLOORPOLY,0.14);
+  const g=shape2geo(FLOORPOLY,0.05);
   const pos=g.attributes.position;
-  for(let i=0;i<pos.count;i++){
-    const x=pos.getX(i),z=pos.getZ(i),y=pos.getY(i);
-    if(y>-0.01) pos.setY(i,y+Math.min(Math.hypot(x-TRAP.x,z-TRAP.z)/10.5,1)*0.16);
-  }
+  for(let i=0;i<pos.count;i++)
+    pos.setY(i,pos.getY(i)+floorY(pos.getX(i),pos.getZ(i)));
   g.computeVertexNormals();
-  const m=new THREE.Mesh(g,MAT.concrete); m.position.y=-0.14;
-  add(m,G.shell,{t:'Пол цеха',d:'Бетон, плавно понижается к трапу. Перепад около 16 см по скану.'});
-  grid=new THREE.GridHelper(24,48,0x6FA6C8,0x4E6B7D);
-  grid.material.transparent=true;grid.material.opacity=0.16;grid.position.set(CX,0.006,CZ);
+  const m=new THREE.Mesh(g,MAT.concrete); m.position.y=-0.05;
+  add(m,G.shell,{t:'Пол цеха',d:'Бетон выведен с уклоном к трапу: от +18 см в дальних углах до нуля у слива.'});
+  /* сетка идёт по рельефу пола */
+  const gp=[],S=0.5;
+  for(let x=0;x<=B.w+0.001;x+=S){const zm=(x>NW?ZSTEP:B.d);
+    for(let z=0;z<zm;z+=S){const z2=Math.min(z+S,zm);
+      gp.push(new THREE.Vector3(x,floorY(x,z)+0.012,z),new THREE.Vector3(x,floorY(x,z2)+0.012,z2));}}
+  for(let z=0;z<=B.d+0.001;z+=S){const xm=(z>ZSTEP?NW:B.w);
+    for(let x=0;x<xm;x+=S){const x2=Math.min(x+S,xm);
+      gp.push(new THREE.Vector3(x,floorY(x,z)+0.012,z),new THREE.Vector3(x2,floorY(x2,z)+0.012,z));}}
+  grid=new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gp),
+    new THREE.LineBasicMaterial({color:0x6FA6C8,transparent:true,opacity:0.16}));
   scene.add(grid);
-  cyl(0.08,0.02,TRAP.x,0.02,TRAP.z,MAT.black,G.shell,
-    {t:'Трап мытья полов ⌀160',d:'Уходит в выгребную яму. Только для мытья полов и мелких нужд, к системе не относится.'},22);
+  cyl(0.08,0.02,TRAP.x,0.015,TRAP.z,MAT.black,G.shell,
+    {t:'Трап мытья полов ⌀160',d:'Нижняя точка пола, уходит в выгребную яму. Только для мытья полов и мелких нужд.'},22);
 }
 setTheme(true);
 
@@ -307,6 +321,23 @@ const ceilMat=M(0xE8E8E2,{transparent:true,opacity:0.16,roughness:.9,
 
 /* ---------- платформа ---------- */
 let frames=[],deckTops=[],legs=[],pads=[];
+const PADS=[PAD_26,PAD_15,PAD_22];
+const inPoly=(x,z,poly)=>{let c=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const a=poly[i],b=poly[j];
+    if((a[1]>z)!==(b[1]>z)&&x<(b[0]-a[0])*(z-a[1])/(b[1]-a[1])+a[0])c=!c;}
+  return c;};
+const underPad=(x,z)=>PADS.some(p=>inPoly(x,z,p));
+/* контур с вырезами под возвышения — там своего настила нет */
+function deckGeo(poly,holes,depth){
+  const sh=new THREE.Shape(poly.map(p=>new THREE.Vector2(p[0],p[1])));
+  (holes||[]).forEach(h=>{
+    const pathPts=h.map(p=>new THREE.Vector2(p[0],p[1]));
+    if(pathPts.length>2) sh.holes.push(new THREE.Path(pathPts));
+  });
+  const g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false});
+  g.rotateX(-Math.PI/2);g.scale(1,1,-1);g.computeVertexNormals();return g;
+}
 function frameOf(poly,tag){
   const BEAM=0.11,T=0.05,STEP=0.40;
   for(let i=0;i<poly.length;i++){
@@ -326,13 +357,17 @@ function frameOf(poly,tag){
     return r.sort((u,v)=>u-v);};
   for(let x=Math.min(...xs)+STEP;x<Math.max(...xs);x+=STEP){const c=cut(x,0);
     for(let i=0;i+1<c.length;i+=2){const L=c[i+1]-c[i];if(L<0.15)continue;
+      if(underPad(x,(c[i]+c[i+1])/2))continue;
       const m=new THREE.Mesh(new THREE.BoxGeometry(T,T,L),MAT.frame);
       m.position.set(x,0,(c[i]+c[i+1])/2);add(m,G.plat);frames.push({m,off:-0.13});}}
   for(let z=Math.min(...zs)+STEP;z<Math.max(...zs);z+=STEP){const c=cut(z,1);
     for(let i=0;i+1<c.length;i+=2){const L=c[i+1]-c[i];if(L<0.15)continue;
+      if(underPad((c[i]+c[i+1])/2,z))continue;
       const m=new THREE.Mesh(new THREE.BoxGeometry(L,T,T),MAT.frame);
       m.position.set((c[i]+c[i+1])/2,0,z);add(m,G.plat);frames.push({m,off:-0.13});}}
-  const t=new THREE.Mesh(shape2geo(poly,0.04),MAT.osb); add(t,G.deckTop); deckTops.push({m:t,up:0});
+  const holes=PADS.filter(p=>inPoly(p[0][0]+0.05,p[0][1]+0.05,poly)||
+    inPoly((p[0][0]+p[2][0])/2,(p[0][1]+p[2][1])/2,poly));
+  const t=new THREE.Mesh(deckGeo(poly,holes,0.04),MAT.osb); add(t,G.deckTop); deckTops.push({m:t,up:0});
   poly.forEach(([x,z])=>{const l=new THREE.Mesh(new THREE.BoxGeometry(0.10,1,0.10),MAT.frame);
     l.position.set(x,0,z);add(l,G.plat);legs.push(l);});
 }
@@ -381,20 +416,27 @@ POOLS.forEach(p=>{
     d:'Berimax S800 10 м³ · 32 диффузора ⌀330 мм на дне.<br>Уровень воды задаётся гидравликой — см. инженерный режим.<br><b style="color:#E05A4A">Дегазатора CO₂ нет.</b>'});
   box(t,2,d,BIO.x0+t/2,1,cz,MAT.bio,G.bio); box(t,2,d,BIO.x1-t/2,1,cz,MAT.bio,G.bio);
   box(w-.1,0.04,d-.1,cx,0.02,cz,MAT.bio,G.bio);
+  /* 32 аэратора ⌀330: 4 ряда по 8 */
   for(let i=0;i<8;i++)for(let j=0;j<4;j++)
-    cyl(0.165,0.05,BIO.x0+0.42+j*0.40,0.075,BIO.z0+0.55+i*0.72,MAT.frame,G.bio,null,18);
-  const PX=6.35, PZ=[4.85,5.35,5.85];
-  PZ.forEach((z,i)=>{
-    box(0.30,0.30,0.30,PX,0.15,z,MAT.purple,G.bio,i?null:
-      {t:'Погружные насосы Jebao LP-55000',d:'Три штуки: два в работе, один в резерве.<br>55 м³/ч · 560 Вт · напор 4 м. Закрыты общей сеткой.'});
-    cyl(0.055,1.35,PX,0.85,z,MAT.drain,G.bio,null,14);
-    const el=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.42,14),MAT.drain);
-    el.rotation.x=Math.PI/2; el.position.set(PX,1.52,z+0.21); add(el,G.bio);
+    cyl(0.165,0.05,BIO.x0+0.35+j*0.44,0.075,BIO.z0+0.45+i*0.78,MAT.frame,G.bio,null,18);
+  /* 3 погружных насоса в дальнем углу, закрыты сеткой */
+  const PC={x:6.35,z:6.05};
+  [[-0.24,-0.16],[0.02,0.10],[0.26,-0.14]].forEach(([ox,oz],i)=>{
+    box(0.26,0.26,0.26,PC.x+ox,0.13,PC.z+oz,MAT.purple,G.bio,i?null:
+      {t:'Погружные насосы Jebao LP-55000',d:'Три штуки в углу: два в работе, один в резерве.<br>55 м³/ч · 560 Вт · напор 4 м. Закрыты общей сеткой.'});
+    cyl(0.055,1.30,PC.x+ox,0.90,PC.z+oz,MAT.drain,G.bio,null,14);
+    const el=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.30,14),MAT.drain);
+    el.rotation.z=Math.PI/2; el.position.set(PC.x+ox/2,1.55,PC.z+oz); add(el,G.bio);
   });
-  const col=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.082,1.35,18),MAT.feed);
-  col.rotation.x=Math.PI/2; col.position.set(PX,1.52,5.35); add(col,G.bio);
-  const cage=new THREE.Mesh(new THREE.BoxGeometry(0.72,0.72,1.55),MAT.mesh);
-  cage.position.set(PX,0.36,5.35); add(cage,G.bio);
+  const col=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.082,0.95,18),MAT.feed);
+  col.rotation.x=Math.PI/2; col.position.set(PC.x,1.55,PC.z-0.10); add(col,G.bio);
+  const cage=new THREE.Mesh(new THREE.CylinderGeometry(0.62,0.62,0.95,28,1,true),MAT.mesh);
+  cage.position.set(PC.x,0.48,PC.z); add(cage,G.bio,
+    {t:'Сетка вокруг насосов',d:'Не даёт биозагрузке подойти к всасу насосов.'});
+  /* прилив от барабанника — тоже под сеткой, чтобы загрузка не забивала */
+  const cage2=new THREE.Mesh(new THREE.CylinderGeometry(0.58,0.58,1.10,28,1,true),MAT.mesh);
+  cage2.position.set(6.25,0.55,0.55); add(cage2,G.bio,
+    {t:'Сетка на приливе от барабанника',d:'Ограждает точку входа воды, чтобы биозагрузка не забивала сетку фильтра.'});
   const bw=new THREE.Mesh(new THREE.BoxGeometry(w-.12,1,d-.12),MAT.water);
   bw.name='biow'; bw.position.set(cx,0,cz); G.water.add(bw);
 }
@@ -469,14 +511,15 @@ function pipe(pts,r,mat,grp){
   P.push(new THREE.Vector3(...pts[pts.length-1]));
   return P;
 }
-const RD=0.058,RF=0.082,YD=0.065;
+const RD=0.058,RF=0.082;
+const dp=(x,z)=>[x,floorY(x,z)+0.062,z];      // труба лежит НА наклонном полу
 const flows=[]; const MX=5.35;
-flows.push({p:pipe([[2.07,YD,2.00],[3.6,YD,2.00],[4.2,YD,1.4],[4.62,YD,0.95]],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([[1.35,YD,5.51],[2.6,YD,5.51],[4.0,YD,4.1],[4.0,YD,2.3],[4.62,YD,1.35]],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([[3.38,YD,4.97],[3.8,YD,4.55],[4.0,YD,4.35]],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([[1.17,YD,10.61],[2.2,YD,9.95],[4.6,YD,9.95],[MX,YD,9.55]],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([[4.34,YD,10.04],[4.9,YD,9.85],[MX,YD,9.55]],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([[MX,YD,9.55],[MX,YD,2.6],[4.75,YD,1.95],[4.62,YD,1.6]],RD*1.15,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(2.07,2.00),dp(3.6,2.00),dp(4.2,1.4),dp(4.62,0.95)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(1.35,5.51),dp(2.6,5.51),dp(4.0,4.1),dp(4.0,2.3),dp(4.62,1.35)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(3.38,4.97),dp(3.8,4.55),dp(4.0,4.35)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(1.17,10.61),dp(2.2,9.95),dp(4.6,9.95),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(4.34,10.04),dp(4.9,9.85),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(MX,9.55),dp(MX,6.0),dp(MX,2.6),dp(4.75,1.95),dp(4.62,1.6)],RD*1.15,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[DRUM.x,DRUM.legs+0.55,DRUM.z-DRUM.dz/2-0.05],[5.6,1.2,0.55],[6.3,1.0,0.55]],RD*1.2,MAT.drain,G.drain),c:0xC85A2E});
 pipe([[6.20,1.85,6.45],[6.20,OVER.y,OVER.z],[7.88,OVER.y,OVER.z]],RF,MAT.drain,G.drain);
 box(0.10,0.34,0.34,7.88,OVER.y,OVER.z,MAT.black,G.drain,
@@ -630,6 +673,7 @@ const $=id=>document.getElementById(id);
 $('bMenu').onclick=()=>$('panel').classList.toggle('hid');
 $('bTheme').onclick=()=>setTheme(!DARK);
 $('bEng').onclick=()=>$('eng').classList.toggle('open');
+$('bWalk').onclick=()=>setWalk(!walk);
 $('bReset').onclick=()=>{$('ph').value=1.0;apply(1.0);};
 $('ph').addEventListener('input',e=>apply(parseFloat(e.target.value)));
 $('sec').addEventListener('input',e=>{const v=parseFloat(e.target.value);
@@ -646,6 +690,55 @@ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;
 addEventListener('orientationchange',()=>setTimeout(()=>{camera.aspect=innerWidth/innerHeight;
   camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);},250));
 
+/* ---------- прогулка по цеху ---------- */
+const TOUR=[[0.9,9.6],[1.6,8.9],[2.6,8.2],[3.4,7.4],[4.3,6.6],[4.75,5.2],
+            [4.75,3.4],[4.75,2.0],[4.4,1.0],[3.2,1.6],[2.4,3.0],[1.6,5.2],
+            [1.2,7.2],[0.9,8.6]];
+let walk=false, tpos=0, spin=0, spinAt=-1, freeYaw=0, manual=false;
+const kd={};
+addEventListener('keydown',e=>{kd[e.key.toLowerCase()]=true; if(walk)manual=true;});
+addEventListener('keyup',e=>{kd[e.key.toLowerCase()]=false;});
+const wpos=new THREE.Vector3(TOUR[0][0],0,TOUR[0][1]);
+function setWalk(on){
+  walk=on; manual=false; tpos=0; spin=0; spinAt=-1;
+  document.getElementById('bWalk').textContent=on?'Выйти из прогулки':'Прогулка по цеху';
+  if(on){wpos.set(TOUR[0][0],0,TOUR[0][1]); freeYaw=Math.PI;}
+  else place();
+}
+function stepWalk(dt){
+  const i=Math.floor(tpos)%TOUR.length, j=(i+1)%TOUR.length;
+  const a=TOUR[i],b=TOUR[j],f=tpos-Math.floor(tpos);
+  if(manual){
+    const sp=2.2*dt; let mx=0,mz=0;
+    if(kd['w']||kd['arrowup'])mz=1; if(kd['s']||kd['arrowdown'])mz=-1;
+    if(kd['a']||kd['arrowleft'])mx=-1; if(kd['d']||kd['arrowright'])mx=1;
+    if(kd['q'])freeYaw+=1.6*dt; if(kd['e'])freeYaw-=1.6*dt;
+    wpos.x+=(Math.sin(freeYaw)*mz+Math.cos(freeYaw)*mx)*sp;
+    wpos.z+=(Math.cos(freeYaw)*mz-Math.sin(freeYaw)*mx)*sp;
+    wpos.x=Math.max(0.4,Math.min(B.w-0.4,wpos.x));
+    wpos.z=Math.max(0.4,Math.min(B.d-0.4,wpos.z));
+    camera.position.set(wpos.x,floorY(wpos.x,wpos.z)+1.62,wpos.z);
+    camera.lookAt(wpos.x+Math.sin(freeYaw),floorY(wpos.x,wpos.z)+1.55,wpos.z+Math.cos(freeYaw));
+    return;
+  }
+  /* на каждом четвёртом узле — полный оборот вокруг себя */
+  if(spinAt===i){
+    spin+=dt*0.85;
+    const yaw=Math.atan2(b[0]-a[0],b[1]-a[1])+spin;
+    camera.position.set(a[0],floorY(a[0],a[1])+1.62,a[1]);
+    camera.lookAt(a[0]+Math.sin(yaw),floorY(a[0],a[1])+1.5,a[1]+Math.cos(yaw));
+    if(spin>Math.PI*2){spin=0;spinAt=-1;tpos+=0.001;}
+    return;
+  }
+  const d=Math.hypot(b[0]-a[0],b[1]-a[1]);
+  tpos+=dt*0.9/Math.max(d,0.4);
+  if(tpos>=Math.floor(tpos)+1 && (Math.floor(tpos)+1)%4===0){spinAt=(Math.floor(tpos)+1)%TOUR.length;}
+  const x=a[0]+(b[0]-a[0])*f, z=a[1]+(b[1]-a[1])*f;
+  const yaw=Math.atan2(b[0]-a[0],b[1]-a[1]);
+  camera.position.set(x,floorY(x,z)+1.62,z);
+  camera.lookAt(x+Math.sin(yaw),floorY(x,z)+1.52,z+Math.cos(yaw));
+}
+
 /* ---------- цикл ---------- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let last=performance.now();
@@ -658,11 +751,12 @@ function loop(now){
       const f=d.t*(p.length-1),k=f|0,u=f-k,a=p[k],b2=p[k+1]||p[k];
       d.m.position.set(a.x+(b2.x-a.x)*u,a.y+(b2.y-a.y)*u,a.z+(b2.z-a.z)*u);}
   }
+  if(walk) stepWalk(dt);
   /* стены по-симсовски + потолок */
   for(let i=0;i<smart.length;i++){
     const s=smart[i];
     const d=s.nx*(camera.position.x-s.cx)+s.nz*(camera.position.z-s.cz);
-    const t=d>0.3?0.08:1.0;
+    const t=(walk||d<=0.3)?1.0:0.08;
     s.m.material.opacity+=(t-s.m.material.opacity)*0.16;
   }
   ceilMat.opacity+=((camera.position.y>B.h?0.04:0.18)-ceilMat.opacity)*0.12;
