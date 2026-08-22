@@ -805,7 +805,15 @@ function vDash(){
   <div class="page">
     <div class="h1">Сводка <span class="serif">дня</span></div>
     <div class="sub">${new Date().toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</div>
-
+    <div class="card" style="margin-top:16px;display:flex;align-items:center;gap:14px">
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:600">3D-модель цеха</div>
+        <div style="font-size:12.5px;color:var(--tx2);margin-top:2px">Интерактивная схема, разрез по высоте, подписи по наведению</div>
+      </div>
+      <a href="som3d.html" style="display:inline-block;white-space:nowrap;text-decoration:none;text-align:center;
+        border:0;border-radius:16px;padding:11px 18px;font-size:14px;font-weight:640;background:var(--blue);color:#fff;
+        box-shadow:0 8px 22px rgba(10,132,255,.28)">Перейти в 3D →</a>
+    </div>
     <div class="ai-card" style="margin-top:18px">
       <div class="mesh"></div>
       <div class="in">
