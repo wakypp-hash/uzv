@@ -6,47 +6,52 @@
 <title>УЗВ «Сомовник» — Сызрань</title>
 <style>
   :root{--bg:#10161B;--panel:rgba(22,30,37,.95);--line:#2A3742;--ink:#E8EFF4;--dim:#8494A0;
-        --acc:#F26522;--ok:#3FB27F;--warn:#DFA32E;--bad:#E05A4A}
+        --acc:#0A84FF;--ok:#3FB27F;--warn:#DFA32E;--bad:#E05A4A}
   [data-theme="light"]{--bg:#E9ECEF;--panel:rgba(255,255,255,.95);--line:#D3DAE0;--ink:#1C262E;--dim:#5D6C77}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
-    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;transition:background .3s}
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Inter,sans-serif;overflow:hidden;transition:background .3s}
   canvas{display:block}
   #hud{position:fixed;top:0;left:0;padding:14px 16px;pointer-events:none;z-index:5}
-  #hud h1{margin:0;font-size:14px;font-weight:600}
+  #hud h1{margin:0;font-size:14px;font-weight:600;letter-spacing:-.02em}
   #hud .sub{margin-top:2px;font-size:10px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;
     font-family:ui-monospace,Menlo,monospace}
   #topbtns{position:fixed;top:12px;right:12px;z-index:8;display:flex;gap:8px}
-  .fab{width:40px;height:40px;border-radius:10px;background:var(--panel);border:1px solid var(--line);
-    color:var(--ink);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(12px)}
+  .fab{width:40px;height:40px;border-radius:12px;background:var(--panel);border:.5px solid var(--line);
+    color:var(--ink);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;backdrop-filter:saturate(180%) blur(20px)}
   .fab:active{transform:scale(.94)}
-  #panel{position:fixed;top:60px;right:12px;width:268px;background:var(--panel);backdrop-filter:blur(14px);
-    border:1px solid var(--line);border-radius:12px;padding:14px;z-index:7;
+  #panel{position:fixed;top:60px;right:12px;width:268px;background:var(--panel);backdrop-filter:saturate(180%) blur(20px);
+    border:.5px solid var(--line);border-radius:22px;padding:16px;z-index:7;
     max-height:calc(100vh - 76px);overflow:auto;transition:transform .25s,opacity .25s}
   #panel.hid{transform:translateX(115%);opacity:0;pointer-events:none}
   #panel h2{margin:0 0 8px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:600}
-  .sec+.sec{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+  .sec+.sec{margin-top:13px;padding-top:12px;border-top:.5px solid var(--line)}
   label.row{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:4px 0;cursor:pointer;user-select:none}
   label.row input{accent-color:var(--acc);width:15px;height:15px;flex:none;cursor:pointer}
   input[type=range]{width:100%;accent-color:var(--acc);margin:6px 0 2px}
   .val{float:right;color:var(--dim);font-weight:400;font-family:ui-monospace,monospace}
-  .btn{display:block;width:100%;margin-top:6px;padding:8px;background:transparent;border:1px solid var(--line);
-    color:var(--ink);border-radius:7px;font-size:11.5px;cursor:pointer;font-family:inherit}
-  .btn:hover{border-color:var(--acc)}
+  .btn{display:block;width:100%;margin-top:6px;padding:9px;background:transparent;border:.5px solid var(--line);
+    color:var(--ink);border-radius:12px;font-size:11.5px;cursor:pointer;font-family:inherit;transition:.15s}
+  .btn:hover{border-color:var(--acc);color:var(--acc)}
   table.calc{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
   table.calc td{padding:2.5px 0}
   table.calc td:last-child{text-align:right;font-family:ui-monospace,monospace}
-  #verdict{margin-top:9px;padding:8px 10px;border-radius:7px;font-size:11px;line-height:1.5;border-left:3px solid var(--warn)}
+  #verdict{margin-top:9px;padding:8px 10px;border-radius:12px;font-size:11px;line-height:1.5;border-left:3px solid var(--warn)}
   #verdict b{display:block;margin-bottom:2px;font-size:11.5px}
   #eng{display:none}#eng.open{display:block}
-  #info{position:fixed;left:12px;bottom:12px;z-index:6;background:var(--panel);backdrop-filter:blur(14px);
-    border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:9px;padding:11px 13px;
+  #info{position:fixed;left:12px;bottom:12px;z-index:6;background:var(--panel);backdrop-filter:saturate(180%) blur(20px);
+    border:.5px solid var(--line);border-left:3px solid var(--acc);border-radius:16px;padding:12px 14px;
     max-width:min(330px,calc(100vw - 24px));display:none}
   #info .t{font-size:12.5px;font-weight:600;margin-bottom:4px}
   #info .d{font-size:11.5px;color:var(--dim);line-height:1.55}
   #info .x{position:absolute;top:6px;right:9px;cursor:pointer;color:var(--dim);font-size:15px}
+  #tip{position:fixed;z-index:9;background:var(--panel);backdrop-filter:saturate(180%) blur(20px);
+    border:.5px solid var(--line);border-radius:12px;padding:8px 11px;pointer-events:none;
+    max-width:240px;display:none;transform:translate(14px,14px)}
+  #tip .t{font-size:11.5px;font-weight:600}
+  #tip .d{font-size:10.5px;color:var(--dim);line-height:1.45;margin-top:2px}
   @media(max-width:760px){
-    #panel{top:auto;bottom:0;left:0;right:0;width:100%;max-height:58vh;border-radius:16px 16px 0 0;
+    #panel{top:auto;bottom:0;left:0;right:0;width:100%;max-height:58vh;border-radius:22px 22px 0 0;
       padding-bottom:calc(14px + env(safe-area-inset-bottom))}
     #panel.hid{transform:translateY(110%)}
     #hud{padding:10px 12px}#info{bottom:auto;top:60px;left:10px}
@@ -72,8 +77,7 @@
     <label class="row"><input type="checkbox" id="cDrain" checked> Слив</label>
     <label class="row"><input type="checkbox" id="cFeed" checked> Подача ⌀160</label>
     <label class="row"><input type="checkbox" id="cFlow" checked> Движение потока</label>
-    <label class="row"><input type="checkbox" id="cDims"> Размеры</label>
-    <label class="row"><input type="checkbox" id="cLabels"> Подписи</label>
+    <label class="row"><input type="checkbox" id="cLabels"> Подписи (по наведению)</label>
   </div>
 
   <div class="sec">
@@ -111,6 +115,7 @@
 
 <div id="info"><span class="x" onclick="this.parentElement.style.display='none'">✕</span>
   <div class="t"></div><div class="d"></div></div>
+<div id="tip"><div class="t"></div><div class="d"></div></div>
 
 <script src="three.min.js"></script>
 <script>
@@ -143,6 +148,7 @@ const DOOR={z0:8.00,z1:9.50};
 const TDOOR={z0:6.67,z1:7.67};
 const TRAP={x:0.45,z:5.87};
 const OVER={z:6.70,y:0.50};
+const MX=5.75;
 let PLAT=1.00;
 
 /* ---------- сцена ---------- */
@@ -163,7 +169,8 @@ key.position.set(8,14,6); key.castShadow=true; key.shadow.mapSize.set(2048,2048)
 Object.assign(key.shadow.camera,{left:-12,right:12,top:13,bottom:-13,near:1,far:48});
 scene.add(key);
 const fill=new THREE.DirectionalLight(0x9CBEDD,0.3); fill.position.set(-7,5,-7); scene.add(fill);
-[[2,2],[2,6.5],[2,10.2],[6.4,3],[6.4,7.4]].forEach(([x,z])=>{
+const LAMPS=[[2,2],[2,6.5],[2,10.2],[6.4,3],[6.4,7.4]];
+LAMPS.forEach(([x,z])=>{
   const l=new THREE.PointLight(0xD6EAFF,0.26,7); l.position.set(x,2.95,z); scene.add(l);});
 
 function setTheme(dark){
@@ -178,40 +185,6 @@ function tex(draw,w,h,rx,ry){
   const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);return t;
 }
-const texConcrete=tex((g,w,h)=>{
-  /* базовый цементный тон с крупными пятнами заливки */
-  g.fillStyle='#8E8C85';g.fillRect(0,0,w,h);
-  for(let i=0;i<70;i++){
-    const r=30+Math.random()*90;
-    const gr=g.createRadialGradient(Math.random()*w,Math.random()*h,0,Math.random()*w,Math.random()*h,r);
-    gr.addColorStop(0,`rgba(${150+Math.random()*40},${148+Math.random()*40},${140+Math.random()*40},.14)`);
-    gr.addColorStop(1,'rgba(0,0,0,0)');
-    g.fillStyle=gr;g.fillRect(0,0,w,h);
-  }
-  /* заполнитель: мелкий щебень и поры */
-  for(let i=0;i<9000;i++){
-    const v=Math.random();
-    g.fillStyle=v<.5?`rgba(60,58,54,${.05+Math.random()*.18})`
-                    :`rgba(232,230,222,${.04+Math.random()*.16})`;
-    const s=0.6+Math.random()*2.2;
-    g.fillRect(Math.random()*w,Math.random()*h,s,s);
-  }
-  /* следы затирки — дуги */
-  g.strokeStyle='rgba(120,118,110,.10)';
-  for(let i=0;i<26;i++){
-    g.lineWidth=2+Math.random()*7;g.beginPath();
-    g.arc(Math.random()*w,Math.random()*h,20+Math.random()*80,0,Math.PI*(0.5+Math.random()));
-    g.stroke();
-  }
-  /* усадочные трещины */
-  g.strokeStyle='rgba(48,46,42,.30)';
-  for(let i=0;i<9;i++){
-    g.lineWidth=0.7+Math.random();g.beginPath();
-    let x=Math.random()*w,y=Math.random()*h;g.moveTo(x,y);
-    for(let j=0;j<7;j++){x+=(Math.random()-.5)*60;y+=(Math.random()-.5)*60;g.lineTo(x,y);}
-    g.stroke();
-  }
-},512,512,4,6);
 const texOSB=tex((g,w,h)=>{
   g.fillStyle='#DCC9A6';g.fillRect(0,0,w,h);
   for(let i=0;i<900;i++){const l=56+Math.random()*24;
@@ -230,7 +203,7 @@ const texSteel=tex((g,w,h)=>{
 const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign(
   {color:c,roughness:.85,metalness:.04,clippingPlanes:[clip],clipShadows:true},o));
 const MAT={
-  concrete:M(0xffffff,{map:texConcrete,roughness:.96,side:THREE.DoubleSide}),
+  concrete:M(0x45494D,{roughness:.9,side:THREE.DoubleSide}),
   wall :M(0xD8D2B6,{roughness:.9,side:THREE.DoubleSide}),
   wallT:M(0xC9CDD1,{roughness:.88,side:THREE.DoubleSide}),
   pool :M(0xCFC9BC,{roughness:.5,side:THREE.DoubleSide}),
@@ -248,12 +221,13 @@ const MAT={
   aerMemb:M(0x22262A,{roughness:.75}),
   drain:M(0xC85A2E,{roughness:.55}),
   feed :M(0xE8763A,{roughness:.5}),
+  lamp :M(0xF4F6F8,{roughness:.35,emissive:0xBFD9F2,emissiveIntensity:.5}),
   water:new THREE.MeshPhysicalMaterial({color:0x2FA9C4,roughness:.13,transparent:true,
          opacity:.55,transmission:.35,clippingPlanes:[clip]})
 };
 
 const G={};
-['shell','walls','plat','deckTop','pools','water','bio','drain','feed','flow','labels','dims','equip','extra','conn']
+['shell','walls','plat','deckTop','pools','water','bio','drain','feed','flow','labels','dims','equip','extra','conn','lamps']
  .forEach(k=>{G[k]=new THREE.Group();scene.add(G[k]);});
 const picks=[];
 const add=(m,g,meta)=>{m.castShadow=true;m.receiveShadow=true;(g||G.shell).add(m);
@@ -268,9 +242,10 @@ const shape2geo=(poly,depth)=>{
   g.rotateX(-Math.PI/2);g.scale(1,1,-1);g.computeVertexNormals();return g;
 };
 
-/* ---------- пол с уклоном к трапу + сетка ---------- */
+/* ---------- пол: лёгкий уклон к трапу, опущен ниже дна биофильтра + сетка ---------- */
 const FLOORPOLY=[[0,0],[B.w,0],[B.w,ZSTEP],[NW,ZSTEP],[NW,B.d],[0,B.d]];
-const floorY=(x,z)=>Math.min(Math.hypot(x-TRAP.x,z-TRAP.z)/9.5,1)*0.18;
+const FLOOR_BASE=-0.12, FLOOR_AMP=0.05;
+const floorY=(x,z)=>FLOOR_BASE+Math.min(Math.hypot(x-TRAP.x,z-TRAP.z)/9.5,1)*FLOOR_AMP;
 let grid=null;
 {
   const g=shape2geo(FLOORPOLY,0.05);
@@ -278,8 +253,8 @@ let grid=null;
   for(let i=0;i<pos.count;i++)
     pos.setY(i,pos.getY(i)+floorY(pos.getX(i),pos.getZ(i)));
   g.computeVertexNormals();
-  const m=new THREE.Mesh(g,MAT.concrete); m.position.y=-0.05;
-  add(m,G.shell,{t:'Пол цеха',d:'Бетон выведен с уклоном к трапу: от +18 см в дальних углах до нуля у слива.'});
+  const m=new THREE.Mesh(g,MAT.concrete); m.position.y=0;
+  add(m,G.shell,{t:'Пол цеха',d:'Бетон, лёгкий уклон к трапу (до 5 см). Плита опущена ниже дна биофильтра — низ биофильтра, аэраторы и приямки остаются полностью видны.'});
   /* сетка идёт по рельефу пола */
   const gp=[],S=0.5;
   for(let x=0;x<=B.w+0.001;x+=S){const zm=(x>NW?ZSTEP:B.d);
@@ -291,7 +266,7 @@ let grid=null;
   grid=new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gp),
     new THREE.LineBasicMaterial({color:0x6FA6C8,transparent:true,opacity:0.16}));
   scene.add(grid);
-  cyl(0.08,0.02,TRAP.x,0.015,TRAP.z,MAT.black,G.shell,
+  cyl(0.08,0.02,TRAP.x,FLOOR_BASE+0.015,TRAP.z,MAT.black,G.shell,
     {t:'Трап мытья полов ⌀160',d:'Нижняя точка пола, уходит в выгребную яму. Только для мытья полов и мелких нужд.'},22);
 }
 setTheme(true);
@@ -332,7 +307,7 @@ function reg(m,nx,nz,cx,cz){
     {t:'Щиток питания 20 кВт',d:'Постоянная нагрузка: воздуходувка 4,3 кВт, насосы 1,2 кВт, озонатор 300 Вт.'});
 }
 
-/* ---------- потолок: полупрозрачный, уровень читается ---------- */
+/* ---------- потолок: в прогулке непрозрачный, снаружи полупрозрачный + плафоны ---------- */
 const ceilMat=M(0xE8E8E2,{transparent:true,opacity:0.16,roughness:.9,
   side:THREE.DoubleSide,depthWrite:false});
 {
@@ -347,6 +322,15 @@ const ceilMat=M(0xE8E8E2,{transparent:true,opacity:0.16,roughness:.9,
     const bm=new THREE.Mesh(new THREE.BoxGeometry(w,0.06,0.06),beamMat);
     bm.position.set(w/2,B.h-0.04,z); bm.castShadow=false; G.walls.add(bm);
   }
+  /* плафоны — накладные светильники на местах точечных источников */
+  LAMPS.forEach(([x,z])=>{
+    const base=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.18,0.06,20),MAT.frame);
+    base.position.set(x,B.h-0.03,z); G.lamps.add(base);
+    const glass=new THREE.Mesh(new THREE.CylinderGeometry(0.145,0.145,0.035,20),MAT.lamp);
+    glass.position.set(x,B.h-0.07,z); G.lamps.add(glass);
+    glass.userData={t:'Светильник накладной',d:'Плафон на потолке техпомещения/цеха, над проходом и бассейнами.'};
+    picks.push(glass);
+  });
 }
 
 /* ---------- платформа ---------- */
@@ -428,7 +412,7 @@ POOLS.forEach(p=>{
   const m=new THREE.Mesh(new THREE.LatheGeometry(prof,64),MAT.pool);
   m.castShadow=m.receiveShadow=true; grp.add(m);
   m.userData={t:`Бассейн ⌀${p.d} м`,
-    d:`Стеклопластик, борт ${p.hp.toFixed(2)} м${p.ped?', на возвышении +'+((p.ped*100)|0)+' см':''}.<br>Объём ${p.v} м³ · вода ${p.w.toFixed(2)} м.<br>Кромки всех бассейнов в одной плоскости.`};
+    d:`Стеклопластик, борт ${p.hp.toFixed(2)} м${p.ped?', на возвышении +'+((p.ped*100)|0)+' см':''}.<br>Объём ${p.v} м³ · вода ${p.w.toFixed(2)} м.<br>Донный слив ⌀160, подача сверху.<br>Кромки всех бассейнов в одной плоскости.`};
   picks.push(m);
   const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.04,20),MAT.drain);
   fl.position.y=0.03; grp.add(fl);
@@ -551,12 +535,13 @@ function pipe(pts,r,mat,grp){
 }
 const RD=0.058,RF=0.082;
 const dp=(x,z)=>[x,floorY(x,z)+0.062,z];      // труба лежит НА наклонном полу
-const flows=[]; const MX=5.35;
+const flows=[];
 flows.push({p:pipe([dp(2.07,2.00),dp(3.6,2.00),dp(4.2,1.4),dp(4.62,0.95)],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([dp(1.35,5.51),dp(2.6,5.51),dp(4.0,4.1),dp(4.0,2.3),dp(4.62,1.35)],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([dp(3.38,4.97),dp(3.8,4.55),dp(4.0,4.35)],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([dp(1.17,10.61),dp(2.2,9.95),dp(4.6,9.95),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
-flows.push({p:pipe([dp(4.34,10.04),dp(4.9,9.85),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
+/* 3.3 и 2.2: сразу к линии биофильтра и вдоль неё — без пересечения прохода */
+flows.push({p:pipe([dp(1.17,10.61),dp(1.17,11.30),dp(MX,11.30),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
+flows.push({p:pipe([dp(4.34,10.04),dp(MX,10.04),dp(MX,9.55)],RD,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([dp(MX,9.55),dp(MX,6.0),dp(MX,2.6),dp(4.75,1.95),dp(4.62,1.6)],RD*1.15,MAT.drain,G.drain),c:0xC85A2E});
 flows.push({p:pipe([[DRUM.x,DRUM.legs+0.55,DRUM.z-DRUM.dz/2-0.05],[5.6,1.2,0.55],[6.3,1.0,0.55]],RD*1.2,MAT.drain,G.drain),c:0xC85A2E});
 pipe([[6.20,1.85,6.45],[6.20,OVER.y,OVER.z],[7.88,OVER.y,OVER.z]],RF,MAT.drain,G.drain);
@@ -584,42 +569,31 @@ flows.forEach(f=>{for(let i=0;i<4;i++){
     new THREE.MeshBasicMaterial({color:f.c,clippingPlanes:[clip]}));
   s.position.copy(f.p[0]); G.flow.add(s); dots.push({m:s,p:f.p,t:i/4});}});
 
-/* ---------- подписи и размеры ---------- */
-function sprite(txt,x,y,z,col,scale){
-  const fs=40,pad=15,c=document.createElement('canvas'),g=c.getContext('2d');
-  g.font=`600 ${fs}px ui-monospace,Menlo,monospace`;
-  c.width=g.measureText(txt).width+pad*2;c.height=fs+pad*1.3;
-  g.font=`600 ${fs}px ui-monospace,Menlo,monospace`;
-  g.fillStyle='rgba(16,22,27,.9)';g.strokeStyle=col;g.lineWidth=3;
-  g.fillRect(1.5,1.5,c.width-3,c.height-3);g.strokeRect(1.5,1.5,c.width-3,c.height-3);
-  g.fillStyle='#E8EFF4';g.textBaseline='middle';g.fillText(txt,pad,c.height/2+2);
-  const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true}));
-  const k=(scale||1)*0.0050; sp.scale.set(c.width*k,c.height*k,1); sp.position.set(x,y,z);
-  return sp;
-}
-const plabels=POOLS.map(p=>{const s=sprite(`⌀${p.d}`,p.x,0,p.z,'#F26522');G.labels.add(s);return s;});
-[['БИОФИЛЬТР',6.9,2.4,3.3,'#1B7FD4'],['БАРАБАННИК',DRUM.x,2.85,DRUM.z,'#1565C0'],
- ['ОКСИГЕНАТОР',OXY.x,2.1,OXY.z,'#9BA6AE'],['ТЕХПОМЕЩЕНИЕ',6.9,2.7,7.5,'#8C97A0'],
- ['ВХОД 1,5 м',0.5,2.4,8.75,'#DFA32E']].forEach(a=>G.labels.add(sprite(a[0],a[1],a[2],a[3],a[4])));
-G.labels.visible=false;
-
-function dim(a,b,txt,off){
+/* ---------- подписи (по наведению): размеры + метки объединены в один слой ---------- */
+function dimHover(a,b,txt,extra){
   const av=new THREE.Vector3(...a),bv=new THREE.Vector3(...b);
   const g=new THREE.BufferGeometry().setFromPoints([av,bv]);
-  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:0xF26522,transparent:true,opacity:.9}));
-  G.dims.add(l);
-  const mid=av.clone().lerp(bv,0.5); mid.y+=(off||0.12);
-  G.dims.add(sprite(txt,mid.x,mid.y,mid.z,'#F26522',0.82));
+  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:0x0A84FF,transparent:true,opacity:.55}));
+  l.userData={t:txt,d:extra||'Размер конструкции.'};
+  G.dims.add(l); picks.push(l);
+  /* невидимый утолщённый хит-бокс вдоль линии для надёжного наведения */
+  const mid=av.clone().lerp(bv,0.5), len=av.distanceTo(bv);
+  const dir=bv.clone().sub(av);
+  const hit=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.09,len,6),
+    new THREE.MeshBasicMaterial({visible:false}));
+  hit.position.copy(mid);
+  hit.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());
+  hit.userData={t:txt,d:extra||'Размер конструкции.'};
+  G.dims.add(hit); picks.push(hit);
 }
-dim([0,0.02,-0.35],[B.w,0.02,-0.35],'7,9 м');
-dim([-0.35,0.02,0],[-0.35,0.02,B.d],'11,7 м');
-dim([B.w+0.35,0,0],[B.w+0.35,B.h,0],'3,15 м');
-dim([BIO.x0,2.12,BIO.z0],[BIO.x0,2.12,BIO.z1],'6,6 м');
-dim([BIO.x0,2.12,BIO.z1+0.3],[BIO.x1,2.12,BIO.z1+0.3],'2 м');
-dim([0,0.02,DOOR.z0],[0,0.02,DOOR.z1],'вход 1,5 м');
-POOLS.forEach(p=>dim([p.x-p.d/2,0.02,p.z],[p.x+p.d/2,0.02,p.z],p.d+' м'));
-G.dims.visible=false;
+dimHover([0,0.02,-0.35],[B.w,0.02,-0.35],'7,9 м','Ширина цеха по наружным стенам.');
+dimHover([-0.35,0.02,0],[-0.35,0.02,B.d],'11,7 м','Длина цеха по наружным стенам.');
+dimHover([B.w+0.35,0,0],[B.w+0.35,B.h,0],'3,15 м','Высота цеха от пола до конька.');
+dimHover([BIO.x0,2.12,BIO.z0],[BIO.x0,2.12,BIO.z1],'6,6 м','Длина биофильтра.');
+dimHover([BIO.x0,2.12,BIO.z1+0.3],[BIO.x1,2.12,BIO.z1+0.3],'2 м','Ширина биофильтра.');
+dimHover([0,0.02,DOOR.z0],[0,0.02,DOOR.z1],'вход 1,5 м','Проём главного входа.');
+G.dims.visible=true;
+G.labels.visible=false;
 
 /* ---------- пересчёт ---------- */
 const biow=G.water.getObjectByName('biow');
@@ -638,7 +612,6 @@ function apply(h){
     p.grp.position.y=base;
     p.waterM.position.set(p.x,base+p.w/2+0.03,p.z);
   });
-  plabels.forEach((s,i)=>s.position.y=h+POOLS[i].ped+POOLS[i].hp+0.4);
   const mirror=h+0.40+0.65, drumIn=mirror-0.10;
   const bioMax=Math.max(0,Math.min(drumIn-0.30,1.9)), vol=13.3*bioMax, rim4=h+1.20;
   biow.scale.y=Math.max(bioMax,0.001); biow.position.y=bioMax/2;
@@ -682,6 +655,7 @@ el.addEventListener('pointerdown',e=>{drag=(e.button===2||e.shiftKey)?'pan':'rot
   px=e.clientX;py=e.clientY;moved=false;el.setPointerCapture(e.pointerId);});
 el.addEventListener('pointerup',()=>drag=null);
 el.addEventListener('pointermove',e=>{
+  if(labelsOn) hoverPick(e.clientX,e.clientY);
   if(!drag)return;moved=true;
   const dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;
   if(walk||fly){                       // мышь крутит голову
@@ -702,6 +676,7 @@ el.addEventListener('touchmove',e=>{if(e.touches.length===2){
 el.addEventListener('touchend',()=>pinch=0);
 
 const ray=new THREE.Raycaster(),mo=new THREE.Vector2(),info=document.getElementById('info');
+ray.params.Line={threshold:0.12};
 el.addEventListener('click',e=>{
   if(moved)return;
   mo.x=(e.clientX/innerWidth)*2-1;mo.y=-(e.clientY/innerHeight)*2+1;
@@ -711,6 +686,25 @@ el.addEventListener('click',e=>{
     info.querySelector('.t').textContent=hit.object.userData.t;
     info.querySelector('.d').innerHTML=hit.object.userData.d;}
   else info.style.display='none';});
+
+/* ---------- подписи по наведению ---------- */
+let labelsOn=false;
+const tip=document.getElementById('tip');
+function hoverPick(cx,cy){
+  mo.x=(cx/innerWidth)*2-1;mo.y=-(cy/innerHeight)*2+1;
+  ray.setFromCamera(mo,camera);
+  const hit=ray.intersectObjects(picks,false).find(h=>h.object.visible&&h.object.userData.t);
+  if(hit){
+    tip.style.display='block';
+    tip.style.left=cx+'px'; tip.style.top=cy+'px';
+    tip.querySelector('.t').textContent=hit.object.userData.t;
+    tip.querySelector('.d').innerHTML=hit.object.userData.d||'';
+  }else tip.style.display='none';
+}
+$('cLabels').addEventListener('change',e=>{
+  labelsOn=e.target.checked; G.dims.visible=labelsOn;
+  if(!labelsOn) tip.style.display='none';
+});
 
 /* ---------- UI ---------- */
 const $=id=>document.getElementById(id);
@@ -726,7 +720,6 @@ $('sec').addEventListener('input',e=>{const v=parseFloat(e.target.value);
 const bind=(id,g)=>$(id).addEventListener('change',e=>g.visible=e.target.checked);
 bind('cWalls',G.walls);bind('cPlat',G.plat);bind('cDeck',G.deckTop);bind('cPools',G.pools);
 bind('cBio',G.bio);bind('cWater',G.water);bind('cDrain',G.drain);bind('cFeed',G.feed);
-bind('cDims',G.dims);bind('cLabels',G.labels);
 let flowOn=true;
 $('cFlow').addEventListener('change',e=>{flowOn=e.target.checked;G.flow.visible=flowOn;});
 if(innerWidth<760)$('panel').classList.add('hid');
@@ -818,7 +811,8 @@ function loop(now){
     const t=(walk||d<=0.3)?1.0:0.08;
     s.m.material.opacity+=(t-s.m.material.opacity)*0.16;
   }
-  ceilMat.opacity+=((camera.position.y>B.h?0.04:0.18)-ceilMat.opacity)*0.12;
+  const ceilTarget = walk ? 0.97 : (camera.position.y>B.h?0.04:0.18);
+  ceilMat.opacity+=(ceilTarget-ceilMat.opacity)*0.14;
   renderer.render(scene,camera);
   requestAnimationFrame(loop);
 }
